@@ -1,0 +1,334 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+  }
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+#button-biodata{
+    width: 160px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    border-style: none;
+    color: white;
+    background-color: #00796B;
+    margin-top: 5px;
+}
+
+#biodata{
+    display: none;
+}
+
+/* ------------------------------HEADER------------------------------------ */
+/* ---------------------------NAVIGATION ------------------------------------*/
+
+.navigation{
+    display: flex;
+    background-color: rgb(219, 253, 219);
+    height: 100px;
+}
+
+.navigation-logo{
+    flex: 1;
+}
+
+.navigation-logo img{
+    cursor: pointer;
+    width: 250px;
+    padding-left: 30px;
+    margin-top: -35px;
+}
+
+.navigation-link{
+    flex: 2;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.navigation-link li:hover{
+    background-color: #009688;
+    color: white;
+    border-radius: 20px;
+    transition: 0.3s;
+
+}
+
+.navigation-sign-border{
+    border-width: 2px ;
+    border-style: solid;
+    border-radius: 100px;
+    border-color: #009688;
+    width: 90px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-sign-border:hover{
+    background-color: #009688;
+    color: white;
+
+}
+
+.navigation-sign-border li{
+    text-align: center;
+    color: #009688;
+}
+
+.navigation-sign{
+    flex: 1;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+}
+
+.navigation-link li {
+    cursor: pointer;
+    padding: 20px;
+    margin: 10px;
+}
+
+.navigation-sign li{
+    margin: 10px;
+    cursor: pointer;
+}
+
+.navigation-sign li:hover{
+    font-weight: bold;
+}
+
+/* ------------------------------------BANNER------------------------------- */
+.banner{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin: 85px;
+}
+
+.banner-image{
+    flex: 1;
+}
+
+.banner-image img{
+    width: 100%;
+}
+
+.banner-description{
+    flex: 1;
+}
+
+.banner-description h1{
+    line-height: 1.5;
+}
+
+.banner-description p{
+margin-top: 40px;
+line-height: 1.5;
+}
+
+.banner-description button{
+    width: 180px;
+    height: 40px;
+    margin-top: 70px;
+    color: white;
+    font-weight: bold;
+    background-color: #00796B;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* --------------------------------MAIN--------------------------- */
+
+/* -----------------------------CONTENT ----------------------------*/
+
+/* -----------------------------FEATURES----------------------------- */
+
+.features{
+    background-color: rgb(219, 253, 219);
+    display: flex;
+    align-items: center;
+    margin-bottom: 80px;
+    padding: 100px 0px;
+}
+
+.image-features{
+    flex: 1;
+    padding: 0 80px;
+}
+
+
+.image-features img{
+    width: 100%;
+    margin-top: 40px;
+}
+
+.description-features{
+    flex: 1;
+    padding: 0 80px;
+}
+
+.description-features p{
+    font-size: 17px;
+    margin-top: 40px;
+    line-height: 1.5;
+}
+
+.description-features ul{
+    list-style: none;
+    margin-top: 10px;
+}
+
+/* -------------------------- PLAN ---------------------------- */
+.plan{
+margin-top: 10px;
+
+}
+
+.plan-title{
+    text-align: center;
+}
+
+.plan-title p{
+    margin-top: 20px;
+}
+
+.plan-description{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 70px 0px;
+}
+
+.plan-description .column{
+    height: 400px;
+    width: 200px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(201, 201, 201);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
+.plan-description .column:hover {
+    box-shadow: 0 16px 16px 0 rgba(0,0,0,0.2);
+  }
+
+.plan-description .title{
+    margin: 60px 0;
+}
+
+.plan-description ul{
+    list-style: none;
+    margin: 20px 0;
+}
+
+.plan-description .price{
+    margin-top: 50px;
+    color: #00796B;
+    font-weight: bold;
+    font-size: 19px;
+}
+
+.plan-description button{
+    margin-top: 20px;
+    width: 80px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+    border-style: none;
+    color: white;
+    background-color: #00796B;
+}
+
+/* -----------------------------ASIDE-------------------------------- */
+aside{
+    text-align: center;
+    padding:50px 0px;
+    background-color: rgb(219, 253, 219);
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+aside h1{
+    color: #00796B;
+}
+
+.detail{
+    margin-top: 50px;
+    justify-content: center;
+    display: flex;
+    text-align: start;
+}
+
+.photo-profile{
+    width: 150px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.photo-profile img{
+    max-width: 100%;
+}
+
+.bio-profile{
+    margin-left: 20px;
+    justify-items: center;
+}
+
+.bio-profile p{
+    margin-top: 20px;
+}
+
+aside ul{
+    list-style: none;
+}
+
+/* ---------------------------------FOOTER---------------------------- */
+footer{
+    margin: 70px 0px;
+    padding: 0px 100px;
+    display: flex;
+}
+
+.footer-main{
+    flex: 3;
+}
+
+.footer-link{
+    margin: 0px 20px;
+}
+
+.footer-link h3{
+    color: #00796B;
+    margin-bottom: 10px;
+}
+
+.footer-link ul{
+    flex: 1;
+    list-style: none;
+}
+
+.footer-link li{
+    margin-bottom: 5px;
+    cursor: pointer;
+}
