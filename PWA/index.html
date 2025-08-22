@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>XMPP WebSocket Client</title>
+  <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.js"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#317EFB">
+</head>
+<body>
+  <h2>XMPP WebSocket Client</h2>
+
+  <!-- Form Login -->
+  <form id="loginForm">
+    <label>Username (tanpa domain):</label><br>
+    <input type="text" id="username" placeholder="misal: user1"><br><br>
+    
+    <label>Password:</label><br>
+    <input type="password" id="password"><br><br>
+
+    <button type="submit">Login</button>
+  </form>
+
+  <!-- Tombol Logout -->
+  <button id="logoutBtn" style="display:none;">Logout</button>
+
+  <!-- File JS eksternal -->
+  <script src="app.js"></script>
+</body>
+</html>
