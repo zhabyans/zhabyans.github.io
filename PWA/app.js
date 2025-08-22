@@ -111,6 +111,12 @@ window.addEventListener("load", () => {
   const creds = getCredentials();
   if (creds.jid && creds.pass) {
     log("Found saved credentials, auto-logging in...");
+
+    // isi otomatis ke input
+    document.getElementById("username").value = creds.jid.split("@")[0];
+    document.getElementById("password").value = creds.pass;
+
+    // langsung coba connect
     connectXMPP(creds.jid, creds.pass);
   }
 });
