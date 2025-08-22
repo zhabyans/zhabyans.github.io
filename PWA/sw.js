@@ -1,9 +1,9 @@
 const CACHE_NAME = "xmpp-cache-v1";
 const urlsToCache = [
-  "/",
-  "/index.html",
-  "/app.js",
-  "/manifest.json"
+  "./",
+  "./index.html",
+  "./app.js",
+  "./manifest.json"
 ];
 
 // Install
