@@ -29,16 +29,5 @@
   </div>
 
   <script src="app.js"></script>
-  <script>
-    // ✅ Cek apakah sudah ada credentials tersimpan
-    const jid = localStorage.getItem("xmpp_jid");
-    const pass = localStorage.getItem("xmpp_pass");
-
-    if (jid && pass) {
-      // Auto login sedang berjalan di app.js
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("logoutBtn").style.display = "block";
-    }
-  </script>
 </body>
 </html>
