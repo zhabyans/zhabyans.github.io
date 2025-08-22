@@ -12,11 +12,12 @@ const domain = "pulsa.dpdns.org";   // sesuaikan dengan domain ejabberd Anda
 const ws_url = "wss://pulsa.dpdns.org:5443/ws"; // WebSocket 5443
 
 function log(msg) {
-  console.log(msg);
+  console.log("[XMPP]", msg);
 }
 
 // ✅ Simpan kredensial ke localStorage
 function saveCredentials(jid, pass) {
+  console.log("Saving credentials to localStorage:", jid, pass);
   localStorage.setItem("xmpp_jid", jid);
   localStorage.setItem("xmpp_pass", pass);
 }
@@ -31,6 +32,7 @@ function getCredentials() {
 
 // ✅ Hapus kredensial (saat logout / gagal login)
 function clearCredentials() {
+  console.log("Clearing credentials from localStorage");
   localStorage.removeItem("xmpp_jid");
   localStorage.removeItem("xmpp_pass");
 }
@@ -47,37 +49,49 @@ function connectXMPP(jid, pass) {
   connection = new Strophe.Connection(ws_url);
 
   connection.connect(jid, pass, function(status) {
-    if (status === Strophe.Status.CONNECTING) {
-      log("Connecting...");
-    } else if (status === Strophe.Status.CONNFAIL) {
-      log("Connection failed.");
-    } else if (status === Strophe.Status.DISCONNECTING) {
-      log("Disconnecting...");
-    } else if (status === Strophe.Status.DISCONNECTED) {
-      log("Disconnected.");
-      document.getElementById("logoutBtn").style.display = "none";
-      document.getElementById("loginForm").style.display = "block";
-    } else if (status === Strophe.Status.CONNECTED) {
-      log("Connected as " + connection.jid);
-      document.getElementById("logoutBtn").style.display = "block";
-      document.getElementById("loginForm").style.display = "none";
+    console.log("[DEBUG] Strophe status:", status);
+    switch(status) {
+      case Strophe.Status.CONNECTING:
+        log("Connecting...");
+        break;
+      case Strophe.Status.CONNFAIL:
+        log("Connection failed.");
+        break;
+      case Strophe.Status.DISCONNECTING:
+        log("Disconnecting...");
+        break;
+      case Strophe.Status.DISCONNECTED:
+        log("Disconnected.");
+        document.getElementById("logoutBtn").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
+        break;
+      case Strophe.Status.CONNECTED:
+        log("Connected as " + connection.jid);
+        document.getElementById("logoutBtn").style.display = "block";
+        document.getElementById("loginForm").style.display = "none";
 
-      // ✅ Simpan username + password hanya setelah berhasil login
-      saveCredentials(jid, pass);
-    } else if (status === Strophe.Status.AUTHFAIL) {
-      log("Authentication failed.");
-      clearCredentials(); // 🚨 hapus supaya tidak auto retry
+        // ✅ Simpan username + password hanya setelah berhasil login
+        saveCredentials(jid, pass);
+        break;
+      case Strophe.Status.AUTHFAIL:
+        log("Authentication failed.");
+        clearCredentials(); // 🚨 hapus supaya tidak auto retry
 
-      // 🚨 Lock login 5 detik untuk cegah brute force
-      loginLocked = true;
-      setTimeout(() => {
-        loginLocked = false;
-        log("Login unlocked, you can try again.");
-      }, 5000);
-    } else if (status === Strophe.Status.ATTACHED) {
-      log("Attached.");
-    } else if (status === Strophe.Status.ERROR) {
-      log("Error.");
+        // 🚨 Lock login 5 detik untuk cegah brute force
+        loginLocked = true;
+        setTimeout(() => {
+          loginLocked = false;
+          log("Login unlocked, you can try again.");
+        }, 5000);
+        break;
+      case Strophe.Status.ATTACHED:
+        log("Attached.");
+        break;
+      case Strophe.Status.ERROR:
+        log("Error occurred.");
+        break;
+      default:
+        log("Other status: " + status);
     }
   });
 }
@@ -109,6 +123,7 @@ document.getElementById("logoutBtn").addEventListener("click", function() {
 // ✅ Auto login jika ada data tersimpan
 window.addEventListener("load", () => {
   const creds = getCredentials();
+  console.log("Loaded credentials from localStorage:", creds);
   if (creds.jid && creds.pass) {
     log("Found saved credentials, auto-logging in...");
 
