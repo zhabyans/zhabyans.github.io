@@ -51,6 +51,9 @@ window.addEventListener("load", () => {
 
   const loadingDiv = document.getElementById("loading");
   const loginForm = document.getElementById("loginForm");
+  const menu = document.getElementById("home");
+  const saldoDisplay = document.getElementById("saldoDisplay");
+
 
   if (creds.jid && creds.pass) {
     log("Found saved credentials, auto-logging in...");
@@ -68,6 +71,8 @@ window.addEventListener("load", () => {
   } else {
     // Tidak ada kredensial → sembunyikan loading, tampilkan form login
     loadingDiv.style.display = "none";
+    saldoDisplay.style.display = "none";
+    menu.style.display = "none";
     loginForm.style.display = "block";
   }
 });
@@ -80,7 +85,7 @@ if (localStorage.getItem("theme")) {
   htmlTag.setAttribute("data-theme", localStorage.getItem("theme"));
 }
 
-// event klik toggle
+// event klik toggle dark mode
 toggleBtn.addEventListener("click", () => {
   let currentTheme = htmlTag.getAttribute("data-theme");
 
@@ -93,4 +98,9 @@ toggleBtn.addEventListener("click", () => {
     localStorage.setItem("theme", "dark");
     toggleBtn.textContent = "☀️ Light Mode";
   }
+});
+
+// Disable klik kanan di seluruh halaman
+document.addEventListener("contextmenu", function (e) {
+  e.preventDefault(); // mencegah menu klik kanan muncul
 });

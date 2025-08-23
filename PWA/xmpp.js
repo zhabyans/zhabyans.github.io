@@ -31,7 +31,8 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
     }
 
     connection = new Strophe.Connection(ws_url);
-
+    const saldoDisplay = document.getElementById("saldoDisplay");
+    const home = document.getElementById("home");
     connection.connect(jid + "/asd", pass, function (status) {
         console.log("[DEBUG] Strophe status:", status);
         switch (status) {
@@ -48,6 +49,8 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 log("Disconnected.");
                 document.getElementById("logoutBtn").style.display = "none";
                 document.getElementById("loginForm").style.display = "block";
+                saldoDisplay.style.display = "none";
+                home.style.display = "none";
                 break;
             case Strophe.Status.CONNECTED:
                 log("Connected as " + connection.jid);
@@ -74,20 +77,39 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                         const body = elems[0].textContent;
                         console.log("[DEBUG] body:", body);
 
-                        // Ambil angka saldo
+                        // Ambil nama agen dan kode
+                        const agenMatch = body.match(/Yth\.\s+([^-]+)-\s*([A-Z0-9]+)/);
+                        const agen = agenMatch ? agenMatch[1].trim() : "tidak diketahui";
+                        const kodeAgen = agenMatch ? agenMatch[2].trim() : "tidak diketahui";
+
+                        // Ambil field lain
                         const saldoMatch = body.match(/Saldo\s([\d.]+)/);
-                        const saldo = saldoMatch ? saldoMatch[1] : "tidak diketahui";
-                        document.getElementById("saldoDisplay").textContent = `Saldo: ${saldo}`;
+                        const prosesMatch = body.match(/Proses\s([\d.]+)/);
+                        const trxMatch = body.match(/Trx\s([\d.]+)/i);
+                        const bonusMatch = body.match(/Bonus\s([\d.]+)/);
+                        const poinMatch = body.match(/Poin\s([\d.]+)/i);
+                        const pemakaianMatch = body.match(/Pemakaian\s([\d.]+)/i);
+
+                        const saldo = saldoMatch ? saldoMatch[1] : "-";
+                        const proses = prosesMatch ? prosesMatch[1] : "-";
+                        const trx = trxMatch ? trxMatch[1] : "-";
+                        const bonus = bonusMatch ? bonusMatch[1] : "-";
+                        const poin = poinMatch ? poinMatch[1] : "-";
+                        const pemakaian = pemakaianMatch ? pemakaianMatch[1] : "-";
+
+                        // Tampilkan ke halaman
+                        saldoDisplay.textContent =
+                            `${agen} (${kodeAgen}) | Saldo: ${saldo} | Masih Proses: ${proses} | Jumlah Transaksi: ${trx} | Bonus: ${bonus} | Poin: ${poin} | Pemakaian Hari ini: ${pemakaian}`;
                     }
-                    return true; // handler tetap aktif
+                    return true;
                 }
 
                 // Pasang handler pesan
                 connection.addHandler(handleMessage, null, "message", "chat", null, null);
-
+                saldoDisplay.style.display = "block";
                 // -----------------------------
                 // Tampilkan menu beranda
-                const home = document.getElementById("home");
+
                 if (home) {
                     home.style.display = "block"; // pastikan container beranda muncul
                 }

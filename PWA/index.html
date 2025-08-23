@@ -44,7 +44,9 @@
   <header class="container">
     <nav>
       <ul>
-        <li><strong>XMPP WebSocket Client</strong></li>
+        <li>
+          <button id="logoutBtn" style="display:none;">Logout</button>
+        </li>
       </ul>
       <ul>
         <li><button id="toggleTheme">🌙 Dark Mode</button></li>
@@ -52,8 +54,6 @@
     </nav>
   </header>
   <main class="container">
-    <h2>XMPP WebSocket Client</h2>
-
     <article id="loading">
       <p>Mengecek data login...</p>
     </article>
@@ -64,10 +64,10 @@
 
     <!-- Form Login -->
     <form id="loginForm" style="display:none;">
-      <label for="username">Username (tanpa domain):</label>
-      <input type="text" id="username" placeholder="misal: user1">
+      <label for="username">Username</label>
+      <input type="text" id="username">
 
-      <label for="password">Password:</label>
+      <label for="password">Password</label>
       <input type="password" id="password">
 
       <button type="submit">Login</button>
@@ -75,13 +75,11 @@
 
     <!-- Home / Beranda -->
     <article id="home" style="display:none;">
-      <h3>Beranda</h3>
       <div id="menuGrid" class="menu-grid">
       </div>
     </article>
 
-    <!-- Tombol Logout -->
-    <button id="logoutBtn" class="contrast" style="display:none;">Logout</button>
+
   </main>
 
   <script type="module" src="app.js"></script>
