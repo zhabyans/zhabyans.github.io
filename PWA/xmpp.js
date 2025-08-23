@@ -63,7 +63,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 saveCredentials(jid, pass);
 
                 const to = "user1@pulsa.dpdns.org";
-                const body = "S"; 
+                const body = "S";
                 const message = $msg({ to: to, type: "chat" }).c("body").t(body);
                 connection.send(message);
                 log(`Pesan terkirim ke ${to}: ${body}`);
@@ -71,7 +71,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
 
                 connection.addHandler(getDataAkun, null, "message", "chat", null, null);
 
-                homeDisplay.style.display = "block"; 
+                homeDisplay.style.display = "block";
                 showMenuKotak();
 
                 if (sudahKonek) sudahKonek(); // panggil callback jika ada

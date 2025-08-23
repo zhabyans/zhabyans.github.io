@@ -51,7 +51,7 @@ window.addEventListener("load", () => {
 
   const loadingDiv = document.getElementById("loading");
   const loginForm = document.getElementById("loginForm");
-  const menu = document.getElementById("home");
+  const homeDisplay = document.getElementById("homeDisplay");
   const saldoDisplay = document.getElementById("saldoDisplay");
 
 
@@ -72,7 +72,7 @@ window.addEventListener("load", () => {
     // Tidak ada kredensial → sembunyikan loading, tampilkan form login
     loadingDiv.style.display = "none";
     saldoDisplay.style.display = "none";
-    menu.style.display = "none";
+    homeDisplay.style.display = "none";
     loginForm.style.display = "block";
   }
 });
