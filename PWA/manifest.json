@@ -1,10 +1,10 @@
 {
   "name": "ISTANA PAYMENT",
-  "short_name": "ISTANA PAYMENT",
+  "short_name": "ISTPAY",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#317EFB",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "icons/icon-192.png",
