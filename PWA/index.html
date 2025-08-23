@@ -19,6 +19,10 @@
       <p>Mengecek data login...</p>
     </div>
 
+    <div id="saldoDisplay" class="card" style="margin-top: 10px;">
+      Saldo akan ditampilkan di sini...
+    </div>
+
     <!-- Form Login -->
     <form id="loginForm" class="card" style="display:none;">
       <label for="username">Username (tanpa domain):</label>
@@ -29,6 +33,14 @@
 
       <button type="submit" class="btn">Login</button>
     </form>
+
+    <!-- Home / Beranda -->
+    <div id="home" class="card" style="display:none;">
+      <h3>Beranda</h3>
+      <div id="menuGrid" class="menu-grid">
+        <!-- Menu akan diisi oleh app.js -->
+      </div>
+    </div>
 
     <!-- Tombol Logout -->
     <button id="logoutBtn" class="btn danger" style="display:none;">Logout</button>

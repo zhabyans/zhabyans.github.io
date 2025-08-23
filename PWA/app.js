@@ -1,5 +1,5 @@
 // app.js
-import { connectXMPP, connection, log, saveCredentials, clearCredentials } from "./xmpp.js";
+import { connectXMPP, connection, log, clearCredentials } from "./xmpp.js";
 
 let domain = "pulsa.dpdns.org";
 
