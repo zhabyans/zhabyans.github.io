@@ -130,3 +130,16 @@ document.addEventListener("contextmenu", function (e) {
 document.getElementById("refreshBtn")?.addEventListener("click", () => {
   window.location.reload(); // reload seluruh halaman
 });
+
+// hide password
+  const togglePass = document.getElementById("togglePass");
+  const passInput = document.getElementById("paswote");
+  togglePass.addEventListener("click", () => {
+    if (passInput.type === "password") {
+      passInput.type = "text";
+      togglePass.textContent = "🙈"; // ganti ikon saat terlihat
+    } else {
+      passInput.type = "password";
+      togglePass.textContent = "👁";
+    }
+  });
