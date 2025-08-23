@@ -115,9 +115,9 @@ toggleBtn.addEventListener("click", () => {
 function updateToggleButton() {
   let theme = htmlTag.getAttribute("data-theme");
   if (theme === "dark") {
-    toggleBtn.textContent = "☀️ Light Mode";
+    toggleBtn.textContent = "☀️";
   } else {
-    toggleBtn.textContent = "🌙 Dark Mode";
+    toggleBtn.textContent = "🌙";
   }
 }
 
