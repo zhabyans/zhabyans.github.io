@@ -1,66 +1,44 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
+ .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
 
-/* Container */
-.container {
-  max-width: 400px;
-  margin: 40px auto;
-  padding: 20px;
-}
+    .menu-item {
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      background: var(--pico-background-color);
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
 
-/* Card */
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+    .menu-item:hover {
+      background: var(--pico-muted-color);
+      color: white;
+    }
 
-/* Input */
-input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-}
+    html,
+    body {
+      overscroll-behavior-y: contain;
+      /* mencegah pull-to-refresh */
+      overscroll-behavior-x: none;
+      height: 100%;
+      margin: 0;
+    }
 
-/* Button */
-.btn {
-  padding: 12px;
-  border: none;
-  border-radius: 6px;
-  background: #317EFB;
-  color: #fff;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.2s;
-}
+    @media (max-width: 600px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* jadi 2 kolom di HP kecil */
+      }
+    }
 
-.btn:hover {
-  background: #245fc5;
-}
-
-.btn.danger {
-  background: #e74c3c;
-}
-
-.btn.danger:hover {
-  background: #c0392b;
-}
-
-/* Responsive */
-@media (max-width: 500px) {
-  .container {
-    max-width: 100%;
-    margin: 20px;
-  }
-}
+    @media (max-width: 400px) {
+      .menu-grid {
+        grid-template-columns: 1fr;
+        /* jadi 1 kolom di layar super kecil */
+      }
+    }

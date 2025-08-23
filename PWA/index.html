@@ -8,46 +8,13 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#317EFB">
   <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="style.css">
 
   <!-- Pico CSS -->
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
 
   <!-- Strophe -->
   <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.js"></script>
-
-  <style>
-    /* Grid 3x3 untuk menu */
-    .menu-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .menu-item {
-      padding: 1rem;
-      text-align: center;
-      border: 1px solid var(--pico-muted-border-color);
-      border-radius: var(--pico-border-radius);
-      background: var(--pico-background-color);
-      cursor: pointer;
-      transition: background 0.2s ease-in-out;
-    }
-
-    .menu-item:hover {
-      background: var(--pico-muted-color);
-      color: white;
-    }
-
-    html,
-    body {
-      overscroll-behavior-y: contain;
-      /* mencegah pull-to-refresh */
-      overscroll-behavior-x: none;
-      height: 100%;
-      margin: 0;
-    }
-  </style>
 </head>
 
 <body>
@@ -79,7 +46,10 @@
       <input type="text" id="akune" autocomplete="off" name="satu">
 
       <label for="paswote">Password</label>
-      <input type="password" id="paswote" autocomplete="off" name="dua">
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="paswote" autocomplete="off" name="dua" style="flex:1;">
+        <button type="button" id="togglePass" style="margin-left:2%;">👁</button>
+      </div>
 
       <button type="submit">Login</button>
     </form>
