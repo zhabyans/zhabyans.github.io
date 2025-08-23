@@ -74,12 +74,12 @@
     </article>
 
     <!-- Form Login -->
-    <form id="loginForm" style="display:none;">
+    <form id="loginForm" style="display:none;" autocomplete="off">
       <label for="username">Username</label>
-      <input type="text" id="username">
+      <input type="text" id="username" autocomplete="off" name="user_login">
 
       <label for="password">Password</label>
-      <input type="password" id="password">
+      <input type="password" id="password" autocomplete="new-password" name="pass_login">
 
       <button type="submit">Login</button>
     </form>
