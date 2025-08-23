@@ -80,25 +80,46 @@ window.addEventListener("load", () => {
 const toggleBtn = document.getElementById("toggleTheme");
 const htmlTag = document.documentElement;
 
-// cek preferensi dari localStorage
-if (localStorage.getItem("theme")) {
-  htmlTag.setAttribute("data-theme", localStorage.getItem("theme"));
+// cek preferensi dari localStorage dulu
+let savedTheme = localStorage.getItem("theme");
+
+if (savedTheme) {
+  htmlTag.setAttribute("data-theme", savedTheme);
+} else {
+  // kalau belum ada, ikuti preferensi perangkat
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    htmlTag.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+  } else {
+    htmlTag.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+  }
 }
 
-// event klik toggle dark mode
+// set label tombol sesuai mode
+updateToggleButton();
+
 toggleBtn.addEventListener("click", () => {
   let currentTheme = htmlTag.getAttribute("data-theme");
 
   if (currentTheme === "dark") {
     htmlTag.setAttribute("data-theme", "light");
     localStorage.setItem("theme", "light");
-    toggleBtn.textContent = "🌙 Dark Mode";
   } else {
     htmlTag.setAttribute("data-theme", "dark");
     localStorage.setItem("theme", "dark");
-    toggleBtn.textContent = "☀️ Light Mode";
   }
+  updateToggleButton();
 });
+
+function updateToggleButton() {
+  let theme = htmlTag.getAttribute("data-theme");
+  if (theme === "dark") {
+    toggleBtn.textContent = "☀️ Light Mode";
+  } else {
+    toggleBtn.textContent = "🌙 Dark Mode";
+  }
+}
 
 // Disable klik kanan di seluruh halaman
 document.addEventListener("contextmenu", function (e) {
