@@ -50,7 +50,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
             case Strophe.Status.DISCONNECTED:
                 log("Disconnected.");
                 document.getElementById("logoutBtn").style.display = "none";
-                document.getElementById("loginForm").style.display = "block";
+                document.getElementById("masukDisplay").style.display = "block";
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
                 break;
@@ -58,7 +58,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 log("Connected as " + connection.jid);
                 connection.send($pres());
                 document.getElementById("logoutBtn").style.display = "block";
-                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("masukDisplay").style.display = "none";
 
                 saveCredentials(jid, pass);
 

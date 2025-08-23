@@ -21,10 +21,10 @@ function getCredentials() {
 }
 
 // Event login manual
-document.getElementById("loginForm").addEventListener("submit", function (e) {
+document.getElementById("masukDisplay").addEventListener("submit", function (e) {
   e.preventDefault();
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
+  const user = document.getElementById("akune").value;
+  const pass = document.getElementById("paswote").value;
 
   if (!user || !pass) {
     alert("Username dan password harus diisi");
@@ -50,7 +50,7 @@ window.addEventListener("load", () => {
   console.log("Loaded credentials from localStorage:", creds);
 
   const loadingDiv = document.getElementById("loading");
-  const loginForm = document.getElementById("loginForm");
+  const masukDisplay = document.getElementById("masukDisplay");
   const homeDisplay = document.getElementById("homeDisplay");
   const saldoDisplay = document.getElementById("saldoDisplay");
 
@@ -59,8 +59,8 @@ window.addEventListener("load", () => {
     log("Found saved credentials, auto-logging in...");
 
     // Isi otomatis ke input
-    document.getElementById("username").value = creds.jid.split("@")[0];
-    document.getElementById("password").value = creds.pass;
+    document.getElementById("akune").value = creds.jid.split("@")[0];
+    document.getElementById("paswote").value = creds.pass;
 
     // Tetap tampil loading sampai status CONNECTED
     connectXMPP(creds.jid, creds.pass, () => {
@@ -73,7 +73,7 @@ window.addEventListener("load", () => {
     loadingDiv.style.display = "none";
     saldoDisplay.style.display = "none";
     homeDisplay.style.display = "none";
-    loginForm.style.display = "block";
+    masukDisplay.style.display = "block";
   }
 });
 
