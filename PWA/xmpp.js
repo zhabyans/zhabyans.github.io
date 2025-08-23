@@ -66,7 +66,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 const message = $msg({ to: to, type: "chat" }).c("body").t(body);
                 connection.send(message);
                 log(`Pesan terkirim ke ${to}: ${body}`);
-
+                saldoDisplay.style.display = "block";
                 function handleMessage(msg) {
                     console.log("[DEBUG] Pesan diterima:", msg);
                     const from = msg.getAttribute("from");
@@ -97,33 +97,54 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                         const poin = poinMatch ? poinMatch[1] : "-";
                         const pemakaian = pemakaianMatch ? pemakaianMatch[1] : "-";
 
-                        // Tampilkan ke halaman
-                        saldoDisplay.textContent =
-                            `${agen} (${kodeAgen}) | Saldo: ${saldo} | Masih Proses: ${proses} | Jumlah Transaksi: ${trx} | Bonus: ${bonus} | Poin: ${poin} | Pemakaian Hari ini: ${pemakaian}`;
+                        // Tampilkan ke halaman dengan icon
+                        document.getElementById("saldoDisplay").innerHTML = `
+                           <header style="
+                            margin-bottom:0.5rem;
+                            display:grid; 
+                            grid-template-columns: 1fr 1fr; 
+                            text-align:center;
+                            gap:0.5rem;
+                        ">
+                            <div>👤 <strong>${agen}</strong></div>
+                            <div>🆔 <strong>${kodeAgen}</strong></div>
+                        </header>
+                        <div style="
+                            display:grid; 
+                            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+                            gap:0.5rem;
+                        ">
+                            <div>💰 <strong>Saldo:</strong> ${saldo}</div>
+                            <div>⚙️ <strong>Proses:</strong> ${proses}</div>
+                            <div>📊 <strong>Transaksi:</strong> ${trx}</div>
+                            <div>🎁 <strong>Bonus:</strong> ${bonus}</div>
+                            <div>⭐ <strong>Poin:</strong> ${poin}</div>
+                            <div>📅 <strong>Pemakaian:</strong> ${pemakaian}</div>
+                        </div>
+                            `;
                     }
                     return true;
                 }
 
                 // Pasang handler pesan
                 connection.addHandler(handleMessage, null, "message", "chat", null, null);
-                saldoDisplay.style.display = "block";
+
                 // -----------------------------
                 // Tampilkan menu beranda
 
                 if (home) {
                     home.style.display = "block"; // pastikan container beranda muncul
                 }
-
                 const menus = [
-                    { name: "Pulsa", icon: "icons/icon-192.png" },
-                    { name: "Paket Data", icon: "icons/icon-192.png" },
-                    { name: "Paket Nelpon", icon: "icons/icon-192.png" },
-                    { name: "Token Listrik", icon: "icons/icon-192.png" },
-                    { name: "E-Wallet", icon: "icons/icon-192.png" },
-                    { name: "Listrik Pascabayar", icon: "icons/icon-192.png" },
-                    { name: "Bayar BPJS", icon: "icons/icon-192.png" },
-                    { name: "Bayar IndiHome", icon: "icons/icon-192.png" },
-                    { name: "Voucher TV", icon: "icons/icon-192.png" }
+                    { name: "Pulsa", emoji: "📱" },
+                    { name: "Paket Data", emoji: "🌐" },
+                    { name: "Paket Nelpon", emoji: "📞" },
+                    { name: "Token Listrik", emoji: "⚡" },
+                    { name: "E-Wallet", emoji: "💳" },
+                    { name: "Listrik Pascabayar", emoji: "💡" },
+                    { name: "Bayar BPJS", emoji: "🏥" },
+                    { name: "Bayar IndiHome", emoji: "📺" },
+                    { name: "Voucher TV", emoji: "🎟️" }
                 ];
 
                 const menuGrid = document.getElementById("menuGrid");
@@ -133,22 +154,23 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                     menus.forEach(menu => {
                         const div = document.createElement("div");
                         div.className = "menu-item";
+                        div.style.display = "flex";
+                        div.style.flexDirection = "column";
+                        div.style.alignItems = "center";
+                        div.style.cursor = "pointer";
 
-                        // gambar menu
-                        const img = document.createElement("img");
-                        img.src = menu.icon;
-                        img.alt = menu.name;
-                        img.style.width = "48px";
-                        img.style.height = "48px";
-                        img.style.objectFit = "contain";
-                        img.style.marginBottom = "0.5rem";
+                        // emoji menu
+                        const emojiSpan = document.createElement("span");
+                        emojiSpan.textContent = menu.emoji;
+                        emojiSpan.style.fontSize = "2rem"; // ukuran emoji lebih besar
+                        emojiSpan.style.marginBottom = "0.5rem";
 
                         // nama menu
                         const p = document.createElement("p");
                         p.textContent = menu.name;
-                        p.style.margin = "0"; // supaya rapih
+                        p.style.margin = "0";
 
-                        div.appendChild(img);
+                        div.appendChild(emojiSpan);
                         div.appendChild(p);
                         menuGrid.appendChild(div);
 
@@ -158,6 +180,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                         });
                     });
                 }
+
                 // -----------------------------
 
                 if (sudahKonek) sudahKonek(); // panggil callback jika ada

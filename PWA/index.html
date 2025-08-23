@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#317EFB">
+  <meta name="google" content="notranslate">
 
   <!-- Pico CSS -->
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
@@ -37,6 +38,15 @@
       background: var(--pico-muted-color);
       color: white;
     }
+
+    html,
+    body {
+      overscroll-behavior-y: contain;
+      /* mencegah pull-to-refresh */
+      overscroll-behavior-x: none;
+      height: 100%;
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -45,11 +55,12 @@
     <nav>
       <ul>
         <li>
-          <button id="logoutBtn" style="display:none;">Logout</button>
+          <button id="logoutBtn" style="display:none;">Keluar</button>
         </li>
       </ul>
       <ul>
-        <li><button id="toggleTheme">🌙 Dark Mode</button></li>
+        <li><button id="refreshBtn">🔄 Muat Ulang</button></li>
+        <li><button id="toggleTheme">🌙 Mode Gelap</button></li>
       </ul>
     </nav>
   </header>
@@ -58,8 +69,8 @@
       <p>Mengecek data login...</p>
     </article>
 
-    <article id="saldoDisplay" style="margin-top: 10px;">
-      Saldo akan ditampilkan di sini...
+    <article id="saldoDisplay">
+      data akan ditampilkan di sini...
     </article>
 
     <!-- Form Login -->

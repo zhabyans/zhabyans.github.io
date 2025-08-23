@@ -104,3 +104,8 @@ toggleBtn.addEventListener("click", () => {
 document.addEventListener("contextmenu", function (e) {
   e.preventDefault(); // mencegah menu klik kanan muncul
 });
+
+// Event tombol refresh
+document.getElementById("refreshBtn")?.addEventListener("click", () => {
+  window.location.reload(); // reload seluruh halaman
+});
