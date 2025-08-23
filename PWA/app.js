@@ -109,3 +109,9 @@ document.addEventListener("contextmenu", function (e) {
 document.getElementById("refreshBtn")?.addEventListener("click", () => {
   window.location.reload(); // reload seluruh halaman
 });
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("splash").style.display = "none";
+  }, 2000); // 2 detik
+});

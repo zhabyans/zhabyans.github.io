@@ -1,4 +1,4 @@
-const CACHE_NAME = "xmpp-cache-v9";
+const CACHE_NAME = "data-cache-v2";
 const urlsToCache = [
   "./",
   "./index.html",
