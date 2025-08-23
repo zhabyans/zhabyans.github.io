@@ -72,3 +72,25 @@ window.addEventListener("load", () => {
   }
 });
 
+const toggleBtn = document.getElementById("toggleTheme");
+const htmlTag = document.documentElement;
+
+// cek preferensi dari localStorage
+if (localStorage.getItem("theme")) {
+  htmlTag.setAttribute("data-theme", localStorage.getItem("theme"));
+}
+
+// event klik toggle
+toggleBtn.addEventListener("click", () => {
+  let currentTheme = htmlTag.getAttribute("data-theme");
+
+  if (currentTheme === "dark") {
+    htmlTag.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "light");
+    toggleBtn.textContent = "🌙 Dark Mode";
+  } else {
+    htmlTag.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+    toggleBtn.textContent = "☀️ Light Mode";
+  }
+});

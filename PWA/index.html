@@ -7,44 +7,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#317EFB">
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Pico CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+
+  <!-- Strophe -->
   <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.js"></script>
+
+  <style>
+    /* Grid 3x3 untuk menu */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .menu-item {
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--pico-muted-border-color);
+      border-radius: var(--pico-border-radius);
+      background: var(--pico-background-color);
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+
+    .menu-item:hover {
+      background: var(--pico-muted-color);
+      color: white;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container">
+  <header class="container">
+    <nav>
+      <ul>
+        <li><strong>XMPP WebSocket Client</strong></li>
+      </ul>
+      <ul>
+        <li><button id="toggleTheme">🌙 Dark Mode</button></li>
+      </ul>
+    </nav>
+  </header>
+  <main class="container">
     <h2>XMPP WebSocket Client</h2>
 
-    <div id="loading" class="card">
+    <article id="loading">
       <p>Mengecek data login...</p>
-    </div>
+    </article>
 
-    <div id="saldoDisplay" class="card" style="margin-top: 10px;">
+    <article id="saldoDisplay" style="margin-top: 10px;">
       Saldo akan ditampilkan di sini...
-    </div>
+    </article>
 
     <!-- Form Login -->
-    <form id="loginForm" class="card" style="display:none;">
+    <form id="loginForm" style="display:none;">
       <label for="username">Username (tanpa domain):</label>
       <input type="text" id="username" placeholder="misal: user1">
 
       <label for="password">Password:</label>
       <input type="password" id="password">
 
-      <button type="submit" class="btn">Login</button>
+      <button type="submit">Login</button>
     </form>
 
     <!-- Home / Beranda -->
-    <div id="home" class="card" style="display:none;">
+    <article id="home" style="display:none;">
       <h3>Beranda</h3>
       <div id="menuGrid" class="menu-grid">
-        <!-- Menu akan diisi oleh app.js -->
       </div>
-    </div>
+    </article>
 
     <!-- Tombol Logout -->
-    <button id="logoutBtn" class="btn danger" style="display:none;">Logout</button>
-  </div>
+    <button id="logoutBtn" class="contrast" style="display:none;">Logout</button>
+  </main>
 
   <script type="module" src="app.js"></script>
 </body>

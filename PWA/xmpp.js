@@ -107,22 +107,30 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 const menuGrid = document.getElementById("menuGrid");
                 if (menuGrid) {
                     menuGrid.innerHTML = ""; // kosongkan dulu
+
                     menus.forEach(menu => {
                         const div = document.createElement("div");
                         div.className = "menu-item";
 
+                        // gambar menu
                         const img = document.createElement("img");
                         img.src = menu.icon;
                         img.alt = menu.name;
+                        img.style.width = "48px";
+                        img.style.height = "48px";
+                        img.style.objectFit = "contain";
+                        img.style.marginBottom = "0.5rem";
 
+                        // nama menu
                         const p = document.createElement("p");
                         p.textContent = menu.name;
+                        p.style.margin = "0"; // supaya rapih
 
                         div.appendChild(img);
                         div.appendChild(p);
                         menuGrid.appendChild(div);
 
-                        // Event klik menu (opsional)
+                        // Event klik menu
                         div.addEventListener("click", () => {
                             alert("Klik menu: " + menu.name);
                         });
