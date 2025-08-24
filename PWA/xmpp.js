@@ -9,7 +9,6 @@ const ws_url = "wss://pulsa.dpdns.org:5443/ws"; // WebSocket 5443
 const saldoDisplay = document.getElementById("saldoDisplay");
 const homeDisplay = document.getElementById("homeDisplay");
 
-
 // Utility log
 function log(msg) {
     console.log("[XMPP]", msg);
@@ -57,6 +56,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
                 document.getElementById("laporanTransaksiBtn").style.display = "none";
+                laporanTransaksiDisplay.style.display = "none";
                 break;
             case Strophe.Status.CONNECTED:
                 log("Connected as " + connection.jid);

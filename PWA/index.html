@@ -8,13 +8,14 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#000000" id="theme-color">
   <meta name="google" content="notranslate">
-  <link rel="stylesheet" href="style.css">
 
   <!-- Pico CSS -->
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
 
   <!-- Strophe -->
   <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.js"></script>
+
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -26,7 +27,7 @@
         </li>
       </ul>
       <ul>
-        <li><button id="laporanTransaksiBtn" style="display:none;">Laporan Transaksi</button></li>
+        <li><button id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li>
         <li><button id="refreshBtn">🔄</button></li>
         <li><button id="toggleTheme">🌙</button></li>
       </ul>
@@ -55,9 +56,13 @@
       <button type="submit">Login</button>
     </form>
 
+    <!-- 📌 Laporan Transaksi di artikel terpisah -->
+    <article id="laporanTransaksiDisplay" style="display:none;">
+      <div id="laporanHeader"></div>
+      <div id="laporanList"></div>
+    </article>
+
     <article id="homeDisplay" style="display:none;">
-      <!-- Laporan Transaksi -->
-      <div id="laporanTransaksiDisplay" class="laporan-list" style="position:relative;"></div>
       <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
         autocomplete="off">
       <div id="operatorDisplay" style="margin-top:0.3rem; font-size:0.9rem; font-weight:bold;"></div>

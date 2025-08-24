@@ -115,25 +115,51 @@ body {
   padding: 0.4rem 0.6rem;
   border-radius: 6px;
   margin-bottom: 0.3rem;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .laporan-item.success {
-  background: #d4edda;
-  color: #155724;
+  background: var(--laporan-success-bg);
+  color: var(--laporan-success-text);
 }
 
 .laporan-item.pending {
-  background: #fff3cd;
-  color: #856404;
+  background: var(--laporan-pending-bg);
+  color: var(--laporan-pending-text);
 }
 
 .laporan-item.failed {
-  background: #f8d7da;
-  color: #721c24;
+  background: var(--laporan-failed-bg);
+  color: var(--laporan-failed-text);
 }
-
 
 .laporan-item:hover {
   background: var(--pico-muted-color);
   color: white;
+}
+
+/* ================== THEME ================== */
+
+/* Light mode */
+:root[data-theme="light"] {
+  --laporan-success-bg: #d4edda;
+  --laporan-success-text: #155724;
+
+  --laporan-pending-bg: #fff3cd;
+  --laporan-pending-text: #856404;
+
+  --laporan-failed-bg: #f8d7da;
+  --laporan-failed-text: #721c24;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] {
+  --laporan-success-bg: #1e3a2a;
+  --laporan-success-text: #a3e4a1;
+
+  --laporan-pending-bg: #3a2e1e;
+  --laporan-pending-text: #f6d88b;
+
+  --laporan-failed-bg: #3a1e1e;
+  --laporan-failed-text: #f2a6a6;
 }
