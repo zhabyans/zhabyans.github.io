@@ -44,14 +44,26 @@ export function showMenuKotak() {
     }
 }
 
-//TAMPILKAN TOAST
-function showToast(message) {
+// TAMPILKAN TOAST
+function showToast(message, type = "error") {
     const toast = document.getElementById("toast");
     if (!toast) return;
 
-    // Isi dengan ikon tanda seru + pesan
-    toast.innerHTML = `<span class="toast-icon">⚠️</span> <span>${message}</span>`;
+    // Tentukan ikon & warna berdasarkan type
+    let icon = "⚠️";
+    toast.classList.remove("success", "error");
 
+    if (type === "success") {
+        icon = "✅";
+        toast.classList.add("success");
+    } else {
+        toast.classList.add("error");
+    }
+
+    // Isi dengan ikon + pesan
+    toast.innerHTML = `<span class="toast-icon">${icon}</span> <span>${message}</span>`;
+
+    // Tampilkan
     toast.classList.add("show");
 
     // Auto hide setelah 2.5 detik
@@ -140,7 +152,7 @@ function handleInputChange() {
 // ----------------------
 function handleMenuClick(menu) {
     if (!inputTujuan.value.trim()) {
-        showToast("Masukkan nomor tujuan terlebih dahulu");
+        showToast("Masukkan nomor tujuan terlebih dahulu", "error")
         inputTujuan.focus();
         return;
     }
@@ -250,35 +262,55 @@ function createButton(label, onClick) {
     return btn;
 }
 
-// fungsi untuk menampilkan list harga ke dalam tombol
+// -------------------------------------------
+// MENAMPILKAN LIST HARGA SEBAGAI LIST BARIS (pico.css style)
+// -------------------------------------------
 function tampilkanHargaKeTombol(responseText) {
     clearExtraButtons(); // bersihkan dulu
     extraButtons.style.display = "block";
+
+    // set class untuk list vertikal
+    extraButtons.className = "harga-list";
 
     // pecah per baris
     const lines = responseText.split("\n").map(l => l.trim()).filter(l => l);
 
     lines.forEach(line => {
-        // contoh format: T2 = TELKOMSEL 2K = 4.250;
         const parts = line.split("=");
         if (parts.length >= 3) {
-            const kode = parts[0].trim(); // T2
-            const deskripsi = parts[1].trim(); // TELKOMSEL 2K
-            const harga = parts[2].replace(";", "").trim(); // 4.250
+            const kode = parts[0].trim();
+            const deskripsi = parts[1].trim();
+            const harga = parts[2].replace(";", "").trim();
 
-            // bikin tombol
-            const btn = document.createElement("button");
-            btn.textContent = `${deskripsi} (${harga})`;
-            btn.style.margin = "0.25rem";
+            // bikin item list
+            const div = document.createElement("div");
+            div.className = "menu-item harga-item"; // pakai style pico
+            div.style.display = "flex";
+            div.style.justifyContent = "space-between";
+            div.style.alignItems = "center";
+            div.style.padding = "0.5rem 1rem";
 
-            btn.addEventListener("click", () => {
-                // misalnya kirim pesan pembelian dengan kode
-                kirimPesan(`${kode}.${inputTujuan.value}`);
-                kirimPesan(`S`);
-                showToast(`Membeli ${deskripsi} seharga ${harga}`);
+            // isi konten: kode | deskripsi | harga
+            div.innerHTML = `
+                <span style="font-weight:bold; color:var(--pico-primary); min-width:50px;">${kode}</span>
+                <span style="flex:1; margin-left:1rem;">${deskripsi}</span>
+                <span style="font-weight:bold; color:var(--pico-success); min-width:60px; text-align:right;">${harga}</span>
+            `;
+
+            // klik beli dengan konfirmasi
+            div.addEventListener("click", () => {
+                const nomor = inputTujuan.value;
+                const pesanKonfirmasi = `Apakah Anda Yakin Membeli ${deskripsi} seharga ${harga} ke nomor ${nomor}?`;
+
+                if (confirm(pesanKonfirmasi)) {
+                    kirimPesan(`${kode}.${nomor}`);
+                    kirimPesan(`S`);
+                    showToast("Pembelian sedang diproses, Silakan cek pada menu Laporan Transaksi", "success");
+                } else {
+                    showToast("Pembelian dibatalkan", "error");
+                }
             });
-
-            extraButtons.appendChild(btn);
+            extraButtons.appendChild(div);
         }
     });
 }

@@ -39,12 +39,8 @@ body {
 .toast {
   position: fixed;
   top: 50%;
-  /* tengah vertical */
   left: 50%;
-  /* tengah horizontal */
-  transform: translate(-50%, -50%);
-  background-color: rgba(220, 53, 69, 0.95);
-  /* merah seperti alert */
+  transform: translate(-50%, -50%) scale(1);
   color: #fff;
   padding: 0.5rem 0.75rem;
   border-radius: 0.75rem;
@@ -62,7 +58,19 @@ body {
 
 .toast.show {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1.5);
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* Varian sukses */
+.toast.success {
+  background-color: rgba(22, 163, 74, 0.95);
+  /* hijau */
+}
+
+/* Varian error/perhatian */
+.toast.error {
+  background-color: rgba(220, 53, 69, 0.95);
+  /* merah */
 }
 
 .toast-icon {
@@ -82,4 +90,16 @@ body {
   /* IE/Edge */
   user-select: none;
   /* Standard */
+}
+
+.harga-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.harga-item:hover {
+  background: var(--pico-muted-color);
+  color: white;
+  cursor: pointer;
 }
