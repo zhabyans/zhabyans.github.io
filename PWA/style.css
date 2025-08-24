@@ -22,7 +22,8 @@
 
 html,
 body {
-  overscroll-behavior-y: contain; /* mencegah pull-to-refresh */
+  overscroll-behavior-y: contain;
+  /* mencegah pull-to-refresh */
   overscroll-behavior-x: none;
   height: 100%;
   margin: 0;
@@ -37,19 +38,22 @@ body {
 
 .toast {
   position: fixed;
-  top: 50%; /* tengah vertical */
-  left: 50%; /* tengah horizontal */
+  top: 50%;
+  /* tengah vertical */
+  left: 50%;
+  /* tengah horizontal */
   transform: translate(-50%, -50%);
-  background-color: rgba(220, 53, 69, 0.95); /* merah seperti alert */
+  background-color: rgba(220, 53, 69, 0.95);
+  /* merah seperti alert */
   color: #fff;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 0.75rem;
   font-size: 1rem;
   font-weight: bold;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -58,9 +62,24 @@ body {
 
 .toast.show {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%) scale(1.5);
 }
 
 .toast-icon {
   font-size: 1.4rem;
+}
+
+body {
+  -webkit-touch-callout: none;
+  /* Safari & Chrome iOS/Android */
+  -webkit-tap-highlight-color: transparent;
+  /* Hapus highlight ketika tap */
+  -webkit-user-select: none;
+  /* Chrome, Safari, Edge */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE/Edge */
+  user-select: none;
+  /* Standard */
 }

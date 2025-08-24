@@ -1,3 +1,4 @@
+import { connection } from "./xmpp.js";
 export function showMenuKotak() {
     const menus = [
         { name: "Pulsa", emoji: "📱" },
@@ -45,18 +46,18 @@ export function showMenuKotak() {
 
 //TAMPILKAN TOAST
 function showToast(message) {
-  const toast = document.getElementById("toast");
-  if (!toast) return;
+    const toast = document.getElementById("toast");
+    if (!toast) return;
 
-  // Isi dengan ikon tanda seru + pesan
-  toast.innerHTML = `<span class="toast-icon">⚠️</span> <span>${message}</span>`;
+    // Isi dengan ikon tanda seru + pesan
+    toast.innerHTML = `<span class="toast-icon">⚠️</span> <span>${message}</span>`;
 
-  toast.classList.add("show");
+    toast.classList.add("show");
 
-  // Auto hide setelah 2.5 detik
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2500);
+    // Auto hide setelah 2.5 detik
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
 }
 
 
@@ -149,11 +150,11 @@ function handleMenuClick(menu) {
     if (menu.name === "Pulsa") {
         const operator = operatorDisplay.textContent;
         showPulsaOptions(operator);
-    } 
+    }
     else if (menu.name === "Paket Data") {
         const operator = operatorDisplay.textContent;
         showPaketDataOptions(operator);
-    } 
+    }
     else {
         alert("Klik menu: " + menu.name);
     }
@@ -174,7 +175,7 @@ function showPulsaOptions(operator) {
     // contoh: Telkomsel ada 2 tombol khusus
     if (operator === "Telkomsel") {
         extraButtons.appendChild(
-            createButton("Reguler", () => alert("Pulsa Reguler Telkomsel"))
+            createButton("Reguler", () => kirimPesan("harga.t"))
         );
         extraButtons.appendChild(
             createButton("Tambah Masa Aktif", () => alert("Tambah Masa Aktif Telkomsel"))
@@ -206,7 +207,7 @@ function showPaketDataOptions(operator) {
         extraButtons.appendChild(
             createButton("Combo Sakti", () => alert("Paket Combo Sakti Telkomsel"))
         );
-    } 
+    }
     else if (operator === "Indosat") {
         extraButtons.appendChild(
             createButton("Freedom Internet", () => alert("Freedom Internet Indosat"))
@@ -214,7 +215,7 @@ function showPaketDataOptions(operator) {
         extraButtons.appendChild(
             createButton("Freedom Combo", () => alert("Freedom Combo Indosat"))
         );
-    } 
+    }
     else if (operator === "XL") {
         extraButtons.appendChild(
             createButton("Xtra Combo", () => alert("Paket Xtra Combo XL"))
@@ -222,13 +223,22 @@ function showPaketDataOptions(operator) {
         extraButtons.appendChild(
             createButton("HotRod", () => alert("Paket HotRod XL"))
         );
-    } 
+    }
     else {
         // default tombol paket data
         extraButtons.appendChild(
             createButton("Internet Reguler", () => alert("Paket Data " + operator))
         );
     }
+}
+
+function kirimPesan(isiPesan) {
+    const to = "user1@pulsa.dpdns.org";
+    const body = isiPesan;
+    const message = $msg({ to: to, type: "chat" }).c("body").t(body);
+    connection.send(message);
+    console.log(`Pesan terkirim ke ${to}: ${body}`);
+    connection.addHandler(onMessage, null, "message", "chat", null, null);
 }
 
 // fungsi bikin tombol
@@ -240,3 +250,48 @@ function createButton(label, onClick) {
     return btn;
 }
 
+// fungsi untuk menampilkan list harga ke dalam tombol
+function tampilkanHargaKeTombol(responseText) {
+    clearExtraButtons(); // bersihkan dulu
+    extraButtons.style.display = "block";
+
+    // pecah per baris
+    const lines = responseText.split("\n").map(l => l.trim()).filter(l => l);
+
+    lines.forEach(line => {
+        // contoh format: T2 = TELKOMSEL 2K = 4.250;
+        const parts = line.split("=");
+        if (parts.length >= 3) {
+            const kode = parts[0].trim(); // T2
+            const deskripsi = parts[1].trim(); // TELKOMSEL 2K
+            const harga = parts[2].replace(";", "").trim(); // 4.250
+
+            // bikin tombol
+            const btn = document.createElement("button");
+            btn.textContent = `${deskripsi} (${harga})`;
+            btn.style.margin = "0.25rem";
+
+            btn.addEventListener("click", () => {
+                // misalnya kirim pesan pembelian dengan kode
+                kirimPesan(`${kode}.${inputTujuan.value}`);
+                kirimPesan(`S`);
+                showToast(`Membeli ${deskripsi} seharga ${harga}`);
+            });
+
+            extraButtons.appendChild(btn);
+        }
+    });
+}
+
+// contoh: ketika menerima pesan masuk
+function onMessage(msg) {
+    const body = msg.getElementsByTagName("body")[0];
+    if (body) {
+        const responseText = Strophe.getText(body);
+        console.log("Jawaban server:", responseText);
+
+        // tampilkan jadi tombol
+        tampilkanHargaKeTombol(responseText);
+    }
+    return true; // biar listener tetap jalan
+}

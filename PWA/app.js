@@ -77,6 +77,10 @@ window.addEventListener("load", () => {
   }
 });
 
+
+// ----------------------
+// TEMA DARK / LIGHT
+// ----------------------
 const toggleBtn = document.getElementById("toggleTheme");
 const htmlTag = document.documentElement;
 const themeMeta = document.getElementById("theme-color");
@@ -126,17 +130,23 @@ function updateUI() {
   }
 }
 
-// Disable klik kanan di seluruh halaman
+// ----------------------
+// MENCEGAH KLIK KANAN
+// ----------------------
 document.addEventListener("contextmenu", function (e) {
-  e.preventDefault(); // mencegah menu klik kanan muncul
+  e.preventDefault();
 });
 
-// Event tombol refresh
+// ----------------------
+// TOMBOL REFRESH
+// ----------------------
 document.getElementById("refreshBtn")?.addEventListener("click", () => {
   window.location.reload(); // reload seluruh halaman
 });
 
-// hide password
+// ----------------------
+// HIDE / SHOW PASSWORD
+// ----------------------
 const togglePass = document.getElementById("togglePass");
 const passInput = document.getElementById("paswote");
 togglePass.addEventListener("click", () => {
@@ -153,22 +163,34 @@ togglePass.addEventListener("click", () => {
 // ----------------------
 // NORMALIZE INPUT
 // ----------------------
-  const inputTujuan = document.getElementById("inputTujuan");
-  inputTujuan.addEventListener("input", () => {
-    let val = inputTujuan.value;
+const inputTujuan = document.getElementById("inputTujuan");
+inputTujuan.addEventListener("input", () => {
+  let val = inputTujuan.value;
 
-    // Hapus semua karakter kecuali angka
-    val = val.replace(/\D/g, "");
+  // Hapus semua karakter kecuali angka
+  val = val.replace(/\D/g, "");
 
-    // Normalisasi ke format 08xxxx
-    if (val.startsWith("62")) {
-      val = "0" + val.substring(2);
-    } else if (val.startsWith("0")) {
-      // sudah benar, biarkan
-    } else if (val.startsWith("8")) {
-      // jika user ketik 812..., otomatis jadi 0812...
-      val = "0" + val;
-    }
+  // Normalisasi ke format 08xxxx
+  if (val.startsWith("62")) {
+    val = "0" + val.substring(2);
+  } else if (val.startsWith("0")) {
+    // sudah benar, biarkan
+  } else if (val.startsWith("8")) {
+    // jika user ketik 812..., otomatis jadi 0812...
+    val = "0" + val;
+  }
 
-    inputTujuan.value = val;
-  });
+  inputTujuan.value = val;
+});
+
+
+// ---------------------------------
+// MENCEGAH TEXT SELECTION
+// ---------------------------------
+document.addEventListener('selectstart', function (e) {
+  e.preventDefault(); // cegah seleksi teks
+});
+
+document.addEventListener('contextmenu', function (e) {
+  e.preventDefault(); // cegah context menu
+});

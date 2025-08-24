@@ -1,13 +1,16 @@
 export function getDataAkun(msg) {
     console.log("[DEBUG] Pesan diterima:", msg);
-    const from = msg.getAttribute("from");
-    const type = msg.getAttribute("type");
     const elems = msg.getElementsByTagName("body");
 
     if (elems.length > 0) {
         const body = elems[0].textContent;
         console.log("[DEBUG] body:", body);
 
+        // 🔎 Filter: hanya lanjut kalau pesan ada "Yth."
+        if (!body.includes("Yth.")) {
+            console.log("[DEBUG] Pesan diabaikan karena tidak mengandung 'Yth.'");
+            return true; // biar handler tetap jalan untuk pesan berikutnya
+        }
         // Ambil nama agen dan kode
         const agenMatch = body.match(/Yth\.\s+([^-]+)-\s*([A-Z0-9]+)/);
         const agen = agenMatch ? agenMatch[1].trim() : "tidak diketahui";
@@ -47,10 +50,10 @@ export function getDataAkun(msg) {
                         ">
                             <div>💰 <strong>Saldo:</strong> ${saldo}</div>
                             <div>⚙️ <strong>Proses:</strong> ${proses}</div>
-                            <div>📊 <strong>Transaksi:</strong> ${trx}</div>
+                            <div>📊 <strong>Jml TRX:</strong> ${trx}</div>
                             <div>🎁 <strong>Bonus:</strong> ${bonus}</div>
                             <div>⭐ <strong>Poin:</strong> ${poin}</div>
-                            <div>📅 <strong>Pemakaian:</strong> ${pemakaian}</div>
+                            <div>📅 <strong>Terpakai:</strong> ${pemakaian}</div>
                         </div>
                             `;
     }
