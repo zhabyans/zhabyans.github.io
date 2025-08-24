@@ -43,16 +43,22 @@ export function showMenuKotak() {
     }
 }
 
-// tampilan toast
-function showToast(message, duration = 2000) {
-    const toast = document.getElementById("toast");
-    toast.textContent = message;
-    toast.classList.add("show");
+//TAMPILKAN TOAST
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
 
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, duration);
+  // Isi dengan ikon tanda seru + pesan
+  toast.innerHTML = `<span class="toast-icon">⚠️</span> <span>${message}</span>`;
+
+  toast.classList.add("show");
+
+  // Auto hide setelah 2.5 detik
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
 }
+
 
 //tampilan nama operator
 const inputTujuan = document.getElementById("inputTujuan");
