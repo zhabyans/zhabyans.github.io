@@ -34,3 +34,24 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+}
