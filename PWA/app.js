@@ -115,7 +115,7 @@ toggleBtn.addEventListener("click", () => {
 
 function updateUI() {
   let theme = htmlTag.getAttribute("data-theme");
-  
+
   // update tombol
   if (theme === "dark") {
     toggleBtn.textContent = "☀️";
@@ -137,14 +137,38 @@ document.getElementById("refreshBtn")?.addEventListener("click", () => {
 });
 
 // hide password
-  const togglePass = document.getElementById("togglePass");
-  const passInput = document.getElementById("paswote");
-  togglePass.addEventListener("click", () => {
-    if (passInput.type === "password") {
-      passInput.type = "text";
-      togglePass.textContent = "🙈"; // ganti ikon saat terlihat
-    } else {
-      passInput.type = "password";
-      togglePass.textContent = "👁";
+const togglePass = document.getElementById("togglePass");
+const passInput = document.getElementById("paswote");
+togglePass.addEventListener("click", () => {
+  if (passInput.type === "password") {
+    passInput.type = "text";
+    togglePass.textContent = "🙈"; // ganti ikon saat terlihat
+  } else {
+    passInput.type = "password";
+    togglePass.textContent = "👁";
+  }
+});
+
+
+// ----------------------
+// NORMALIZE INPUT
+// ----------------------
+  const inputTujuan = document.getElementById("inputTujuan");
+  inputTujuan.addEventListener("input", () => {
+    let val = inputTujuan.value;
+
+    // Hapus semua karakter kecuali angka
+    val = val.replace(/\D/g, "");
+
+    // Normalisasi ke format 08xxxx
+    if (val.startsWith("62")) {
+      val = "0" + val.substring(2);
+    } else if (val.startsWith("0")) {
+      // sudah benar, biarkan
+    } else if (val.startsWith("8")) {
+      // jika user ketik 812..., otomatis jadi 0812...
+      val = "0" + val;
     }
+
+    inputTujuan.value = val;
   });
