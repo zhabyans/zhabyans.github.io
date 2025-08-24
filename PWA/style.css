@@ -103,3 +103,37 @@ body {
   color: white;
   cursor: pointer;
 }
+
+.laporan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.laporan-item {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.3rem;
+}
+
+.laporan-item.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.laporan-item.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.laporan-item.failed {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+
+.laporan-item:hover {
+  background: var(--pico-muted-color);
+  color: white;
+}

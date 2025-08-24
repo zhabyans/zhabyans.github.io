@@ -244,7 +244,7 @@ function showPaketDataOptions(operator) {
     }
 }
 
-function kirimPesan(isiPesan) {
+export function kirimPesan(isiPesan) {
     const to = "user1@pulsa.dpdns.org";
     const body = isiPesan;
     const message = $msg({ to: to, type: "chat" }).c("body").t(body);
@@ -320,7 +320,7 @@ function onMessage(msg) {
     const body = msg.getElementsByTagName("body")[0];
     if (body) {
         const responseText = Strophe.getText(body);
-        console.log("Jawaban server:", responseText);
+        console.log("Jawaban server ke menu kotak:", responseText);
 
         // tampilkan jadi tombol
         tampilkanHargaKeTombol(responseText);

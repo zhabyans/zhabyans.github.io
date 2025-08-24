@@ -22,11 +22,11 @@
     <nav>
       <ul>
         <li>
-          <button id="logoutBtn" style="display:none;">⏻</button>
+          <button id="logoutBtn" style="display:none;">📴</button>
         </li>
       </ul>
       <ul>
-        <li><button id="cekLaporan">Laporan Transaksi</button></li>
+        <li><button id="laporanTransaksiBtn" style="display:none;">Laporan Transaksi</button></li>
         <li><button id="refreshBtn">🔄</button></li>
         <li><button id="toggleTheme">🌙</button></li>
       </ul>
@@ -56,6 +56,8 @@
     </form>
 
     <article id="homeDisplay" style="display:none;">
+      <!-- Laporan Transaksi -->
+      <div id="laporanTransaksiDisplay" class="laporan-list" style="position:relative;"></div>
       <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
         autocomplete="off">
       <div id="operatorDisplay" style="margin-top:0.3rem; font-size:0.9rem; font-weight:bold;"></div>

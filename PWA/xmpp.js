@@ -1,11 +1,14 @@
 import { getDataAkun } from "./getDataAkun.js";
 import { showMenuKotak } from "./showMenuKotak.js";
+import { showLaporanTransaksi } from "./showLaporanTransaksi.js";
+import { onMessage } from "./showLaporanTransaksi.js";
 
 export let connection = null;
 export let loginLocked = false; // cegah spam login
 const ws_url = "wss://pulsa.dpdns.org:5443/ws"; // WebSocket 5443
 const saldoDisplay = document.getElementById("saldoDisplay");
 const homeDisplay = document.getElementById("homeDisplay");
+
 
 // Utility log
 function log(msg) {
@@ -53,11 +56,13 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 document.getElementById("masukDisplay").style.display = "block";
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
+                document.getElementById("laporanTransaksiBtn").style.display = "none";
                 break;
             case Strophe.Status.CONNECTED:
                 log("Connected as " + connection.jid);
                 connection.send($pres());
                 document.getElementById("logoutBtn").style.display = "block";
+                document.getElementById("laporanTransaksiBtn").style.display = "inline-block";
                 document.getElementById("masukDisplay").style.display = "none";
 
                 saveCredentials(jid, pass);
@@ -70,9 +75,11 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 saldoDisplay.style.display = "block";
 
                 connection.addHandler(getDataAkun, null, "message", "chat", null, null);
+                connection.addHandler(onMessage, null, "message", "chat");
 
                 homeDisplay.style.display = "block";
                 showMenuKotak();
+                showLaporanTransaksi();
 
                 if (sudahKonek) sudahKonek(); // panggil callback jika ada
                 break;
