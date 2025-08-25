@@ -36,20 +36,28 @@ body {
   }
 }
 
+
+.big-icon-btn {
+  font-size: 1.5rem;
+  padding: 0.1rem 0.3rem;
+  cursor: pointer;
+}
+
 .toast {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
   color: #fff;
-  padding: 0.5rem 0.75rem;
+  padding: 1rem 1.5rem;
   border-radius: 0.75rem;
-  font-size: 1rem;
   font-weight: bold;
   display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  flex-direction: column; /* icon di atas pesan */
+  align-items: center;    /* rata tengah */
+  text-align: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
@@ -61,21 +69,22 @@ body {
   transform: translate(-50%, -50%) scale(1.2);
 }
 
-/* Varian sukses */
 .toast.success {
   background-color: rgba(22, 163, 74, 0.95);
-  /* hijau */
 }
 
-/* Varian error/perhatian */
 .toast.error {
   background-color: rgba(220, 53, 69, 0.95);
-  /* merah */
 }
 
 .toast-icon {
-  font-size: 1.4rem;
+  font-size: 3rem; /* lebih besar */
 }
+
+.toast-message {
+  font-size: 1.1rem;
+}
+
 
 body {
   -webkit-touch-callout: none;

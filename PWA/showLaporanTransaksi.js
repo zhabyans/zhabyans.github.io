@@ -1,5 +1,11 @@
-import { connection } from "./xmpp.js";
 import { renderLaporanHeader } from "./renderLaporanHeader.js";
+import { renderLaporanItem } from "./renderLaporanItem.js";
+import { kirimPesan, onMessage } from "./xmppHelper.js";
+
+// handler untuk laporan
+export const laporanHandler = onMessage((responseText) => {
+    tampilkanLaporanTransaksi(responseText);
+});
 
 const laporanTransaksiDisplay = document.getElementById("laporanTransaksiDisplay");
 let tanggalSekarang = null; // pakai let supaya bisa diubah
@@ -17,30 +23,9 @@ export function showLaporanTransaksi() {
     laporanTransaksiBtn.addEventListener("click", getLaporanTransaksi);
 }
 
-function getLaporanTransaksi() {
+export function getLaporanTransaksi() {
     kirimPesan(`laporan.${tanggalSekarang}`);
     laporanTransaksiDisplay.style.display = "block";
-}
-
-export function kirimPesan(isiPesan) {
-    const to = "user1@pulsa.dpdns.org";
-    const body = isiPesan;
-    const message = $msg({ to: to, type: "chat" }).c("body").t(body);
-    connection.send(message);
-    console.log(`Pesan terkirim ke ${to}: ${body}`);
-}
-
-// === ketika menerima pesan masuk dari server ===
-export function onMessage(msg) {
-    const body = msg.getElementsByTagName("body")[0];
-    if (body) {
-        const responseText = Strophe.getText(body).trim();
-        console.log("Jawaban server ke laporan trx:", responseText);
-
-        // render laporan
-        tampilkanLaporanTransaksi(responseText);
-    }
-    return true; // supaya listener tetap aktif
 }
 
 window.laporanTerbuka = false; // flag global
@@ -86,51 +71,8 @@ function tampilkanLaporanTransaksi(dataText) {
             renderLaporanHeader(line, header, list);
         } else if (line.startsWith("#")) {
             const parsed = parseLaporanLine(line);
-            if (!parsed) return;
-
-            const div = document.createElement("div");
-            div.className = "laporan-item";
-            div.style.display = "grid";
-            div.style.gridTemplateColumns = "1fr auto";
-            div.style.alignItems = "flex-start";
-            div.style.padding = "0.25rem 0.5rem";
-            div.style.borderBottom = "1px solid #ddd";
-            div.style.gap = "0.5rem";
-            div.style.fontSize = "0.85rem"; // lebih ringkas
-
-            // kiri: kode, tujuan, harga, SN
-            const left = document.createElement("div");
-            left.style.wordBreak = "break-word";
-            left.style.overflowWrap = "anywhere";
-            left.style.minWidth = "0";
-            left.innerHTML = `
-                <div><b>${parsed.kode}</b> → ${parsed.tujuan} → Rp.${parsed.harga}</div>
-                <div>SN: ${parsed.sn}</div>
-            `;
-
-            // kanan: waktu + status
-            const right = document.createElement("div");
-            right.style.display = "flex";
-            right.style.flexDirection = "column";
-            right.style.alignItems = "flex-end";
-            right.style.whiteSpace = "nowrap";
-            right.innerHTML = `
-                <div style="font-weight:bold">${parsed.waktu}</div>
-                <div>${parsed.status}</div>
-            `;
-
-            // status warna
-            if (parsed.status.toLowerCase().includes("sukses")) {
-                div.classList.add("success");
-            } else if (parsed.status.toLowerCase().includes("gagal")) {
-                div.classList.add("failed");
-            } else {
-                div.classList.add("pending");
-            }
-
-            div.appendChild(left);
-            div.appendChild(right);
-            list.appendChild(div);
+            renderLaporanItem(parsed, list);
         }
     });
+
 }

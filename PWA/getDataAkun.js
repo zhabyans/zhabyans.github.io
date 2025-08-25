@@ -17,7 +17,7 @@ export function getDataAkun(msg) {
         const kodeAgen = agenMatch ? agenMatch[2].trim() : "tidak diketahui";
 
         // Ambil field lain
-        const saldoMatch = body.match(/Saldo\s([\d.]+)/);
+        const saldoMatch = body.match(/Saldo\s(-?[\d.]+)/);
         const prosesMatch = body.match(/Proses\s([\d.]+)/);
         const trxMatch = body.match(/Trx\s([\d.]+)/i);
         const bonusMatch = body.match(/Bonus\s([\d.]+)/);

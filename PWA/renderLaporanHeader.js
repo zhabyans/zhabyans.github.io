@@ -1,3 +1,5 @@
+import { getLaporanTransaksi } from "./showLaporanTransaksi.js";
+
 export function renderLaporanHeader(line, header, list) {
     // tandai laporan terbuka
     window.laporanTerbuka = true;
