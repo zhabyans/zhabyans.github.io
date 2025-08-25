@@ -23,13 +23,13 @@
     <nav>
       <ul>
         <li>
-          <button class="big-icon-btn" id="logoutBtn" style="display:none;">📴</button>
+          <button class="big-icon-btn outline" id="logoutBtn" style="display:none;">📴</button>
         </li>
       </ul>
       <ul>
-        <li><button id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li>
-        <li><button class="big-icon-btn" id="refreshBtn">🔄</button></li>
-        <li><button class="big-icon-btn" id="toggleTheme">🌙</button></li>
+        <li><button class="outline" id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li>
+        <li><button class="big-icon-btn outline" id="refreshBtn">🔄</button></li>
+        <li><button class="big-icon-btn outline" id="toggleTheme">🌙</button></li>
       </ul>
     </nav>
   </header>
@@ -63,16 +63,33 @@
     </article>
 
     <article id="homeDisplay" style="display:none;">
-      <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
-        autocomplete="off">
-      <div id="operatorDisplay" style="margin-top:0.3rem; font-size:0.9rem; font-weight:bold;"></div>
+      <div class="input-wrapper">
+        <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
+          autocomplete="off">
+        <div class="right-wrapper">
+          <span id="operatorDisplay" class="operator-display"></span>
+          <button id="clearInput" class="clear-btn" type="button">❌</button>
+        </div>
+      </div>
       <div id="extraButtons" style="margin:0.5rem 0; display:none;"></div>
       <div id="menuGrid" class="menu-grid"></div>
     </article>
+
+
   </main>
 
   <div id="toast" class="toast"></div>
   <script type="module" src="app.js"></script>
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <div id="modalMessage" class="modal-message"></div>
+      <div class="modal-buttons">
+        <button id="modalOk" class="modal-ok">OK</button>
+        <button id="modalCancel" class="modal-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>

@@ -38,8 +38,9 @@ export function renderLaporanHeader(line, header, list) {
 
     const refreshBtn = document.createElement("button");
     refreshBtn.innerHTML = "🔄";
-    refreshBtn.style.fontSize = "1.4rem";  // ikon besar
-    refreshBtn.style.padding = "0.1rem 0.3rem"; // tombol kecil
+    refreshBtn.className = "outline";
+    refreshBtn.style.fontSize = "1.6rem";  // ikon besar
+    refreshBtn.style.padding = "0rem 0rem"; // tombol kecil
     refreshBtn.style.cursor = "pointer";
     refreshBtn.addEventListener("click", () => {
         refreshBtn.disabled = true;
@@ -51,8 +52,9 @@ export function renderLaporanHeader(line, header, list) {
 
     const closeBtn = document.createElement("button");
     closeBtn.innerHTML = "❌";
-    closeBtn.style.fontSize = "1.4rem"; // ikon besar
-    closeBtn.style.padding = "0.1rem 0.3rem"; // tombol kecil
+    closeBtn.className = "outline";
+    closeBtn.style.fontSize = "1.6rem"; // ikon besar
+    closeBtn.style.padding = "0rem 0rem"; // tombol kecil
     closeBtn.style.cursor = "pointer";
     closeBtn.addEventListener("click", () => {
         header.innerHTML = "";

@@ -31,24 +31,50 @@ export function showHargaItem(responseText) {
 
             div.innerHTML = `
                 <span style="font-weight:bold; color:var(--pico-primary); min-width:50px;">${kode}</span>
-                <span style="flex:1; margin-left:1rem;">${deskripsi}</span>
-                <span style="font-weight:bold; color:var(--pico-success); min-width:60px; text-align:right;">${harga}</span>
+                <span style="flex:1; margin-left:1rem; margin-right:1rem;">${deskripsi}</span>
+                <span style="font-weight:bold; color:var(--pico-success); min-width:60px; text-align:right;">Rp${harga}</span>
             `;
 
             div.addEventListener("click", () => {
                 const nomor = inputTujuan.value;
-                const pesanKonfirmasi = `Apakah Anda Yakin Membeli ${deskripsi} seharga ${harga} ke nomor ${nomor}?`;
+                const pesanKonfirmasi = `Apakah Anda Yakin Membeli ${deskripsi} seharga Rp${harga} ke nomor ${nomor}?\n\nPastikan saldo mencukupi!`;
+                document.getElementById("modalMessage").textContent = pesanKonfirmasi;
 
-                if (confirm(pesanKonfirmasi)) {
+                showModal(pesanKonfirmasi, () => {
                     kirimPesan(`${kode}.${nomor}`);
                     kirimPesan("S");
                     showToast("Pembelian sedang diproses, Silakan klik Cek Transaksi", "success");
-                } else {
+                }, () => {
                     showToast("Pembelian dibatalkan", "error");
-                }
+                });
             });
+
 
             extraButtons.appendChild(div);
         }
     });
+}
+
+function showModal(message, onConfirm, onCancel) {
+    const modalOverlay = document.getElementById("modalOverlay");
+    const modalMessage = document.getElementById("modalMessage");
+    const modalOk = document.getElementById("modalOk");
+    const modalCancel = document.getElementById("modalCancel");
+
+    modalMessage.textContent = message;
+    modalOverlay.style.display = "flex";
+
+    // bersihkan listener lama
+    modalOk.onclick = null;
+    modalCancel.onclick = null;
+
+    modalOk.onclick = () => {
+        modalOverlay.style.display = "none";
+        if (onConfirm) onConfirm();
+    };
+
+    modalCancel.onclick = () => {
+        modalOverlay.style.display = "none";
+        if (onCancel) onCancel();
+    };
 }

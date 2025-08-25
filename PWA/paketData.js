@@ -1,8 +1,9 @@
-import { createButton } from "./utils.js";
+import { createButton, showToast } from "./utils.js";
+import { kirimPesan } from "./xmppHelper.js";
 
 export function showPaketDataOptions(extraButtons, operatorDisplay, operator) {
     if (!operator || operator === "Unknown") {
-        alert("Operator tidak dikenali untuk Paket Data");
+        showToast("Nomor Tujuan Tidak Dikenali untuk Paket Data");
         return;
     }
 
@@ -11,31 +12,62 @@ export function showPaketDataOptions(extraButtons, operatorDisplay, operator) {
 
     if (operator === "Telkomsel") {
         extraButtons.appendChild(
-            createButton("Internet OMG", () => alert("Paket Internet OMG Telkomsel"))
+            createButton("1 Bulan", () => kirimPesan("harga.td"))
         );
         extraButtons.appendChild(
-            createButton("Combo Sakti", () => alert("Paket Combo Sakti Telkomsel"))
+            createButton("Jawa Timur", () => kirimPesan("harga.jtm"))
+        );
+        extraButtons.appendChild(
+            createButton("Jawa Tengah", () => kirimPesan("harga.jtg"))
+        );
+        extraButtons.appendChild(
+            createButton("Jawa Barat", () => kirimPesan("harga.jbr"))
         );
     }
     else if (operator === "Indosat") {
         extraButtons.appendChild(
-            createButton("Freedom Internet", () => alert("Freedom Internet Indosat"))
+            createButton("Freedom Internet", () => kirimPesan("harga.if"))
         );
         extraButtons.appendChild(
-            createButton("Freedom Combo", () => alert("Freedom Combo Indosat"))
+            createButton("Freedom Unlimited", () => kirimPesan("harga.iu"))
+        );
+        extraButtons.appendChild(
+            createButton("Freedom Mini", () => kirimPesan("harga.im"))
         );
     }
     else if (operator === "XL") {
         extraButtons.appendChild(
-            createButton("Xtra Combo", () => alert("Paket Xtra Combo XL"))
+            createButton("Xtra Combo Flex", () => kirimPesan("harga.xcf"))
         );
         extraButtons.appendChild(
-            createButton("HotRod", () => alert("Paket HotRod XL"))
+            createButton("XL Mini", () => kirimPesan("harga.xm"))
         );
     }
-    else {
+    else if (operator === "Axis") {
         extraButtons.appendChild(
-            createButton("Internet Reguler", () => alert("Paket Data " + operator))
+            createButton("1 Bulan", () => kirimPesan("harga.bro"))
+        );
+        extraButtons.appendChild(
+            createButton("Axis Mini", () => kirimPesan("harga.am"))
+        );
+    }
+    else if (operator === "Tri") {
+        extraButtons.appendChild(
+            createButton("AON", () => kirimPesan("harga.aon"))
+        );
+        extraButtons.appendChild(
+            createButton("Happy", () => kirimPesan("harga.hap"))
+        );
+    }
+    else if (operator === "Smartfren") {
+        extraButtons.appendChild(
+            createButton("Unlimited Harian", () => kirimPesan("harga.suh"))
+        );
+        extraButtons.appendChild(
+            createButton("Smartfren Unlimited", () => kirimPesan("harga.sun"))
+        );
+        extraButtons.appendChild(
+            createButton("Smartfren Mini", () => kirimPesan("harga.sd"))
         );
     }
 }
