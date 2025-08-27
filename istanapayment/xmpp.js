@@ -3,6 +3,7 @@ import { showMenuKotak } from "./showMenuKotak.js";
 import { showLaporanTransaksi } from "./showLaporanTransaksi.js";
 import { laporanHandler } from "./showLaporanTransaksi.js";
 import { menuHandler } from "./showMenuKotak.js";
+import { kirimPesan } from "./xmppHelper.js";
 
 export let connection = null;
 export let loginLocked = false; // cegah spam login
@@ -68,11 +69,8 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
 
                 saveCredentials(jid, pass);
 
-                const to = "user1@pulsa.dpdns.org";
-                const body = "S";
-                const message = $msg({ to: to, type: "chat" }).c("body").t(body);
-                connection.send(message);
-                log(`Pesan terkirim ke ${to}: ${body}`);
+                kirimPesan("S");
+                
                 saldoDisplay.style.display = "block";
 
                 connection.addHandler(getDataAkun, null, "message", "chat", null, null);

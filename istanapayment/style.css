@@ -297,9 +297,9 @@ header.container {
   color: var(--laporan-success-text);
 }
 
-.laporan-item.pending {
-  background: var(--laporan-pending-bg);
-  color: var(--laporan-pending-text);
+.laporan-item.proses {
+  background: var(--laporan-proses-bg);
+  color: var(--laporan-proses-text);
 }
 
 .laporan-item.failed {
@@ -319,8 +319,8 @@ header.container {
   --laporan-success-bg: #d4edda;
   --laporan-success-text: #155724;
 
-  --laporan-pending-bg: #fff3cd;
-  --laporan-pending-text: #856404;
+  --laporan-proses-bg: #fff3cd;
+  --laporan-proses-text: #856404;
 
   --laporan-failed-bg: #f8d7da;
   --laporan-failed-text: #721c24;
@@ -331,8 +331,8 @@ header.container {
   --laporan-success-bg: #1e3a2a;
   --laporan-success-text: #a3e4a1;
 
-  --laporan-pending-bg: #3a2e1e;
-  --laporan-pending-text: #f6d88b;
+  --laporan-proses-bg: #3a2e1e;
+  --laporan-proses-text: #f6d88b;
 
   --laporan-failed-bg: #3a1e1e;
   --laporan-failed-text: #f2a6a6;

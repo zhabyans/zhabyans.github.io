@@ -43,3 +43,49 @@ export function normalizeRupiah(str) {
     if (!str) return 0;
     return parseInt(str.replace(/[^0-9]/g, ""), 10) || 0;
 }
+
+// Fungsi normalisasi nomor tujuan
+export function normalizeInput(inputEl) {
+  inputEl.addEventListener("input", () => {
+    let val = inputEl.value;
+
+    // Hapus semua karakter kecuali angka
+    val = val.replace(/\D/g, "");
+
+    // Normalisasi ke format 08xxxx
+    if (val.startsWith("62")) {
+      val = "0" + val.substring(2);
+    } else if (val.startsWith("0")) {
+      // sudah benar, biarkan
+    } else if (val.startsWith("8")) {
+      // jika user ketik 812..., otomatis jadi 0812...
+      val = "0" + val;
+    }
+
+    inputEl.value = val;
+  });
+}
+
+// Fungsi untuk toggle show/hide password
+export function setupTogglePassword(toggleBtnEl, passInputEl) {
+  toggleBtnEl.addEventListener("click", () => {
+    if (passInputEl.type === "password") {
+      passInputEl.type = "text";
+      toggleBtnEl.textContent = "🙈"; // ganti ikon saat terlihat
+    } else {
+      passInputEl.type = "password";
+      toggleBtnEl.textContent = "👁";
+    }
+  });
+}
+
+// Cegah seleksi teks dan klik kanan
+export function preventTextSelectionAndContextMenu() {
+  document.addEventListener("selectstart", (e) => {
+    e.preventDefault();
+  });
+
+  document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+  });
+}

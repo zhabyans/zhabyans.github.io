@@ -38,7 +38,7 @@ export function renderLaporanItem(parsed, list, tanggal) {
     } else if (parsed.status.toLowerCase().includes("gagal")) {
         div.classList.add("failed");
     } else {
-        div.classList.add("pending");
+        div.classList.add("proses");
     }
 
     div.appendChild(left);
