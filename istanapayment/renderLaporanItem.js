@@ -52,14 +52,14 @@ export function renderLaporanItem(parsed, list, tanggal) {
         const keuntungan = hargaJual - hargaModal;
 
         const message = `<table class="detail-table-laporan-modal">
-        <tr><td>Waktu Pengisian</td><td>${tanggal} jam ${parsed.waktu}</td></tr>
+        <tr><td>Waktu Pengisian</td><td>${tanggal} ${parsed.waktu}</td></tr>
         <tr><td>Kode Produk</td><td>${parsed.kode}</td></tr>
         <tr><td>Nomor Tujuan</td><td>${parsed.tujuan}</td></tr>
         <tr><td>Serial Number</td><td>${parsed.sn}</td></tr>
-        <tr><td>Harga Modal</td><td>Rp${hargaModal.toLocaleString("id-ID")}</td></tr>
         <tr><td>Status Transaksi</td><td>${parsed.status}</td></tr>
-    </table>
-    <table class="detail-table-laporan-modal">
+        </table>
+        <table class="detail-table-laporan-modal">
+        <tr><td>Harga Modal</td><td>Rp${hargaModal.toLocaleString("id-ID")}</td></tr>
         <tr><td>Harga Jual</td><td>Rp${hargaJual.toLocaleString("id-ID")}</td></tr>
         <tr><td>Keuntungan</td><td>Rp${keuntungan.toLocaleString("id-ID")}</td></tr>
     </table>`;
@@ -69,57 +69,68 @@ export function renderLaporanItem(parsed, list, tanggal) {
             message,
             buttons: [
                 {
-                    text: "Cetak",
+                    text: "Bagikan",
                     className: "modal-ok",
-                    onClick: () => {
-                        // bikin isi struk
-                        const strukContent = `
-    <div class="struk">
-        <h3 style="text-align:center">STRUK TRANSAKSI</h3>
-        <hr>
-        <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
-        <p>Kode Produk : ${parsed.kode}</p>
-        <p>Nomor Tujuan : ${parsed.tujuan}</p>
-        <p>Serial Number : ${parsed.sn}</p>
-        <p>Status : ${parsed.status}</p>
-        <hr>
-        <p style="text-align:center">Terima Kasih 🙏</p>
-    </div>
-`;
+                    onClick: async () => {
+                        // bikin container sementara untuk struk
+                        const tempDiv = document.createElement("div");
+                        tempDiv.innerHTML = `
+            <div class="struk" style="font-family:monospace; font-size:12px; padding:10px; width:250px; background:white; color:black;">
+                <h3 style="text-align:center">STRUK TRANSAKSI</h3>
+                <hr>
+                <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
+                <p>Kode Produk : ${parsed.kode}</p>
+                <p>Nomor Tujuan : ${parsed.tujuan}</p>
+                <p>Serial Number : ${parsed.sn}</p>
+                <p>Status : ${parsed.status}</p>
+                <hr>
+                <p style="text-align:center">Terima Kasih 🙏</p>
+            </div>
+        `;
+                        document.body.appendChild(tempDiv);
 
-                        const printWindow = window.open("", "_blank", "width=400,height=600");
-                        printWindow.document.write(`
-<html>
-<head>
-    <title>Cetak Struk</title>
-    <style>
-        @page {
-            size: 58mm auto;   /* ✅ lebar fix untuk printer thermal */
-            margin: 2mm;
-        }
-        body {
-            font-family: monospace;
-            font-size: 12px;
-        }
-        .struk {
-            width: 100%;
-            text-align: left;
-        }
-        hr {
-            border: none;
-            border-top: 1px dashed #000;
-        }
-    </style>
-</head>
-<body onload="window.print();">
-    ${strukContent}
-</body>
-</html>
-`);
-                        printWindow.document.close();
+                        try {
+                            // render struk ke gambar
+                            const canvas = await html2canvas(tempDiv.querySelector(".struk"), { scale: 2 });
+                            document.body.removeChild(tempDiv);
 
+                            const dataUrl = canvas.toDataURL("image/png");
+                            const blob = await (await fetch(dataUrl)).blob();
+                            const file = new File([blob], "struk-transaksi.png", { type: "image/png" });
+
+                            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                                // ✅ share dengan gambar
+                                await navigator.share({
+                                    title: "Struk Transaksi",
+                                    text: "Berikut struk transaksi Anda",
+                                    files: [file],
+                                });
+                            } else if (navigator.share) {
+                                // 🔄 fallback: share text biasa
+                                const textFallback = `
+STRUK TRANSAKSI
+Tanggal : ${tanggal} ${parsed.waktu}
+Kode Produk : ${parsed.kode}
+Nomor Tujuan : ${parsed.tujuan}
+Serial Number : ${parsed.sn}
+Status : ${parsed.status}
+Terima Kasih 🙏
+                `;
+                                await navigator.share({
+                                    title: "Struk Transaksi",
+                                    text: textFallback,
+                                });
+                            } else {
+                                alert("Fitur share tidak didukung di browser ini.");
+                            }
+                        } catch (err) {
+                            console.error("Gagal membagikan:", err);
+                            alert("Gagal membagikan struk.");
+                        }
                     }
                 }
+
+
                 ,
                 {
                     text: "Komplain",
