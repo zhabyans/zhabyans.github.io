@@ -1,4 +1,3 @@
-// js/main.js
 import { kirimPesan } from "./xmppHelper.js";
 import { showToast } from "./utils.js";
 import { showModalConfirmBuy } from "./modal.js";  // ✅ ambil dari file baru
@@ -35,11 +34,16 @@ export function showHargaItem(responseText) {
 
             div.addEventListener("click", () => {
                 const nomor = inputTujuan.value;
-                const pesanKonfirmasi = `<table class="detail-table-laporan-modal">
-                    <tr><td>Kode Produk</td><td>${kode}</td></tr>
-                    <tr><td>Deskripsi Produk</td><td>${deskripsi}</td></tr>
-                    <tr><td>Harga</td><td>Rp${harga}</td></tr>
-                    <tr><td>Nomor Tujuan</td><td>${nomor}</td></tr>`;
+                const pesanKonfirmasi = `
+                    <table class="detail-table-laporan-modal">
+                        <tr><td>Kode Produk</td><td>${kode}</td></tr>
+                        <tr><td>Deskripsi Produk</td><td>${deskripsi}</td></tr>
+                        <tr><td>Harga</td><td>Rp${harga}</td></tr>
+                        <tr><td>Nomor Tujuan</td><td>${nomor}</td></tr>
+                    </table>
+                    <div style="font-weight:bold; color:red; text-align:center;">
+                        Pastikan Saldo Anda Mencukupi!
+                    </div>`;
 
                 showModalConfirmBuy(pesanKonfirmasi, () => {
                     kirimPesan(`${kode}.${nomor}`);
