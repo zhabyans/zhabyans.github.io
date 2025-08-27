@@ -1,254 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>M. Zhafran Z. - Portofolio</title>
-    <link rel="icon" type="image/x-icon" href="/portofolio/assets/img/favicon.ico" />
-    <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet"
-        type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/portofolio/css/styles.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>ISTANA PAYMENT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000" id="theme-color">
+  <meta name="google" content="notranslate">
+
+  <!-- Pico CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+
+  <!-- Strophe -->
+  <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body id="page-top">
-    <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top">
-            <span class="d-block d-lg-none">Muhammad Zhafran Zhabyansyah</span>
-            <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2"
-                    src="/portofolio/assets/img/profile.jpg" alt="" /></span>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
-                class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">Experience</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portofolio">Portofolio</a></li>
-                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Awards</a></li>
-            </ul>
-        </div>
+<body>
+  <header class="container">
+    <nav>
+      <ul>
+        <li>
+          <button class="big-icon-btn outline" id="logoutBtn" style="display:none;">📴</button>
+        </li>
+      </ul>
+      <ul>
+        <li><button class="outline" id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li>
+        <li><button class="big-icon-btn outline" id="refreshBtn">🔄</button></li>
+        <li><button class="big-icon-btn outline" id="toggleTheme">🌙</button></li>
+      </ul>
     </nav>
-    <!-- Page Content-->
-    <div class="container-fluid p-0">
-        <!-- About-->
-        <section class="resume-section" id="about">
-            <div class="resume-section-content">
-                <h2 class="mb-0">
-                    Muhammad
-                    <span class="text-primary">Zhafran</span>
-                    <span class="text-secondary">Zhabyansyah</span>
-                </h2>
-                <div class="subheading mb-5">
-                    Lumajang ·
-                    <a href="mailto:zhafranku@gmail.com">zhafranku@gmail.com</a>
-                </div>
-                <p class="lead mb-5">I have experience building applications with React Native and React JS. As well as
-                    experience in cloud computing, such as AWS</p>
-                <div class="social-icons">
-                    <a class="social-icon" target="_blank" href="https://www.linkedin.com/in/zhabyans/"><i
-                            class="fab fa-linkedin-in"></i></a>
-                    <a class="social-icon" target="_blank" href="https://github.com/zhabyans"><i
-                            class="fab fa-github"></i></a>
-                    <a class="social-icon" target="_blank" href="https://twitter.com/zhabyans"><i
-                            class="fab fa-twitter"></i></a>
-                    <a class="social-icon" target="_blank" href="https://www.facebook.com/zhabyans"><i
-                            class="fab fa-facebook-f"></i></a>
-                </div>
-            </div>
-        </section>
-        <hr class="m-0" />
-        <!-- Experience-->
-        <section class="resume-section" id="experience">
-            <div class="resume-section-content">
-                <h2 class="mb-5">Experience</h2>
-                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-0">Web Developer</h3>
-                        <div class="subheading mb-3">CV Nakula Sadewa</div>
-                        <p>Build an online tutoring website using the Laravel framework. This website is used to
-                            connect students and teachers.</p>
-                    </div>
-                    <div class="flex-shrink-0"><span class="text-primary">March 2019 - May 2019</span></div>
-                </div>
-            </div>
-        </section>
-        <hr class="m-0" />
-        <!-- Education-->
-        <section class="resume-section" id="education">
-            <div class="resume-section-content">
-                <h2 class="mb-5">Education</h2>
-                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-0">State Polytechnic Of Jember</h3>
-                        <div class="subheading mb-3">Bachelor of Applied Science</div>
-                        <div>Information Technology</div>
-                        <p>GPA: 3.75</p>
-                    </div>
-                    <div class="flex-shrink-0"><span class="text-primary">2015 - 2019</span></div>
-                </div>
-            </div>
-        </section>
-        <hr class="m-0" />
-        <!-- Skills-->
-        <section class="resume-section" id="skills">
-            <div class="resume-section-content">
-                <h2 class="mb-5">Skills</h2>
-                <div class="subheading mb-3">Programming Languages & Tools</div>
-                <ul class="list-inline dev-icons">
-                    <li class="list-inline-item"><i class="fab fa-html5"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-react"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-php"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-aws"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-laravel"></i></li>
-                    <li class="list-inline-item"><i class="fab fa-npm"></i></li>
-                </ul>
-                <div class="subheading mb-3">Workflow</div>
-                <ul class="fa-ul mb-0">
-                    <li>
-                        <span class="fa-li"><i class="fas fa-check"></i></span>
-                        Mobile-First, Responsive Design
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-check"></i></span>
-                        Cross Browser Testing & Debugging
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-check"></i></span>
-                        Cross Functional Teams
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-check"></i></span>
-                        Agile Development & Scrum
-                    </li>
-                </ul>
-            </div>
-        </section>
-        <hr class="m-0" />
-        <!-- Education-->
-        <section class="resume-section" id="portofolio">
-            <div class="resume-section-content">
-                <h2 class="mb-5">Portofolio</h2>
-                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-0">Quran Kita</h3>
-                        <div class="subheading mb-3"><a href="https://zhabyans.github.io/quran/" target="_blank">Go to
-                                website</a></div>
+  </header>
+  <main class="container">
+    <article id="loading">
+      <p>Mengecek data login...</p>
+    </article>
 
-                        <img style="height: 240px;" src="/portofolio/assets/img/quran-kita/quran-kita-web.png"
-                            alt="quran-kita-web">
-                        <img style="height: 300px;" src="/portofolio/assets/img/quran-kita/quran-kita-phone.png"
-                            alt="quran-kita-phone">
-                    </div>
-                </div>
-                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-0">Quran Mobile</h3>
-                        <div class="subheading mb-3">React Native · <a target="_blank"
-                                href="https://drive.google.com/file/d/1-Ph7gqqESguioyxEkZ7-i1W9LBUhPs6V/view?usp=sharing">APK</a>
-                        </div>
-                        <img style="height: 300px;" src="/portofolio/assets/img/quran-mobile/quran-mobile.png"
-                            alt="quran-mobile">
-                        <img style="height: 300px;" src="/portofolio/assets/img/quran-mobile/quran-mobile-2.png"
-                            alt="quran-mobile-2">
-                        <img style="height: 300px;" src="/portofolio/assets/img/quran-mobile/quran-mobile-3.png"
-                            alt="quran-mobile-3">
-                    </div>
-                </div>
-                <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                    <div class="flex-grow-1">
-                        <h3 class="mb-0">Kawal Covid19</h3>
-                        <div class="subheading mb-3">React Native · <a target="_blank"
-                                href="https://drive.google.com/file/d/1kUePCjYiV22qP-kQLZyEEQZSSfmG8psT/view?usp=sharing">APK</a>
-                        </div>
-                        <img style="height: 300px; margin: 0px 20px;"
-                            src="/portofolio/assets/img/kawal-covid19/kawal-covid19-splash.png" alt="kawal-covid19">
-                        <img style="height: 300px; margin: 0px 20px;"
-                            src="/portofolio/assets/img/kawal-covid19/kawal-covid19-news.png" alt="kawal-covid19-2">
-                        <img style="height: 300px; margin: 0px 20px;"
-                            src="/portofolio/assets/img/kawal-covid19/kawal-covid19-update.png" alt="kawal-covid19-3">
-                    </div>
-                </div>
-            </div>
-        </section>
-        <hr class="m-0" />
-        <!-- Awards-->
-        <section class="resume-section" id="awards">
-            <div class="resume-section-content">
-                <h2 class="mb-5">Awards & Certifications</h2>
-                <ul class="fa-ul mb-0">
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Online Academy HTML, CSS & JS - Digitalent Scholarship
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Cloud Computing - Digitalent Scholarship
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Dasar Pemrograman Web - Dicoding
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Fundamental Front-End Web Development - Dicoding
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
+    <article id="saldoDisplay">
+      data akan ditampilkan di sini...
+    </article>
 
-                        Cloud Computing - Dicoding </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        React JS Web Front-End - Sanbercode
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        React Native Mobile App Development - Sanbercode
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Database Administrator - Badan Nasional Sertifikasi Profesi
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Desktop Application Training Professional Level - e.biz
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Teknik Coding Dasar untuk Menjadi Apps Developer - Course-Net
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-certificate text-warning"></i></span>
-                        Continuous Integration with Jenkins - Eduonix
-                    </li>
-                    <li>
-                        <span class="fa-li"><i class="fas fa-info text-warning"></i></span>
-                        <a href="https://www.linkedin.com/in/zhabyans/" target="_blank">More...</a>
-                    </li>
-                </ul>
-            </div>
-        </section>
+    <!-- Form Login -->
+    <form id="masukDisplay" style="display:none;">
+      <label for="akune">Username</label>
+      <input type="text" id="akune" autocomplete="off" name="satu">
+
+      <label for="paswote">Password</label>
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="paswote" autocomplete="off" name="dua" style="flex:1;">
+        <button class="outline" type="button" id="togglePass" style="margin-left:2%;">👁</button>
+      </div>
+
+      <button class="outline" type="submit">Login</button>
+    </form>
+
+    <!-- 📌 Laporan Transaksi di artikel terpisah -->
+    <article id="laporanTransaksiDisplay" style="display:none;">
+      <div id="laporanHeader"></div>
+      <div id="laporanList"></div>
+    </article>
+
+    <article id="homeDisplay" style="display:none;">
+      <div class="input-wrapper">
+        <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
+          autocomplete="off">
+        <div class="right-wrapper">
+          <span id="operatorDisplay" class="operator-display"></span>
+          <button id="clearInput" class="clear-btn" type="button">❌</button>
+        </div>
+      </div>
+      <div id="extraButtons" style="margin:0.5rem 0; display:none;"></div>
+      <div id="menuGrid" class="menu-grid"></div>
+    </article>
+
+
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="app.js"></script>
+
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <div id="modalHeader" class="modal-header"></div>
+      <div id="modalMessage" class="modal-message"></div>
+      <div id="modalButtons" class="modal-buttons"></div>
     </div>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Third party plugin JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="/portofolio/js/scripts.js"></script>
+  </div>
+
 </body>
 
 </html>
