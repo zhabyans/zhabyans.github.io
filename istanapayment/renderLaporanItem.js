@@ -82,14 +82,14 @@ export function renderLaporanItem(parsed, list, tanggal) {
 
                             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                                 await navigator.share({
-                                    title: "Coba Share",
+                                    title: "Coba Share dengan gambar",
                                     text: "Tes bagi gambar dari PWA",
                                     files: [file],
                                 });
                                 console.log("✅ Share sukses");
                             } else if (navigator.share) {
                                 await navigator.share({
-                                    title: "Coba Share",
+                                    title: "Coba Share teks saja",
                                     text: "Fallback ke share teks saja",
                                 });
                                 console.log("⚠️ Hanya bisa share teks");
