@@ -73,24 +73,52 @@ export function renderLaporanItem(parsed, list, tanggal) {
                     className: "modal-ok",
                     onClick: async () => {
                         try {
-                            // Ambil file gambar dari public folder
-                            const response = await fetch("https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png");
-                            const blob = await response.blob();
-                            const file = new File([blob], "icon-512.png", { type: blob.type });
+                            // 🔹 Buat elemen struk sementara
+                            const tempDiv = document.createElement("div");
+                            tempDiv.innerHTML = `
+                <div class="struk" style="font-family:monospace; font-size:12px; padding:10px; width:250px; background:white; color:black;">
+                    <h3 style="text-align:center">STRUK TRANSAKSI</h3>
+                    <hr>
+                    <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
+                    <p>Kode Produk : ${parsed.kode}</p>
+                    <p>Nomor Tujuan : ${parsed.tujuan}</p>
+                    <p>Serial Number : ${parsed.sn}</p>
+                    <p>Status : ${parsed.status}</p>
+                    <hr>
+                    <p style="text-align:center">Terima Kasih 🙏</p>
+                </div>
+            `;
+                            document.body.appendChild(tempDiv);
+
+                            // 🔹 Convert ke gambar
+                            const canvas = await html2canvas(tempDiv.querySelector(".struk"), { scale: 2 });
+                            document.body.removeChild(tempDiv);
+
+                            const dataUrl = canvas.toDataURL("image/png");
+                            const blob = await (await fetch(dataUrl)).blob();
+                            const file = new File([blob], "struk-transaksi.png", { type: "image/png" });
 
                             console.log("File siap dibagikan:", file);
 
+                            // 🔹 Bagikan
                             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                                 await navigator.share({
-                                    title: "Coba Share dengan gambar",
-                                    text: "Tes bagi gambar dari PWA",
+                                    title: "Struk Transaksi",
+                                    text: "Berikut struk transaksi Anda",
                                     files: [file],
                                 });
                                 console.log("✅ Share sukses");
                             } else if (navigator.share) {
+                                // fallback hanya text
                                 await navigator.share({
-                                    title: "Coba Share teks saja",
-                                    text: "Fallback ke share teks saja",
+                                    title: "Struk Transaksi",
+                                    text: `STRUK TRANSAKSI
+Tanggal : ${tanggal} ${parsed.waktu}
+Kode Produk : ${parsed.kode}
+Nomor Tujuan : ${parsed.tujuan}
+Serial Number : ${parsed.sn}
+Status : ${parsed.status}
+Terima Kasih 🙏`,
                                 });
                                 console.log("⚠️ Hanya bisa share teks");
                             } else {
@@ -98,10 +126,11 @@ export function renderLaporanItem(parsed, list, tanggal) {
                             }
                         } catch (err) {
                             console.error("Gagal membagikan:", err);
-                            alert("Gagal membagikan file.");
+                            alert("Gagal membagikan struk.");
                         }
                     }
                 }
+
 
                 ,
                 {
