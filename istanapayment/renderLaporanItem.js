@@ -91,7 +91,8 @@ export function renderLaporanItem(parsed, list, tanggal) {
                             document.body.appendChild(tempDiv);
 
                             // 🔹 Convert ke gambar
-                            const canvas = await html2canvas(tempDiv.querySelector(".struk"), { scale: 2 });
+                            const canvas = await window.html2canvas(tempDiv.querySelector(".struk"), { scale: 2 });
+                            
                             document.body.removeChild(tempDiv);
 
                             const dataUrl = canvas.toDataURL("image/png");
@@ -130,7 +131,6 @@ Terima Kasih 🙏`,
                         }
                     }
                 }
-
 
                 ,
                 {
