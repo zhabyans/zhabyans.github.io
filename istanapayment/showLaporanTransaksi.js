@@ -66,6 +66,9 @@ function tampilkanLaporanTransaksi(dataText) {
 
     list.innerHTML = "";
 
+    const ambilTanggal = lines[0];
+    const tanggalSaja = ambilTanggal.replace(/^Tgl\.\s*/, "").trim();
+
     lines.forEach(line => {
         if (line.startsWith("Tgl")) {
             if (line.includes("N/A")) {
@@ -86,7 +89,7 @@ function tampilkanLaporanTransaksi(dataText) {
             }
         } else if (line.startsWith("#")) {
             const parsed = parseLaporanLine(line);
-            renderLaporanItem(parsed, list);
+            renderLaporanItem(parsed, list, tanggalSaja);
         }
     });
 }

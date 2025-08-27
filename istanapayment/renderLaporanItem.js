@@ -1,7 +1,7 @@
 import { showModalCustom } from "./modal.js";
 import { normalizeRupiah } from "./utils.js";
 
-export function renderLaporanItem(parsed, list) {
+export function renderLaporanItem(parsed, list, tanggal) {
     if (!parsed || !list) return;
 
     const div = document.createElement("div");
@@ -52,7 +52,7 @@ export function renderLaporanItem(parsed, list) {
         const keuntungan = hargaJual - hargaModal;
 
         const message = `<table class="detail-table-laporan-modal">
-        <tr><td>Waktu Pengisian</td><td>${parsed.waktu}</td></tr>
+        <tr><td>Waktu Pengisian</td><td>${tanggal} jam ${parsed.waktu}</td></tr>
         <tr><td>Kode Produk</td><td>${parsed.kode}</td></tr>
         <tr><td>Nomor Tujuan</td><td>${parsed.tujuan}</td></tr>
         <tr><td>Serial Number</td><td>${parsed.sn}</td></tr>
@@ -68,17 +68,51 @@ export function renderLaporanItem(parsed, list) {
             title: "DETAIL TRANSAKSI",
             message,
             buttons: [
-                { text: "Cetak", className: "modal-ok", onClick: () => console.log("Cetak:", parsed) },
+                {
+                    text: "Cetak",
+                    className: "modal-ok",
+                    onClick: () => {
+                        // bikin isi struk
+                        const strukContent = `
+            <div style="font-family: monospace; padding:10px; width:250px">
+                <h3 style="text-align:center">STRUK TRANSAKSI</h3>
+                <hr>
+                <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
+                <p>Kode Produk : ${parsed.kode}</p>
+                <p>Nomor Tujuan : ${parsed.tujuan}</p>
+                <p>Serial Number : ${parsed.sn}</p>
+                <p>Status : ${parsed.status}</p>
+                <hr>
+                <p style="text-align:center">Terima Kasih 🙏</p>
+            </div>
+        `;
+
+                        // buka jendela popup untuk print
+                        const printWindow = window.open("", "_blank", "width=400,height=600");
+                        printWindow.document.write(`
+            <html>
+                <head>
+                    <title>Cetak Struk</title>
+                </head>
+                <body onload="window.print(); window.close();">
+                    ${strukContent}
+                </body>
+            </html>
+        `);
+                        printWindow.document.close();
+                    }
+                }
+                ,
                 {
                     text: "Komplain",
                     className: "modal-cancel",
                     onClick: () => {
                         const pesan = `Mohon bantu cek transaksi berikut:
-                        Tanggal : ${parsed.waktu}
-                        Kode Produk : ${parsed.kode}
-                        Tujuan : ${parsed.tujuan}
-                        Serial Number : ${parsed.sn}
-                        Status : ${parsed.status}`;
+Tanggal : ${tanggal} jam ${parsed.waktu}
+Kode Produk : ${parsed.kode}
+Tujuan : ${parsed.tujuan}
+Serial Number : ${parsed.sn}
+Status : ${parsed.status}`;
 
                         const nomorWA = "6283100100190";
                         const url = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
