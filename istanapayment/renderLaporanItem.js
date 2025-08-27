@@ -74,7 +74,7 @@ export function renderLaporanItem(parsed, list, tanggal) {
                     onClick: async () => {
                         try {
                             // Ambil file gambar dari public folder
-                            const response = await fetch("/icons/icon-512.png");
+                            const response = await fetch("https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/PNG_transparency_demonstration_1.png/640px-PNG_transparency_demonstration_1.png");
                             const blob = await response.blob();
                             const file = new File([blob], "icon-512.png", { type: blob.type });
 
