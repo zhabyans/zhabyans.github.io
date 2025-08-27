@@ -74,56 +74,51 @@ export function renderLaporanItem(parsed, list, tanggal) {
                     onClick: () => {
                         // bikin isi struk
                         const strukContent = `
-        <div style="font-family: monospace; padding:10px; width:250px">
-            <h3 style="text-align:center">STRUK TRANSAKSI</h3>
-            <hr>
-            <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
-            <p>Kode Produk : ${parsed.kode}</p>
-            <p>Nomor Tujuan : ${parsed.tujuan}</p>
-            <p>Serial Number : ${parsed.sn}</p>
-            <p>Status : ${parsed.status}</p>
-            <hr>
-            <p style="text-align:center">Terima Kasih 🙏</p>
-        </div>
-    `;
+    <div class="struk">
+        <h3 style="text-align:center">STRUK TRANSAKSI</h3>
+        <hr>
+        <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
+        <p>Kode Produk : ${parsed.kode}</p>
+        <p>Nomor Tujuan : ${parsed.tujuan}</p>
+        <p>Serial Number : ${parsed.sn}</p>
+        <p>Status : ${parsed.status}</p>
+        <hr>
+        <p style="text-align:center">Terima Kasih 🙏</p>
+    </div>
+`;
 
-                        // buka jendela popup untuk print
                         const printWindow = window.open("", "_blank", "width=400,height=600");
                         printWindow.document.write(`
-        <html>
-            <head>
-                <title>Cetak Struk</title>
-                <style>
-                    @page {
-                        size: 80mm auto; /* ukuran kertas thermal */
-                        margin: 5mm;
-                    }
-                    body {
-                        font-family: monospace;
-                        font-size: 12px;
-                    }
-                    h3 {
-                        margin: 0;
-                        font-size: 14px;
-                    }
-                </style>
-            </head>
-            <body>
-                ${strukContent}
-            </body>
-        </html>
-    `);
+<html>
+<head>
+    <title>Cetak Struk</title>
+    <style>
+        @page {
+            size: 58mm auto;   /* ✅ lebar fix untuk printer thermal */
+            margin: 2mm;
+        }
+        body {
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .struk {
+            width: 100%;
+            text-align: left;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #000;
+        }
+    </style>
+</head>
+<body onload="window.print(); window.close();">
+    ${strukContent}
+</body>
+</html>
+`);
                         printWindow.document.close();
 
-                        // tunggu sebentar biar konten ter-render sebelum print
-                        printWindow.onload = () => {
-                            setTimeout(() => {
-                                printWindow.print();
-                                printWindow.close();
-                            }, 500);
-                        };
                     }
-
                 }
                 ,
                 {
