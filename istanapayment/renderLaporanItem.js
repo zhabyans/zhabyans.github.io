@@ -111,7 +111,7 @@ export function renderLaporanItem(parsed, list, tanggal) {
         }
     </style>
 </head>
-<body onload="window.print(); window.close();">
+<body onload="window.print();">
     ${strukContent}
 </body>
 </html>
