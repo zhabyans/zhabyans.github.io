@@ -72,64 +72,36 @@ export function renderLaporanItem(parsed, list, tanggal) {
                     text: "Bagikan",
                     className: "modal-ok",
                     onClick: async () => {
-                        // bikin container sementara untuk struk
-                        const tempDiv = document.createElement("div");
-                        tempDiv.innerHTML = `
-            <div class="struk" style="font-family:monospace; font-size:12px; padding:10px; width:250px; background:white; color:black;">
-                <h3 style="text-align:center">STRUK TRANSAKSI</h3>
-                <hr>
-                <p>Tanggal : ${tanggal} ${parsed.waktu}</p>
-                <p>Kode Produk : ${parsed.kode}</p>
-                <p>Nomor Tujuan : ${parsed.tujuan}</p>
-                <p>Serial Number : ${parsed.sn}</p>
-                <p>Status : ${parsed.status}</p>
-                <hr>
-                <p style="text-align:center">Terima Kasih 🙏</p>
-            </div>
-        `;
-                        document.body.appendChild(tempDiv);
-
                         try {
-                            // render struk ke gambar
-                            const canvas = await html2canvas(tempDiv.querySelector(".struk"), { scale: 2 });
-                            document.body.removeChild(tempDiv);
+                            // Ambil file gambar dari public folder
+                            const response = await fetch("/icons/icon-512.png");
+                            const blob = await response.blob();
+                            const file = new File([blob], "icon-512.png", { type: blob.type });
 
-                            const dataUrl = canvas.toDataURL("image/png");
-                            const blob = await (await fetch(dataUrl)).blob();
-                            const file = new File([blob], "struk-transaksi.png", { type: "image/png" });
+                            console.log("File siap dibagikan:", file);
 
                             if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                                // ✅ share dengan gambar
                                 await navigator.share({
-                                    title: "Struk Transaksi",
-                                    text: "Berikut struk transaksi Anda",
+                                    title: "Coba Share",
+                                    text: "Tes bagi gambar dari PWA",
                                     files: [file],
                                 });
+                                console.log("✅ Share sukses");
                             } else if (navigator.share) {
-                                // 🔄 fallback: share text biasa
-                                const textFallback = `
-STRUK TRANSAKSI
-Tanggal : ${tanggal} ${parsed.waktu}
-Kode Produk : ${parsed.kode}
-Nomor Tujuan : ${parsed.tujuan}
-Serial Number : ${parsed.sn}
-Status : ${parsed.status}
-Terima Kasih 🙏
-                `;
                                 await navigator.share({
-                                    title: "Struk Transaksi",
-                                    text: textFallback,
+                                    title: "Coba Share",
+                                    text: "Fallback ke share teks saja",
                                 });
+                                console.log("⚠️ Hanya bisa share teks");
                             } else {
-                                alert("Fitur share tidak didukung di browser ini.");
+                                alert("❌ Web Share API tidak didukung di browser ini.");
                             }
                         } catch (err) {
                             console.error("Gagal membagikan:", err);
-                            alert("Gagal membagikan struk.");
+                            alert("Gagal membagikan file.");
                         }
                     }
                 }
-
 
                 ,
                 {
