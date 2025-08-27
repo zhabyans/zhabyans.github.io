@@ -1,5 +1,6 @@
 import { showModalCustom } from "./modal.js";
 import { normalizeRupiah } from "./utils.js";
+import html2canvas from "html2canvas";
 
 export function renderLaporanItem(parsed, list, tanggal) {
     if (!parsed || !list) return;
