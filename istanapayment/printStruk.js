@@ -19,19 +19,19 @@ export async function printStruk(parsed, tanggal) {
         // 🔹 Template struk baru
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = `
-        <div class="struk" style="font-family: monospace; font-size: 12px; padding: 10px; width: 280px; color: #000000;">
-            <div style="text-align:center; color:black; font-weight:bold; font-size: 18px">${localStorage.getItem("nama_agen")}</div>
+        <div class="struk" style="font-family: monospace; font-weight:bold; font-size: 16px; padding: 5px; width: 350px; color: #000000;">
+            <div style="text-align:center; color:black; font-size: 24px">${localStorage.getItem("nama_agen")}</div>
             <div style="text-align:left; color:black;">${tanggal} ${parsed.waktu}</div>
-            <div style="text-align:center; font-weight:bold; color:black;">-- STRUK BUKTI PEMBELIAN --</div>
-            <div style="text-align:center; font-weight:bold; color:black;">${jenisProduk}</div>
+            <div style="text-align:center; color:black; font-size: 20px">-- STRUK BUKTI PEMBELIAN --</div>
+            <div style="text-align:center; color:black; font-size: 20px">${jenisProduk}</div>
             <hr style="border:1px dashed black; margin:5px 0;">
-            <div style="color:black;">ID PEL : ${parsed.tujuan}</div>
+            <div style="color:black;">NOMOR : ${parsed.tujuan}</div>
             <div style="color:black;">KODE : ${parsed.kode}</div>
             <div style="color:black;">SN : ${parsed.sn}</div>
-            <div style="font-weight:bold; text-align:center; margin-top:5px; margin-bottom:5px; color:black;">-------- RINCIAN PEMBAYARAN --------</div>
+            <div style=" text-align:center; margin-top:5px; margin-bottom:5px; color:black;">-------- RINCIAN PEMBAYARAN --------</div>
             <div style="color:black;">HARGA : Rp${harga.toLocaleString("id-ID")}</div>
             <div style="color:black;">ADMIN : Rp${admin.toLocaleString("id-ID")}</div>
-            <div style="font-weight:bold; color:black;">TOTAL HARGA : Rp${total.toLocaleString("id-ID")}</div>
+            <div style="color:black; font-size: 18px">TOTAL HARGA : Rp${total.toLocaleString("id-ID")}</div>
             <hr style="border:1px dashed black; margin:5px 0;">
             <div style="text-align:center; color:black;">SIMPANLAH STRUK INI</div>
             <div style="text-align:center; color:black;">SEBAGAI BUKTI PEMBELIAN ANDA</div>
@@ -61,7 +61,7 @@ export async function printStruk(parsed, tanggal) {
                 text: `STRUK BUKTI PEMBELIAN
 Jenis Produk : ${jenisProduk}
 TGL: ${tanggal} ${parsed.waktu}
-ID PEL : ${parsed.tujuan}
+NOMOR : ${parsed.tujuan}
 SERIAL NUMBER : ${parsed.sn}
 HARGA : Rp${harga.toLocaleString("id-ID")}
 ADMIN : Rp${admin.toLocaleString("id-ID")}
