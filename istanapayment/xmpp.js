@@ -19,14 +19,14 @@ function log(msg) {
 
 // Simpan kredensial ke localStorage
 function saveCredentials(jid, pass) {
-    console.log("Saving credentials to localStorage:", jid, pass);
+    // console.log("Saving credentials to localStorage:", jid, pass);
     localStorage.setItem("xmpp_jid", jid);
     localStorage.setItem("xmpp_pass", pass);
 }
 
 // Hapus kredensial
 function clearCredentials() {
-    console.log("Clearing credentials from localStorage");
+    // console.log("Clearing credentials from localStorage");
     localStorage.removeItem("xmpp_jid");
     localStorage.removeItem("xmpp_pass");
 }
@@ -40,7 +40,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
     }
 
     connection = new Strophe.Connection(ws_url);
-    connection.connect(jid + "/asd", pass, function (status) {
+    connection.connect(jid + "/", pass, function (status) {
         console.log("[DEBUG] Strophe status:", status);
         switch (status) {
             case Strophe.Status.CONNECTING:
@@ -71,7 +71,6 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 saveCredentials(jid, pass);
 
                 kirimPesan("S");
-                
                 saldoDisplay.style.display = "block";
 
                 connection.addHandler(getDataAkun, null, "message", "chat");

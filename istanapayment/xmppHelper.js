@@ -25,7 +25,7 @@ export function onMessage(callback) {
         const body = msg.getElementsByTagName("body")[0];
         if (body) {
             const responseText = Strophe.getText(body).trim();
-            console.log("Pesan masuk:", responseText);
+            // console.log("Pesan masuk:", responseText);
 
             if (callback && typeof callback === "function") {
                 callback(responseText, msg);

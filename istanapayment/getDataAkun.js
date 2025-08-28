@@ -1,5 +1,5 @@
 export function getDataAkun(msg) {
-    console.log("[DEBUG] Pesan diterima:", msg);
+    // console.log("[DEBUG] Pesan diterima:", msg);
     const elems = msg.getElementsByTagName("body");
 
     if (elems.length > 0) {
@@ -13,6 +13,7 @@ export function getDataAkun(msg) {
         // Ambil nama agen dan kode
         const agenMatch = body.match(/Yth\.\s+([^-]+)-\s*([A-Z0-9]+)/);
         const agen = agenMatch ? agenMatch[1].trim() : "tidak diketahui";
+        localStorage.setItem("nama_agen", agen);
         const kodeAgen = agenMatch ? agenMatch[2].trim() : "tidak diketahui";
 
         // Ambil field lain
