@@ -28,7 +28,7 @@ export async function printStruk(parsed, tanggal) {
             <div style="color:black;">ID PEL : ${parsed.tujuan}</div>
             <div style="color:black;">KODE : ${parsed.kode}</div>
             <div style="color:black;">SN : ${parsed.sn}</div>
-            <div style="font-weight:bold; text-align:center; margin-top:5px; margin-bottom:5px; color:black;">-------- RINCIAN PEMBAYARAN ---------</div>
+            <div style="font-weight:bold; text-align:center; margin-top:5px; margin-bottom:5px; color:black;">-------- RINCIAN PEMBAYARAN --------</div>
             <div style="color:black;">HARGA : Rp${harga.toLocaleString("id-ID")}</div>
             <div style="color:black;">ADMIN : Rp${admin.toLocaleString("id-ID")}</div>
             <div style="font-weight:bold; color:black;">TOTAL HARGA : Rp${total.toLocaleString("id-ID")}</div>
