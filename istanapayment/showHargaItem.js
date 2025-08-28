@@ -1,6 +1,6 @@
 import { kirimPesan } from "./xmppHelper.js";
 import { showToast } from "./utils.js";
-import { showModalConfirmBuy } from "./modal.js";  // ✅ ambil dari file baru
+import { showModalConfirm } from "./modal.js";  // ✅ ambil dari file baru
 
 const extraButtons = document.getElementById("extraButtons");
 const inputTujuan = document.getElementById("inputTujuan");
@@ -38,20 +38,21 @@ export function showHargaItem(responseText) {
                     <table class="detail-table-laporan-modal">
                         <tr><td>Kode Produk</td><td>${kode}</td></tr>
                         <tr><td>Deskripsi Produk</td><td>${deskripsi}</td></tr>
-                        <tr><td>Harga</td><td>Rp${harga}</td></tr>
+                        <tr><td>Harga Modal</td><td>Rp${harga}</td></tr>
                         <tr><td>Nomor Tujuan</td><td>${nomor}</td></tr>
                     </table>
                     <div style="font-weight:bold; color:red; text-align:center;">
                         Pastikan Saldo Anda Mencukupi!
                     </div>`;
 
-                showModalConfirmBuy(pesanKonfirmasi, () => {
-                    kirimPesan(`${kode}.${nomor}`);
-                    kirimPesan("S");
-                    showToast("Pembelian sedang diproses, Silakan klik Cek Transaksi", "success");
-                }, () => {
-                    showToast("Pembelian dibatalkan", "error");
-                });
+                showModalConfirm("KONFIRMASI TRANSAKSI",
+                    pesanKonfirmasi, () => {
+                        kirimPesan(`${kode}.${nomor}`);
+                        kirimPesan("S");
+                        // showToast("Transaksi sedang diproses\nSilakan klik Cek Transaksi", "success");
+                    }, () => {
+                        showToast("Transaksi dibatalkan", "error");
+                    });
             });
 
 

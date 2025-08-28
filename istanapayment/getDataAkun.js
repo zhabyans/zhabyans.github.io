@@ -8,7 +8,6 @@ export function getDataAkun(msg) {
 
         // 🔎 Filter: hanya lanjut kalau pesan ada "Yth."
         if (!body.includes("Yth.")) {
-            console.log("[DEBUG] Pesan diabaikan karena tidak mengandung 'Yth.'");
             return true; // biar handler tetap jalan untuk pesan berikutnya
         }
         // Ambil nama agen dan kode

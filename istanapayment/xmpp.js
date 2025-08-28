@@ -4,6 +4,7 @@ import { showLaporanTransaksi } from "./showLaporanTransaksi.js";
 import { laporanHandler } from "./showLaporanTransaksi.js";
 import { menuHandler } from "./showMenuKotak.js";
 import { kirimPesan } from "./xmppHelper.js";
+import { notifikasiTransaksi } from "./notifikasiTransaksi.js";
 
 export let connection = null;
 export let loginLocked = false; // cegah spam login
@@ -73,9 +74,11 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 
                 saldoDisplay.style.display = "block";
 
-                connection.addHandler(getDataAkun, null, "message", "chat", null, null);
+                connection.addHandler(getDataAkun, null, "message", "chat");
                 connection.addHandler(laporanHandler, null, "message", "chat");
                 connection.addHandler(menuHandler, null, "message", "chat");
+                connection.addHandler(notifikasiTransaksi, null, "message", "chat");
+
                 homeDisplay.style.display = "block";
                 showMenuKotak();
                 showLaporanTransaksi();

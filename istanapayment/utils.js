@@ -9,7 +9,7 @@ export function createButton(label, onClick) {
     return btn;
 }
 
-export function showToast(message, type = "error") {
+export function showToast(message, type = "error", durasi = 3000) {
     const toast = document.getElementById("toast");
     if (!toast) return;
 
@@ -35,7 +35,7 @@ export function showToast(message, type = "error") {
     toastTimeout = setTimeout(() => {
         toast.classList.remove("show");
         toastTimeout = null;
-    }, 3000);
+    }, durasi);
 }
 
 // Utility untuk normalisasi angka Rupiah

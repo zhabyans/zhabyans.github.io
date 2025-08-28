@@ -1,16 +1,22 @@
-body {
-  -webkit-touch-callout: none;
-  /* Safari & Chrome iOS/Android */
-  -webkit-tap-highlight-color: transparent;
-  /* Hapus highlight ketika tap */
-  -webkit-user-select: none;
-  /* Chrome, Safari, Edge */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* IE/Edge */
-  user-select: none;
-  /* Standard */
+html, body {
+  overscroll-behavior-y: contain; /* mencegah pull-to-refresh */
+  overscroll-behavior-x: none;
+  height: 100%;
+  margin: 0;
+
+  -webkit-touch-callout: none; /* Safari & Chrome iOS/Android */
+  -webkit-tap-highlight-color: transparent; /* Hapus highlight ketika tap */
+  -webkit-user-select: none; /* Chrome, Safari, Edge */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+  user-select: none; /* Standard */
+}
+
+main.container,
+header.container {
+  max-width: 100% !important;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .menu-grid {
@@ -22,7 +28,6 @@ body {
   width: 100%;
   /* pastikan full */
 }
-
 
 .menu-item {
   padding: 1rem;
@@ -39,20 +44,16 @@ body {
   color: white;
 }
 
-html,
-body {
-  overscroll-behavior-y: contain;
-  /* mencegah pull-to-refresh */
-  overscroll-behavior-x: none;
-  height: 100%;
-  margin: 0;
+.harga-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
-main.container,
-header.container {
-  max-width: 100% !important;
-  padding-left: 1rem;
-  padding-right: 1rem;
+.harga-item:hover {
+  background: var(--pico-muted-color);
+  color: white;
+  cursor: pointer;
 }
 
 .big-icon-btn {
@@ -61,6 +62,7 @@ header.container {
   cursor: pointer;
 }
 
+/* ============== INI ADALAH PENGATURAN UNTUK TOAST ==================== */
 .toast {
   position: fixed;
   top: 50%;
@@ -104,8 +106,10 @@ header.container {
 
 .toast-message {
   font-size: 1.1rem;
+  white-space: pre-line;
 }
 
+/* ============== INI ADALAH PENGATURAN UNTUK MODAL KONFIRMASI ==================== */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -196,9 +200,6 @@ header.container {
   }
 }
 
-/* ================== THEME ================== */
-
-/* Light mode */
 :root[data-theme="light"] {
   --modal-bg: #fff;
   --modal-text: #333;
@@ -212,7 +213,7 @@ header.container {
   --modal-border: #444;
 }
 
-
+/* ============== INI ADALAH PENGATURAN UNTUK NOMOR TUJUAN ==================== */
 .input-wrapper {
   position: relative;
   display: flex;
@@ -227,7 +228,7 @@ header.container {
   box-sizing: border-box;
 }
 
-.right-wrapper {
+.input-right-wrapper {
   position: absolute;
   right: 1rem;
   display: flex;
@@ -240,7 +241,7 @@ header.container {
   padding-bottom: 18px;
 }
 
-.operator-display {
+.input-operator-display {
   font-size: 0.9rem;
   font-weight: bold;
   white-space: nowrap;
@@ -251,7 +252,7 @@ header.container {
   /* pastikan vertikal align */
 }
 
-.clear-btn {
+.input-clear-btn {
   background: transparent;
   border: none;
   font-size: 1.1rem;
@@ -262,22 +263,11 @@ header.container {
   margin: 0;
 }
 
-.clear-btn:hover {
+.input-clear-btn:hover {
   color: #e74c3c;
 }
 
-.harga-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.harga-item:hover {
-  background: var(--pico-muted-color);
-  color: white;
-  cursor: pointer;
-}
-
+/* ============== INI ADALAH PENGATURAN UNTUK LAPORAN TRANSAKSI ==================== */
 .laporan-list {
   display: flex;
   flex-direction: column;
@@ -312,8 +302,6 @@ header.container {
   color: white;
 }
 
-/* ================== THEME ================== */
-
 /* Light mode */
 :root[data-theme="light"] {
   --laporan-success-bg: #d4edda;
@@ -338,6 +326,7 @@ header.container {
   --laporan-failed-text: #f2a6a6;
 }
 
+/* ============== INI ADALAH PENGATURAN UNTUK MODAL DETAIL TRANSAKSI ==================== */
 .detail-table-laporan-modal {
   width: 100%;
   border-collapse: collapse;

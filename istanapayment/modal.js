@@ -30,9 +30,9 @@ export function showModalCustom({
 }
 
 // === wrapper lama agar tetap kompatibel ===
-export function showModalConfirmBuy(message, onConfirm, onCancel) {
+export function showModalConfirm(judul, message, onConfirm, onCancel) {
     showModalCustom({
-        title: "Konfirmasi Pembelian",
+        title: judul,
         message,
         buttons: [
             {
