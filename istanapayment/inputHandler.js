@@ -1,6 +1,4 @@
-// ----------------------
-// DOM ELEMENTS
-// ----------------------
+// file inputHandler.js
 const inputTujuan = document.getElementById("inputTujuan");
 const operatorDisplay = document.getElementById("operatorDisplay");
 const extraButtons = document.getElementById("extraButtons");

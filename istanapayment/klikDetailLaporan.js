@@ -1,3 +1,4 @@
+// file klikDetailLaporan.js
 import { showModalCustom } from "./modal.js";
 import { normalizeRupiah } from "./utils.js";
 import { printStruk } from "./printStruk.js"; // import fungsi print
@@ -48,7 +49,7 @@ Terima kasih.
                 }
             },
             {
-                text: "Set Harga Jual",
+                text: "Close dulu",
                 className: "modal-ok",
                 onClick: () => console.log("Set Harga Jual:", parsed)
             }

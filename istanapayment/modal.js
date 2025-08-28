@@ -1,4 +1,4 @@
-// js/modal.js
+// file modal.js
 export function showModalCustom({ 
     title = "", 
     message = "", 

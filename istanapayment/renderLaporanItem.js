@@ -32,13 +32,15 @@ export function renderLaporanItem(parsed, list, tanggal) {
     `;
 
     // warna status
-    if (parsed.status.toLowerCase().includes("sukses")) {
+    const statusText = parsed.status.toLowerCase();
+    if (statusText.includes("sukses")) {
         div.classList.add("success");
-    } else if (parsed.status.toLowerCase().includes("gagal")) {
+    } else if (statusText.includes("gagal") || statusText.includes("timeout")) {
         div.classList.add("failed");
     } else {
         div.classList.add("proses");
     }
+
 
     div.appendChild(left);
     div.appendChild(right);
