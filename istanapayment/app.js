@@ -2,7 +2,7 @@
 import { normalizeInput, setupTogglePassword, preventTextSelectionAndContextMenu, showToast } from "./utils.js";
 import { setupTheme } from "./tema.js";
 import { setupAuth } from "./auth.js";
-// import { getKontak } from "./getKontak.js";
+import { getKontak } from "./getKontak.js";
 
 let domain = "pulsa.dpdns.org";
 
@@ -57,45 +57,24 @@ setupTogglePassword(togglePass, passInput);
 // Ambil input tujuan
 const inputTujuan = document.getElementById("inputTujuan");
 
-// Terapkan fungsi normalisasi
-normalizeInput(inputTujuan);
-
+// Pasang listener untuk normalize setiap kali input berubah
+inputTujuan.addEventListener("input", () => {
+  inputTujuan.value = normalizeInput(inputTujuan.value);
+});
 
 // Cegah text selection & context menu
 preventTextSelectionAndContextMenu();
 
-// getKontak();
+getKontak();
 
-const kekirimBtn = document.getElementById("kekirimBtn");
+// const kekirimBtn = document.getElementById("kekirimBtn");
 
-if (kekirimBtn) {
-  kekirimBtn.addEventListener("click", () => {
+// if (kekirimBtn) {
+//   kekirimBtn.addEventListener("click", () => {
+//     let dataMentah = "0812-123-1-1-111";
+//     inputTujuan.value = normalizeInput(dataMentah);
+//     inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+//     // showToast(inputTujuan.value, "success", 5000);
 
-    inputTujuan.value = "0856";
-    inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-    showToast(inputTujuan.value, "success", 5000);
-
-    // biar semua listener lain jalan (normalizeInput, detectOperator, dsb.)
-  });
-}
-
-const contactBtn = document.getElementById("contactBtn");
-contactBtn.addEventListener("click", async () => {
-  // nanti gunakan Contacts API jika tersedia
-  if ("contacts" in navigator && "ContactsManager" in window) {
-    try {
-      const props = ["name", "tel"];
-      const opts = { multiple: false };
-      const contacts = await navigator.contacts.select(props, opts);
-      if (contacts.length > 0) {
-        inputTujuan.value = contacts[0].tel[0];
-        showToast(inputTujuan.value, "success", 5000);
-        inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-      }
-    } catch (err) {
-      console.error("Akses kontak gagal:", err);
-    }
-  } else {
-    alert("Browser Anda tidak mendukung akses kontak.");
-  }
-});
+//   });
+// }
