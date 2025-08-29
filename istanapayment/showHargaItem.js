@@ -1,3 +1,4 @@
+// file: showHargaItem.js
 import { kirimPesan } from "./xmppHelper.js";
 import { showToast } from "./utils.js";
 import { showModalConfirm } from "./modal.js";  // ✅ ambil dari file baru
@@ -20,10 +21,11 @@ export function showHargaItem(responseText) {
             const deskripsi = parts[1].trim();
             let harga = parts[2].replace(";", "").trim();
 
-            // ➤ Jika harga mengandung [K] atau [G], skip item
-            if (/\[K\]|\[G\]/.test(harga)) {
-                return; // lewati item ini
-            }
+            // ➤ Skip jika harga mengandung [K] atau [G]
+            if (/\[K\]|\[G\]/.test(harga)) return;
+
+            // ➤ Skip jika harga bukan angka
+            if (!/^\d+([.,]\d+)?$/.test(harga)) return;
 
             // Tambahkan header hanya sekali sebelum item pertama
             if (!headerAdded) {

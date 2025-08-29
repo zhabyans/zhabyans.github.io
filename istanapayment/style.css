@@ -1,15 +1,23 @@
-html, body {
-  overscroll-behavior-y: contain; /* mencegah pull-to-refresh */
+html,
+body {
+  overscroll-behavior-y: contain;
+  /* mencegah pull-to-refresh */
   overscroll-behavior-x: none;
   height: 100%;
   margin: 0;
 
-  -webkit-touch-callout: none; /* Safari & Chrome iOS/Android */
-  -webkit-tap-highlight-color: transparent; /* Hapus highlight ketika tap */
-  -webkit-user-select: none; /* Chrome, Safari, Edge */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE/Edge */
-  user-select: none; /* Standard */
+  -webkit-touch-callout: none;
+  /* Safari & Chrome iOS/Android */
+  -webkit-tap-highlight-color: transparent;
+  /* Hapus highlight ketika tap */
+  -webkit-user-select: none;
+  /* Chrome, Safari, Edge */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE/Edge */
+  user-select: none;
+  /* Standard */
 }
 
 main.container,
@@ -117,7 +125,8 @@ header.container {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  display: none; /* default hidden */
+  display: none;
+  /* default hidden */
   align-items: center;
   justify-content: center;
   z-index: 3000;
@@ -128,7 +137,8 @@ header.container {
   color: var(--modal-text);
   padding: 1.5rem;
   border-radius: 0.75rem;
-  width: clamp(300px, 80%, 600px); /* ⬅️ kunci responsive */
+  width: clamp(300px, 80%, 600px);
+  /* ⬅️ kunci responsive */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   text-align: center;
   animation: scaleIn 0.3s ease;
@@ -148,9 +158,12 @@ header.container {
   font-size: 1rem;
   margin-bottom: 1rem;
   white-space: pre-line;
-  max-height: 60vh;   /* biar tidak lebih tinggi dari 60% layar */
-  overflow-y: auto;   /* kalau konten banyak, bisa di-scroll */
-  text-align: left;   /* tabel lebih rapi rata kiri */
+  max-height: 60vh;
+  /* biar tidak lebih tinggi dari 60% layar */
+  overflow-y: auto;
+  /* kalau konten banyak, bisa di-scroll */
+  text-align: left;
+  /* tabel lebih rapi rata kiri */
 }
 
 
@@ -223,8 +236,10 @@ header.container {
 
 #inputTujuan {
   flex: 1;
+  padding-left: 1rem;
+  /* kasih ruang supaya teks tidak ketimpa icon */
   padding-right: 7rem;
-  /* kasih ruang supaya teks tidak ketimpa */
+  /* ruang untuk clear button & operator display */
   box-sizing: border-box;
 }
 
@@ -265,6 +280,17 @@ header.container {
 
 .input-clear-btn:hover {
   color: #e74c3c;
+}
+
+/* Tombol kontak di kiri input */
+.input-contact-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 /* ============== INI ADALAH PENGATURAN UNTUK LAPORAN TRANSAKSI ==================== */
@@ -331,7 +357,8 @@ header.container {
   width: 100%;
   border-collapse: collapse;
   margin: 0.5rem 0;
-  table-layout: fixed; /* penting untuk kontrol lebar */
+  table-layout: fixed;
+  /* penting untuk kontrol lebar */
 }
 
 .detail-table-laporan-modal td {
@@ -344,7 +371,8 @@ header.container {
   text-align: left;
   font-weight: 600;
   color: var(--modal-text);
-  white-space: nowrap; /* label tetap 1 baris */
+  white-space: nowrap;
+  /* label tetap 1 baris */
 }
 
 .detail-table-laporan-modal td:last-child {
@@ -352,7 +380,8 @@ header.container {
   text-align: right;
   font-weight: bold;
   color: var(--pico-primary, #0d6efd);
-  word-break: break-all; /* biar nomor panjang bisa patah */
+  word-break: break-all;
+  /* biar nomor panjang bisa patah */
 }
 
 @media (max-width: 400px) {

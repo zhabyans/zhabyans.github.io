@@ -71,13 +71,18 @@
 
     <article id="homeDisplay" style="display:none;">
       <div class="input-wrapper">
+        <!-- Icon kontak di kiri -->
+        <button id="contactBtn" class="input-contact-btn" type="button" title="Ambil dari Kontak">📇</button>
+
         <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
           autocomplete="off">
+
         <div class="input-right-wrapper">
           <span id="operatorDisplay" class="input-operator-display"></span>
           <button id="clearInput" class="input-clear-btn" type="button">❌</button>
         </div>
       </div>
+
       <div id="extraButtons" style="margin:0.5rem 0; display:none;"></div>
       <div id="menuGrid" class="menu-grid"></div>
     </article>
