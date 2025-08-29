@@ -1,5 +1,3 @@
-import { handleInputChange } from './inputHandler.js';
-
 export function getKontak() {
     const inputTujuan = document.getElementById("inputTujuan");
     const contactBtn = document.getElementById("contactBtn");
@@ -12,7 +10,7 @@ export function getKontak() {
                 const contacts = await navigator.contacts.select(props, opts);
                 if (contacts.length > 0) {
                     inputTujuan.value = contacts[0].tel[0];
-                    handleInputChange(); // langsung update operator display
+                    inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
                 }
             } catch (err) {
                 console.error("Akses kontak gagal:", err);
