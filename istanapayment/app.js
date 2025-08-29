@@ -71,7 +71,7 @@ const kekirimBtn = document.getElementById("kekirimBtn");
 if (kekirimBtn) {
   kekirimBtn.addEventListener("click", () => {
 
-    inputTujuan.value = "0812";
+    inputTujuan.value = "0856";
     inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
 
     // biar semua listener lain jalan (normalizeInput, detectOperator, dsb.)
@@ -88,7 +88,7 @@ contactBtn.addEventListener("click", async () => {
       const contacts = await navigator.contacts.select(props, opts);
       if (contacts.length > 0) {
         inputTujuan.value = contacts[0].tel[0];
-        showToast = contacts[0].tel[0];
+        showToast(contacts[0].tel[0], "success", 5000);
         inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
       }
     } catch (err) {
