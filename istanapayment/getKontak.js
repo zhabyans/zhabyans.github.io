@@ -1,4 +1,4 @@
-import { detectOperator } from './inputHandler.js';
+import { handleInputChange } from './inputHandler.js';
 
 export function getKontak() {
     const inputTujuan = document.getElementById("inputTujuan");
@@ -12,7 +12,7 @@ export function getKontak() {
                 const contacts = await navigator.contacts.select(props, opts);
                 if (contacts.length > 0) {
                     inputTujuan.value = contacts[0].tel[0];
-                    detectOperator(); // langsung update operator display
+                    handleInputChange(); // langsung update operator display
                 }
             } catch (err) {
                 console.error("Akses kontak gagal:", err);

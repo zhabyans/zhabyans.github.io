@@ -42,7 +42,7 @@ function detectOperator(number) {
 // ----------------------
 // Event handler input
 // ----------------------
-function handleInputChange() {
+export function handleInputChange() {
     const nomor = inputTujuan.value.trim();
 
     if (!nomor) {
