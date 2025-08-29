@@ -1,4 +1,4 @@
-import { handleInputChange } from "./inputHandler";
+import { handleInputChange } from "./inputHandler.js";
 export function getKontak() {
     const inputTujuan = document.getElementById("inputTujuan");
     const contactBtn = document.getElementById("contactBtn");
