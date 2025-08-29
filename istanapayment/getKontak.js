@@ -1,6 +1,4 @@
-import { handleInputChange } from "./inputHandler.js";
 export function getKontak() {
-    const inputTujuan = document.getElementById("inputTujuan");
     const contactBtn = document.getElementById("contactBtn");
     contactBtn.addEventListener("click", async () => {
         // nanti gunakan Contacts API jika tersedia
@@ -10,8 +8,9 @@ export function getKontak() {
                 const opts = { multiple: false };
                 const contacts = await navigator.contacts.select(props, opts);
                 if (contacts.length > 0) {
+                    const inputTujuan = document.getElementById("inputTujuan");
                     inputTujuan.value = contacts[0].tel[0];
-                    handleInputChange();
+                    inputTujuan.dispatchEvent(new Event("input", { bubbles: true }));
                 }
             } catch (err) {
                 console.error("Akses kontak gagal:", err);
