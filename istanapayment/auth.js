@@ -1,3 +1,4 @@
+import { showToast } from "./utils.js";
 import { connection, connectXMPP, log, clearCredentials } from "./xmpp.js";
 export function setupAuth(domain) {
 
@@ -16,7 +17,7 @@ export function setupAuth(domain) {
         const pass = document.getElementById("paswote").value;
 
         if (!user || !pass) {
-            alert("Username dan password harus diisi");
+            showToast("Username dan password harus diisi", "error");
             return;
         }
 

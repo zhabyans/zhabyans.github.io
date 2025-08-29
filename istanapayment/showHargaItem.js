@@ -1,16 +1,10 @@
-import { kirimPesan } from "./xmppHelper.js";
-import { showToast } from "./utils.js";
-import { showModalConfirm } from "./modal.js";  // ✅ ambil dari file baru
-
-const extraButtons = document.getElementById("extraButtons");
-const inputTujuan = document.getElementById("inputTujuan");
-
 export function showHargaItem(responseText) {
     extraButtons.innerHTML = "";
     extraButtons.style.display = "block";
     extraButtons.className = "harga-list";
 
     const lines = responseText.split("\n").map(l => l.trim()).filter(l => l);
+    let headerAdded = false; // flag header
 
     lines.forEach(line => {
         const parts = line.split("=");
@@ -18,6 +12,25 @@ export function showHargaItem(responseText) {
             const kode = parts[0].trim();
             const deskripsi = parts[1].trim();
             const harga = parts[2].replace(";", "").trim();
+
+            // ➤ Tambahkan header hanya sekali sebelum item pertama
+            if (!headerAdded) {
+                const headerDiv = document.createElement("div");
+                headerDiv.className = "menu-item harga-item header-item";
+                headerDiv.style.display = "flex";
+                headerDiv.style.justifyContent = "space-between";
+                headerDiv.style.alignItems = "center";
+                headerDiv.style.padding = "0.5rem 1rem";
+                headerDiv.style.borderBottom = "1px solid #ccc";
+
+                headerDiv.innerHTML = `
+                    <span style="font-weight:bold; color:var(--pico-primary); min-width:50px;">Kode</span>
+                    <span style="flex:1; margin-left:1rem; margin-right:1rem; font-weight:bold;">Deskripsi</span>
+                    <span style="font-weight:bold; color:var(--pico-success); min-width:60px; text-align:right;">Harga</span>
+                `;
+                extraButtons.appendChild(headerDiv);
+                headerAdded = true;
+            }
 
             const div = document.createElement("div");
             div.className = "menu-item harga-item";
@@ -49,12 +62,10 @@ export function showHargaItem(responseText) {
                     pesanKonfirmasi, () => {
                         kirimPesan(`${kode}.${nomor}`);
                         kirimPesan("S");
-                        // showToast("Transaksi sedang diproses\nSilakan klik Cek Transaksi", "success");
                     }, () => {
                         showToast("Transaksi dibatalkan", "error");
                     });
             });
-
 
             extraButtons.appendChild(div);
         }
