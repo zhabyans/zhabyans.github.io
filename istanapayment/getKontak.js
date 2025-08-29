@@ -1,3 +1,5 @@
+import { normalizeInput } from "./utils.js";
+
 export function getKontak() {
     const contactBtn = document.getElementById("contactBtn");
     contactBtn.addEventListener("click", async () => {
@@ -9,7 +11,7 @@ export function getKontak() {
                 const contacts = await navigator.contacts.select(props, opts);
                 if (contacts.length > 0) {
                     const inputTujuan = document.getElementById("inputTujuan");
-                    inputTujuan.value = contacts[0].tel[0];
+                    inputTujuan.value = normalizeInput(contacts[0].tel[0]);
                     inputTujuan.dispatchEvent(new Event("input", { bubbles: true }));
                 }
             } catch (err) {
