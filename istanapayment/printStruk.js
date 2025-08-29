@@ -66,7 +66,7 @@ export async function printStruk(parsed, tanggal) {
                 font-family: monospace;
                 font-weight: bold;
                 font-size: 18px;
-                width: 350px;
+                width: 450px;
                 color: #000;
                 background: #fff url('data:image/svg+xml,${encoded}') repeat;
                 background-size: ${tileSize * 0.6}px ${tileSize * 0.6}px; /* 🔹 scale down 80% */
