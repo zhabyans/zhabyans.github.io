@@ -2,6 +2,7 @@
 import { normalizeInput, setupTogglePassword, preventTextSelectionAndContextMenu, showToast } from "./utils.js";
 import { setupTheme } from "./tema.js";
 import { setupAuth } from "./auth.js";
+import { getKontak } from "./getKontak.js";
 
 let domain = "pulsa.dpdns.org";
 
@@ -63,21 +64,4 @@ normalizeInput(inputTujuan);
 // Cegah text selection & context menu
 preventTextSelectionAndContextMenu();
 
-const contactBtn = document.getElementById("contactBtn");
-contactBtn.addEventListener("click", async () => {
-  // nanti gunakan Contacts API jika tersedia
-  if ("contacts" in navigator && "ContactsManager" in window) {
-    try {
-      const props = ["name", "tel"];
-      const opts = { multiple: false };
-      const contacts = await navigator.contacts.select(props, opts);
-      if (contacts.length > 0) {
-        inputTujuan.value = contacts[0].tel[0]; // isi input dengan nomor pertama
-      }
-    } catch (err) {
-      console.error("Akses kontak gagal:", err);
-    }
-  } else {
-    alert("Browser Anda tidak mendukung akses kontak.");
-  }
-});
+getKontak();
