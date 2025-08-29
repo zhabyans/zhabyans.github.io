@@ -43,11 +43,11 @@ export function notifikasiTransaksi(msg) {
                         className: "modal-ok",
                         onClick: () => {
                             const inputTujuan = document.getElementById("inputTujuan");
+                            kirimPesan("harga.p");
                             if (inputTujuan && !inputTujuan.value.trim()) {
                                 inputTujuan.value = noMeter;
                                 // 🔹 trigger event input supaya semua handler jalan
                                 inputTujuan.dispatchEvent(new Event("input", { bubbles: true }));
-                                kirimPesan("harga.p");
                             }
                         }
                     }

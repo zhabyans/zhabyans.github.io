@@ -2,10 +2,22 @@
 import { showModalCustom } from "./modal.js";
 import { normalizeRupiah } from "./utils.js";
 import { printStruk } from "./printStruk.js"; // import fungsi print
+import { hargaJualMap } from "./hargaJualMap.js";
 
 export async function klikDetailLaporan(parsed, tanggal) {
     const hargaModal = normalizeRupiah(parsed.harga);
-    const hargaJual = hargaModal + 2000;
+
+    // normalisasi kode jadi lowercase supaya aman
+    const kode = parsed.kode ? parsed.kode.toLowerCase() : "";
+
+    // tentukan harga jual
+    let hargaJual;
+    if (hargaJualMap[kode]) {
+        hargaJual = hargaJualMap[kode];
+    } else {
+        hargaJual = hargaModal; // fallback default
+    }
+
     const keuntungan = hargaJual - hargaModal;
 
     const message = `<table class="detail-table-laporan-modal">
@@ -17,7 +29,7 @@ export async function klikDetailLaporan(parsed, tanggal) {
     </table>
     <table class="detail-table-laporan-modal">
     <tr><td>Harga Modal</td><td>Rp${hargaModal.toLocaleString("id-ID")}</td></tr>
-    <tr><td>Harga Jual</td><td>Rp${hargaJual.toLocaleString("id-ID")}</td></tr>
+    <tr><td>Saran Harga Jual</td><td>Rp${hargaJual.toLocaleString("id-ID")}</td></tr>
     <tr><td>Keuntungan</td><td>Rp${keuntungan.toLocaleString("id-ID")}</td></tr>
 </table>`;
 
@@ -28,7 +40,7 @@ export async function klikDetailLaporan(parsed, tanggal) {
             {
                 text: "Bagikan",
                 className: "modal-ok",
-                onClick: () => printStruk(parsed, tanggal) // tinggal panggil
+                onClick: () => printStruk(parsed, tanggal)
             },
             {
                 text: "Komplain",
