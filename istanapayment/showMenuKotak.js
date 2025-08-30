@@ -1,11 +1,16 @@
 import { onMessage } from "./xmppHelper.js";
-import { showPulsaOptions } from "./pulsa.js";
-import { showPaketDataOptions } from "./paketData.js";
-import { showPaketNelponOptions } from "./paketNelpon.js";
-import { showTokenOptions } from "./tokenListrik.js";
+import { inputTujuan, operatorDisplay, extraButtons } from "./inputHandler.js";
 import { showHargaItem } from "./showHargaItem.js";
 import { showToast } from "./utils.js";
-import { inputTujuan, operatorDisplay, extraButtons } from "./inputHandler.js";
+import { menuPulsa } from "./menuPulsa.js";
+import { menuPaketData } from "./menuPaketData.js";
+import { menuPaketNelpon } from "./menuPaketNelpon.js";
+import { menuTokenListrik } from "./menuTokenListrik.js";
+import { menuEwallet } from "./menuEwallet.js";
+import { menuPaketTv } from "./menuPaketTv.js";
+import { menuBayarListrik } from "./menuBayarListrik.js";
+import { menuBayarBpjs } from "./menuBayarBpjs.js";
+import { menuBayarIndihome } from "./menuBayarIndihome.js";
 
 const menuGrid = document.getElementById("menuGrid");
 
@@ -20,10 +25,10 @@ export function showMenuKotak() {
         { name: "Paket Nelpon & SMS", emoji: "📞" },
         { name: "Token Listrik", emoji: "⚡" },
         { name: "E-Wallet", emoji: "💳" },
+        { name: "Paket TV", emoji: "📺" },
         { name: "Bayar Listrik", emoji: "💡" },
         { name: "Bayar BPJS", emoji: "🏥" },
-        { name: "Bayar IndiHome", emoji: "📺" },
-        { name: "Voucher TV", emoji: "🎟️" }
+        { name: "Bayar IndiHome", emoji: "📡" }
     ];
 
     if (menuGrid) {
@@ -69,23 +74,23 @@ export function handleMenuClick(menu) {
     const operator = operatorDisplay.textContent;
 
     if (menu.name === "Pulsa") {
-        showPulsaOptions(extraButtons, operatorDisplay, operator);
+        menuPulsa(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Paket Data") {
-        showPaketDataOptions(extraButtons, operatorDisplay, operator);
+        menuPaketData(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Paket Nelpon & SMS") {
-        showPaketNelponOptions(extraButtons, operatorDisplay, operator);
+        menuPaketNelpon(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Token Listrik") {
-        showTokenOptions(extraButtons, operatorDisplay, operator);
+        menuTokenListrik(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "E-Wallet") {
-        showWalletOptions(extraButtons, operatorDisplay, operator);
+        menuEwallet(extraButtons, operatorDisplay, operator);
+    } else if (menu.name === "Paket TV") {
+        menuPaketTv(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Bayar Listrik") {
-        showBayarListrikOptions(extraButtons, operatorDisplay, operator);
+        menuBayarListrik(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Bayar BPJS") {
-        showBayarBPJSOptions(extraButtons, operatorDisplay, operator);
+        menuBayarBpjs(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Bayar IndiHome") {
-        showBayarIndiHomeOptions(extraButtons, operatorDisplay, operator);
-    } else if (menu.name === "Voucher TV") {
-        showVoucherTV(extraButtons, operatorDisplay, operator);
+        menuBayarIndihome(extraButtons, operatorDisplay, operator);
     } else {
         showToast("Menu belum siap", "error");
     }

@@ -66,15 +66,3 @@ inputTujuan.addEventListener("input", () => {
 preventTextSelectionAndContextMenu();
 
 getKontak();
-
-// const kekirimBtn = document.getElementById("kekirimBtn");
-
-// if (kekirimBtn) {
-//   kekirimBtn.addEventListener("click", () => {
-//     let dataMentah = "0812-123-1-1-111";
-//     inputTujuan.value = normalizeInput(dataMentah);
-//     inputTujuan.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
-//     // showToast(inputTujuan.value, "success", 5000);
-
-//   });
-// }
