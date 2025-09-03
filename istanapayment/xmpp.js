@@ -60,14 +60,12 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
                 navBottom.style.display = "none";
-                document.getElementById("laporanTransaksiBtn").style.display = "none";
                 laporanTransaksiDisplay.style.display = "none";
                 break;
             case Strophe.Status.CONNECTED:
                 log("Connected as " + connection.jid);
                 connection.send($pres());
                 document.getElementById("logoutBtn").style.display = "block";
-                document.getElementById("laporanTransaksiBtn").style.display = "inline-block";
                 document.getElementById("masukDisplay").style.display = "none";
 
                 saveCredentials(jid, pass);

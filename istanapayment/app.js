@@ -4,6 +4,7 @@ import { setupTheme } from "./tema.js";
 import { setupAuth } from "./auth.js";
 import { getKontak } from "./getKontak.js";
 import { navigasi } from "./navigasi.js";
+import { akunPage } from "./akunPage.js";
 
 let domain = "pulsa.dpdns.org";
 
@@ -69,3 +70,4 @@ preventTextSelectionAndContextMenu();
 getKontak();
 
 navigasi();
+akunPage();

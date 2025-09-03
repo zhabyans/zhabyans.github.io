@@ -29,7 +29,6 @@
         </li>
       </ul>
       <ul>
-        <!-- <li><button class="outline" id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li> -->
         <li><button class="big-icon-btn-menu outline" id="refreshBtn">🔄</button></li>
         <li><button class="big-icon-btn-menu outline" id="toggleTheme">🌙</button></li>
       </ul>
@@ -69,6 +68,11 @@
       <div id="laporanList"></div>
     </article>
 
+    <!-- 📌 Halaman Akun -->
+    <article id="akunDisplay" style="display:none;">
+      <!-- konten akun akan di-render lewat akunPage.js -->
+    </article>
+
     <article id="homeDisplay" style="display:none;">
       <div class="input-wrapper">
         <!-- Icon kontak di kiri -->
@@ -102,7 +106,7 @@
 
   <!-- Bottom Navigation -->
   <nav class="bottom-nav" id="navBottom">
-    <button class="nav-item" id="laporanTransaksiBtn"title="Riwayat">
+    <button class="nav-item" id="navRiwayat" title="Riwayat">
       <span class="nav-icon">📜</span>
       <span class="nav-label">Riwayat</span>
     </button>

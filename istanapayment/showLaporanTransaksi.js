@@ -11,7 +11,7 @@ const laporanTransaksiDisplay = document.getElementById("laporanTransaksiDisplay
 let tanggalSekarang = null; // pakai let supaya bisa diubah
 
 export function showLaporanTransaksi() {
-    const laporanTransaksiBtn = document.getElementById("laporanTransaksiBtn");
+    const navRiwayat = document.getElementById("navRiwayat");
     const today = new Date();
 
     // Ambil tanggal WIB (Asia/Jakarta)
@@ -20,7 +20,7 @@ export function showLaporanTransaksi() {
     );
 
     tanggalSekarang = wibDate.getDate();
-    laporanTransaksiBtn.addEventListener("click", getLaporanTransaksi);
+    navRiwayat.addEventListener("click", getLaporanTransaksi);
 }
 
 export function getLaporanTransaksi() {
