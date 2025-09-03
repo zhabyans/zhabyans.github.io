@@ -16,9 +16,9 @@ export function renderLaporanItem(parsed, list, tanggal) {
     // kiri
     const left = document.createElement("div");
     left.innerHTML = `
-        <div><b>${parsed.kode}</b> → ${parsed.tujuan} → Rp.${parsed.harga}</div>
-        <div>SN: ${parsed.sn}</div>
-    `;
+    <div><b>${parsed.kode}</b> → ${parsed.tujuan} → Rp.${parsed.harga}</div>
+    <div class="sn-text">SN: ${parsed.sn}</div>
+`;
 
     // kanan
     const right = document.createElement("div");

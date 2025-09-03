@@ -123,7 +123,8 @@ header.container {
   border: none;
   background: transparent;
   color: inherit;
-  height: 100%; /* isi penuh tinggi nav */
+  height: 100%;
+  /* isi penuh tinggi nav */
   /* ikut warna teks tema */
   font: inherit;
   display: flex;
@@ -172,14 +173,16 @@ header.container {
 
 /* 🌞 Light mode */
 :root[data-theme="light"] {
-  --bottom-nav-bg: #f9f9fb; /* abu soft, bukan putih polos */
+  --bottom-nav-bg: #f9f9fb;
+  /* abu soft, bukan putih polos */
   --bottom-nav-border: #e0e0e5;
   --bottom-nav-text: #333;
 }
 
 /* 🌙 Dark mode */
 :root[data-theme="dark"] {
-  --bottom-nav-bg: #1e1e28; /* abu gelap lembut, bukan hitam pekat */
+  --bottom-nav-bg: #1e1e28;
+  /* abu gelap lembut, bukan hitam pekat */
   --bottom-nav-border: #2e2e3a;
   --bottom-nav-text: #ddd;
 }
@@ -439,6 +442,12 @@ header.container {
   border-radius: 6px;
   margin-bottom: 0.3rem;
   transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.laporan-item .sn-text {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 .laporan-item.success {

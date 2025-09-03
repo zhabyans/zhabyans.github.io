@@ -45,16 +45,16 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
         console.log("[DEBUG] Strophe status:", status);
         switch (status) {
             case Strophe.Status.CONNECTING:
-                log("Connecting...");
+                console.log("Connecting...");
                 break;
             case Strophe.Status.CONNFAIL:
-                log("Connection failed.");
+                console.log("Connection failed.");
                 break;
             case Strophe.Status.DISCONNECTING:
-                log("Disconnecting...");
+                console.log("Disconnecting...");
                 break;
             case Strophe.Status.DISCONNECTED:
-                log("Disconnected.");
+                console.log("Disconnected.");
                 document.getElementById("logoutBtn").style.display = "none";
                 document.getElementById("masukDisplay").style.display = "block";
                 saldoDisplay.style.display = "none";
@@ -63,7 +63,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 laporanTransaksiDisplay.style.display = "none";
                 break;
             case Strophe.Status.CONNECTED:
-                log("Connected as " + connection.jid);
+                console.log("Connected as " + connection.jid);
                 connection.send($pres());
                 document.getElementById("logoutBtn").style.display = "block";
                 document.getElementById("masukDisplay").style.display = "none";
@@ -87,23 +87,23 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 break;
 
             case Strophe.Status.AUTHFAIL:
-                log("Authentication failed.");
+                console.log("Authentication failed.");
                 clearCredentials();
 
                 loginLocked = true;
                 setTimeout(() => {
                     loginLocked = false;
-                    log("Login unlocked, you can try again.");
+                    console.log("Login unlocked, you can try again.");
                 }, 5000);
                 break;
             case Strophe.Status.ATTACHED:
-                log("Attached.");
+                console.log("Attached.");
                 break;
             case Strophe.Status.ERROR:
-                log("Error occurred.");
+                console.log("Error occurred.");
                 break;
             default:
-                log("Other status: " + status);
+                console.log("Other status: " + status);
         }
     });
 }
