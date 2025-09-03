@@ -71,6 +71,7 @@ function tampilkanLaporanTransaksi(dataText) {
     const rawLines = dataText.split("\n").map(l => l.trim());
     const lines = rawLines.filter(l => l);
 
+    // jika laporan sedang terbuka dan tidak ada baris Tgl → abaikan
     if (window.laporanTerbuka && !lines.some(l => l.startsWith("Tgl"))) {
         console.log("Respon diabaikan karena laporan sedang terbuka:", dataText);
         return;
@@ -78,13 +79,27 @@ function tampilkanLaporanTransaksi(dataText) {
 
     list.innerHTML = "";
 
-    const ambilTanggal = lines[0];
-    const tanggalSaja = ambilTanggal.replace(/^Tgl\.\s*/, "").trim();
+    const ambilTanggal = lines.find(l => l.startsWith("Tgl")) || "";
+    const tanggalSaja = ambilTanggal.replace(/^Tgl\.\s*/, "").replace("N/A", "").trim();
 
-    let buffer = ""; // untuk gabung multiline
+    let buffer = ""; // untuk gabung multiline transaksi
     lines.forEach(line => {
         if (line.startsWith("Tgl")) {
-            renderLaporanHeader(line, header, list);
+            if (line.includes("N/A")) {
+                // contoh: "Tgl. 27/08/25N/A"
+                const tanggal = line.replace("N/A", "").trim();
+                renderLaporanHeader(tanggal, header, list);
+
+                // tampilkan pesan "belum tersedia"
+                const info = document.createElement("div");
+                info.textContent = "Laporan Masih Belum Tersedia";
+                info.style.textAlign = "center";
+                info.style.padding = "1rem";
+                info.style.color = "#666";
+                list.appendChild(info);
+            } else {
+                renderLaporanHeader(line, header, list);
+            }
         } else if (line.startsWith("#")) {
             buffer = line; // mulai kumpulin
             if (line.includes("Status=")) {

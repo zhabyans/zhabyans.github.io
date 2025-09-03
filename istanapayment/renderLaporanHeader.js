@@ -50,21 +50,7 @@ export function renderLaporanHeader(line, header, list) {
         }, 3000);
     });
 
-    const closeBtn = document.createElement("button");
-    closeBtn.innerHTML = "❌";
-    closeBtn.className = "outline";
-    closeBtn.style.fontSize = "1.6rem"; // ikon besar
-    closeBtn.style.padding = "0rem 0rem"; // tombol kecil
-    closeBtn.style.cursor = "pointer";
-    closeBtn.addEventListener("click", () => {
-        header.innerHTML = "";
-        list.innerHTML = "";
-        laporanTransaksiDisplay.style.display = "none";
-        window.laporanTerbuka = false; // tutup laporan
-    });
-
     btnGroup.appendChild(refreshBtn);
-    btnGroup.appendChild(closeBtn);
 
     row.appendChild(headerText);
     row.appendChild(btnGroup);

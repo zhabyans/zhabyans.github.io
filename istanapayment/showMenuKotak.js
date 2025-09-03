@@ -7,6 +7,7 @@ import { menuPaketData } from "./menuPaketData.js";
 import { menuPaketNelpon } from "./menuPaketNelpon.js";
 import { menuTokenListrik } from "./menuTokenListrik.js";
 import { menuEwallet } from "./menuEwallet.js";
+import { menuGames } from "./menuGames.js";
 import { menuPaketTv } from "./menuPaketTv.js";
 import { menuBayarListrik } from "./menuBayarListrik.js";
 import { menuBayarBpjs } from "./menuBayarBpjs.js";
@@ -25,6 +26,7 @@ export function showMenuKotak() {
         { name: "Paket Nelpon & SMS", emoji: "📞" },
         { name: "Token Listrik", emoji: "⚡" },
         { name: "E-Wallet", emoji: "💳" },
+        { name: "Games", emoji: "🎮" },
         { name: "Paket TV", emoji: "📺" },
         { name: "Bayar Listrik", emoji: "💡" },
         { name: "Bayar BPJS", emoji: "🏥" },
@@ -83,6 +85,8 @@ export function handleMenuClick(menu) {
         menuTokenListrik(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "E-Wallet") {
         menuEwallet(extraButtons, operatorDisplay, operator);
+    } else if (menu.name === "Games") {
+        menuGames(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Paket TV") {
         menuPaketTv(extraButtons, operatorDisplay, operator);
     } else if (menu.name === "Bayar Listrik") {

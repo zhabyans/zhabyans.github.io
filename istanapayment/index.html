@@ -25,13 +25,13 @@
     <nav>
       <ul>
         <li>
-          <button class="big-icon-btn outline" id="logoutBtn" style="display:none;">📴</button>
+          <button class="big-icon-btn-menu outline" id="logoutBtn" style="display:none;">📴</button>
         </li>
       </ul>
       <ul>
-        <li><button class="outline" id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li>
-        <li><button class="big-icon-btn outline" id="refreshBtn">🔄</button></li>
-        <li><button class="big-icon-btn outline" id="toggleTheme">🌙</button></li>
+        <!-- <li><button class="outline" id="laporanTransaksiBtn" style="display:none;">Cek Transaksi</button></li> -->
+        <li><button class="big-icon-btn-menu outline" id="refreshBtn">🔄</button></li>
+        <li><button class="big-icon-btn-menu outline" id="toggleTheme">🌙</button></li>
       </ul>
     </nav>
   </header>
@@ -99,6 +99,22 @@
       <div id="modalButtons" class="modal-buttons"></div>
     </div>
   </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" id="navBottom">
+    <button class="nav-item" id="laporanTransaksiBtn"title="Riwayat">
+      <span class="nav-icon">📜</span>
+      <span class="nav-label">Riwayat</span>
+    </button>
+    <button class="nav-item active" id="navBeranda" title="Beranda">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Beranda</span>
+    </button>
+    <button class="nav-item" id="navAkun" title="Akun">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Akun</span>
+    </button>
+  </nav>
   <script type="module" src="app.js"></script>
 </body>
 

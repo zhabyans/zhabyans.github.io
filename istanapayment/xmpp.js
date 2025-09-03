@@ -11,6 +11,7 @@ export let loginLocked = false; // cegah spam login
 const ws_url = "wss://pulsa.dpdns.org:5443/ws"; // WebSocket 5443
 const saldoDisplay = document.getElementById("saldoDisplay");
 const homeDisplay = document.getElementById("homeDisplay");
+const navBottom = document.getElementById("navBottom");
 
 // Utility log
 function log(msg) {
@@ -58,6 +59,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 document.getElementById("masukDisplay").style.display = "block";
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
+                navBottom.style.display = "none";
                 document.getElementById("laporanTransaksiBtn").style.display = "none";
                 laporanTransaksiDisplay.style.display = "none";
                 break;
@@ -79,6 +81,7 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 connection.addHandler(notifikasiTransaksi, null, "message", "chat");
 
                 homeDisplay.style.display = "block";
+                navBottom.style.display = "flex";
                 showMenuKotak();
                 showLaporanTransaksi();
 

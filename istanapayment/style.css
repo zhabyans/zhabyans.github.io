@@ -52,6 +52,105 @@ header.container {
   color: white;
 }
 
+.big-icon-btn-menu {
+  font-size: 1.6rem;
+  padding: 0rem 0rem;
+  cursor: pointer;
+}
+
+/* ============== BOTTOM NAVIGATION ==================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+
+  background: var(--bottom-nav-bg);
+  border-top: 1px solid var(--bottom-nav-border);
+  color: var(--bottom-nav-text);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+
+  /* 🔹 Efek melayang */
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.nav-item {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: inherit;
+  height: 100%; /* isi penuh tinggi nav */
+  /* ikut warna teks tema */
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    color 0.1s ease,
+    transform 0.1s ease;
+}
+
+.nav-item .nav-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: transform 0.1s ease, text-shadow 0.1s ease;
+}
+
+.nav-item .nav-label {
+  font-size: 0.8rem;
+  margin-top: 2px;
+  transition: font-size 0.1s ease;
+}
+
+/* 🔹 State aktif */
+.nav-item.active {
+  color: var(--pico-primary);
+  font-weight: bold;
+  transform: scale(1.03);
+  /* sedikit lebih besar */
+}
+
+.nav-item.active .nav-icon {
+  font-size: 1.6rem;
+  /* lebih besar dari default */
+  text-shadow: 0 0 8px var(--pico-primary);
+  /* efek glow */
+  transform: scale(1.06);
+}
+
+.nav-item.active .nav-label {
+  font-size: 0.8rem;
+  /* sedikit lebih besar */
+}
+
+/* 🌞 Light mode */
+:root[data-theme="light"] {
+  --bottom-nav-bg: #f9f9fb; /* abu soft, bukan putih polos */
+  --bottom-nav-border: #e0e0e5;
+  --bottom-nav-text: #333;
+}
+
+/* 🌙 Dark mode */
+:root[data-theme="dark"] {
+  --bottom-nav-bg: #1e1e28; /* abu gelap lembut, bukan hitam pekat */
+  --bottom-nav-border: #2e2e3a;
+  --bottom-nav-text: #ddd;
+}
+
+
+
+/* ============== INI ADALAH PENGATURAN UNTUK HARGA ITEM ==================== */
 .harga-list {
   display: flex;
   flex-direction: column;
@@ -60,14 +159,12 @@ header.container {
 
 .harga-item:hover {
   background: var(--pico-muted-color);
-  color: white;
   cursor: pointer;
 }
 
-.big-icon-btn {
-  font-size: 1.6rem;
-  padding: 0rem 0rem;
-  cursor: pointer;
+/* Override inline warna ke putih */
+.harga-item:hover span {
+  color: white !important;
 }
 
 /* ============== INI ADALAH PENGATURAN UNTUK TOAST ==================== */

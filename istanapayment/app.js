@@ -3,6 +3,7 @@ import { normalizeInput, setupTogglePassword, preventTextSelectionAndContextMenu
 import { setupTheme } from "./tema.js";
 import { setupAuth } from "./auth.js";
 import { getKontak } from "./getKontak.js";
+import { navigasi } from "./navigasi.js";
 
 let domain = "pulsa.dpdns.org";
 
@@ -66,3 +67,5 @@ inputTujuan.addEventListener("input", () => {
 preventTextSelectionAndContextMenu();
 
 getKontak();
+
+navigasi();
