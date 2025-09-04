@@ -6,6 +6,9 @@ import { getKontak } from "./getKontak.js";
 import { navigasi } from "./navigasi.js";
 import { akunPage } from "./akunPage.js";
 
+
+navigasi();
+akunPage();
 let domain = "pulsa.dpdns.org";
 
 // Register Service Worker
@@ -32,9 +35,6 @@ if ("serviceWorker" in navigator) {
 }
 
 
-setupAuth(domain);
-
-setupTheme();
 
 // ----------------------
 // MENCEGAH KLIK KANAN
@@ -43,11 +43,13 @@ document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
-// ----------------------
-// TOMBOL REFRESH
-// ----------------------
-document.getElementById("refreshBtn")?.addEventListener("click", () => {
-  window.location.reload(); // reload seluruh halaman
+
+// tambahkan event listener ke semua tombol refresh
+document.querySelectorAll(".refreshBtn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    console.log("Refresh button clicked, reloading...");
+    window.location.reload(); // reload seluruh halaman
+  });
 });
 
 
@@ -69,5 +71,7 @@ preventTextSelectionAndContextMenu();
 
 getKontak();
 
-navigasi();
-akunPage();
+
+
+setupAuth(domain);
+setupTheme();

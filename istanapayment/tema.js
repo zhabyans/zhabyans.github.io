@@ -1,12 +1,10 @@
-// ----------------------
-// TEMA DARK / LIGHT
-// ----------------------
+// tema.js
 export function setupTheme() {
-    const toggleBtn = document.getElementById("toggleTheme");
+    const toggleBtns = document.querySelectorAll(".toggleThemeBtn"); // ambil semua tombol
     const htmlTag = document.documentElement;
     const themeMeta = document.getElementById("theme-color");
 
-    // cek preferensi dari localStorage dulu
+    // cek preferensi dari localStorage
     let savedTheme = localStorage.getItem("theme");
 
     if (savedTheme) {
@@ -22,32 +20,34 @@ export function setupTheme() {
         }
     }
 
-    // set status bar & tombol sesuai mode
-    updateUI();
-
-    toggleBtn.addEventListener("click", () => {
-        let currentTheme = htmlTag.getAttribute("data-theme");
-
-        if (currentTheme === "dark") {
-            htmlTag.setAttribute("data-theme", "light");
-            localStorage.setItem("theme", "light");
-        } else {
-            htmlTag.setAttribute("data-theme", "dark");
-            localStorage.setItem("theme", "dark");
-        }
-        updateUI();
-    });
-
+    // fungsi untuk update UI tombol & status bar
     function updateUI() {
         let theme = htmlTag.getAttribute("data-theme");
 
-        // update tombol
-        if (theme === "dark") {
-            toggleBtn.textContent = "☀️";
-            themeMeta.setAttribute("content", "#121212"); // status bar dark
-        } else {
-            toggleBtn.textContent = "🌙";
-            themeMeta.setAttribute("content", "#ffffff"); // status bar light
-        }
+        toggleBtns.forEach(btn => {
+            const icon = btn.querySelector(".akun-icon") || btn; // cari <span class="akun-icon"> kalau ada
+            if (theme === "dark") {
+                icon.textContent = "☀️";
+                themeMeta.setAttribute("content", "#121212"); // status bar dark
+            } else {
+                icon.textContent = "🌙";
+                themeMeta.setAttribute("content", "#ffffff"); // status bar light
+            }
+        });
     }
+
+
+    // pasang event listener di semua tombol
+    toggleBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            let currentTheme = htmlTag.getAttribute("data-theme");
+            let newTheme = currentTheme === "dark" ? "light" : "dark";
+            htmlTag.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
+            updateUI();
+        });
+    });
+
+    // pertama kali jalan langsung update tampilan
+    updateUI();
 }

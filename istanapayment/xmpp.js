@@ -55,18 +55,19 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 break;
             case Strophe.Status.DISCONNECTED:
                 console.log("Disconnected.");
-                document.getElementById("logoutBtn").style.display = "none";
-                document.getElementById("masukDisplay").style.display = "block";
+                // document.getElementById("logoutBtn").style.display = "none";
+                document.getElementById("formLogin").style.display = "block";
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
                 navBottom.style.display = "none";
                 laporanTransaksiDisplay.style.display = "none";
+                document.getElementById("akunDisplay").style.display = "none";
                 break;
             case Strophe.Status.CONNECTED:
                 console.log("Connected as " + connection.jid);
                 connection.send($pres());
-                document.getElementById("logoutBtn").style.display = "block";
-                document.getElementById("masukDisplay").style.display = "none";
+                // document.getElementById("logoutBtn").style.display = "block";
+                document.getElementById("formLogin").style.display = "none";
 
                 saveCredentials(jid, pass);
 

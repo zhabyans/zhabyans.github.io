@@ -1,5 +1,4 @@
 // file: akunPage.js
-
 export function akunPage() {
   const akunDisplay = document.getElementById("akunDisplay");
   akunDisplay.innerHTML = `
@@ -8,11 +7,11 @@ export function akunPage() {
         <span class="akun-icon">📴</span>
         <span class="akun-label">Keluar Akun</span>
       </button>
-      <button id="refreshBtn" class="akun-item">
+      <button class="akun-item refreshBtn">
         <span class="akun-icon">🔄</span>
         <span class="akun-label">Refresh Halaman</span>
       </button>
-      <button id="toggleTheme" class="akun-item">
+      <button class="akun-item toggleThemeBtn">
         <span class="akun-icon">🌙</span>
         <span class="akun-label">Tema Gelap/Terang</span>
       </button>

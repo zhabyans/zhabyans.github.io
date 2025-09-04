@@ -11,7 +11,7 @@ export function setupAuth(domain) {
     }
 
     // Event login manual
-    document.getElementById("masukDisplay").addEventListener("submit", function (e) {
+    document.getElementById("formLogin").addEventListener("submit", function (e) {
         e.preventDefault();
         const user = document.getElementById("akune").value;
         const pass = document.getElementById("paswote").value;
@@ -31,7 +31,7 @@ export function setupAuth(domain) {
         console.log("Loaded credentials from localStorage:", creds);
 
         const loadingDiv = document.getElementById("loading");
-        const masukDisplay = document.getElementById("masukDisplay");
+        const formLogin = document.getElementById("formLogin");
         const homeDisplay = document.getElementById("homeDisplay");
         const saldoDisplay = document.getElementById("saldoDisplay");
 
@@ -54,13 +54,13 @@ export function setupAuth(domain) {
             loadingDiv.style.display = "none";
             saldoDisplay.style.display = "none";
             homeDisplay.style.display = "none";
-            masukDisplay.style.display = "block";
+            formLogin.style.display = "block";
         }
     });
 
     // Event logout
     document.getElementById("logoutBtn").addEventListener("click", function () {
-        log("Manual logout.");
+        console.log("Manual logout.");
         if (connection) {
             connection.disconnect();
             clearCredentials();

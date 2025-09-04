@@ -21,19 +21,6 @@
 </head>
 
 <body>
-  <header class="container">
-    <nav>
-      <ul>
-        <li>
-          <button class="big-icon-btn-menu outline" id="logoutBtn" style="display:none;">📴</button>
-        </li>
-      </ul>
-      <ul>
-        <li><button class="big-icon-btn-menu outline" id="refreshBtn">🔄</button></li>
-        <li><button class="big-icon-btn-menu outline" id="toggleTheme">🌙</button></li>
-      </ul>
-    </nav>
-  </header>
   <main class="container">
     <article id="loading">
       <p>Mengecek data login...</p>
@@ -44,7 +31,7 @@
     </article>
 
     <!-- Form Login -->
-    <form id="masukDisplay" style="display:none;">
+    <form id="formLogin" style="display:none;">
       <label for="akune">Username</label>
       <input type="text" id="akune" autocomplete="off" name="satu">
 
@@ -90,8 +77,6 @@
       <div id="extraButtons" style="margin:0.5rem 0; display:none;"></div>
       <div id="menuGrid" class="menu-grid"></div>
     </article>
-
-
   </main>
 
   <div id="toast" class="toast"></div>

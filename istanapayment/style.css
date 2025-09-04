@@ -27,6 +27,12 @@ header.container {
   padding-right: 1rem;
 }
 
+main.container {
+  min-height: calc(100vh - 65px);
+  /* tinggi penuh layar dikurangi tinggi nav */
+  padding-bottom: 70px;
+}
+
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -102,8 +108,14 @@ header.container {
   right: 0;
   height: 65px;
 
-  background: var(--bottom-nav-bg);
-  border-top: 1px solid var(--bottom-nav-border);
+  /* 🔹 Glass effect */
+  background: rgba(255, 255, 255, 0.2);
+  /* transparan putih */
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  /* safari support */
+
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   color: var(--bottom-nav-text);
 
   display: flex;
@@ -111,11 +123,9 @@ header.container {
   align-items: center;
   z-index: 999;
 
-  /* 🔹 Efek melayang */
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(10px);
 }
 
 .nav-item {
@@ -176,18 +186,16 @@ header.container {
   --bottom-nav-bg: #f9f9fb;
   /* abu soft, bukan putih polos */
   --bottom-nav-border: #e0e0e5;
-  --bottom-nav-text: #333;
+  --bottom-nav-text: #222;
 }
 
 /* 🌙 Dark mode */
 :root[data-theme="dark"] {
-  --bottom-nav-bg: #1e1e28;
-  /* abu gelap lembut, bukan hitam pekat */
-  --bottom-nav-border: #2e2e3a;
+  --bottom-nav-bg: rgba(30, 30, 40, 0.5);
+  /* transparan gelap */
+  --bottom-nav-border: rgba(255, 255, 255, 0.2);
   --bottom-nav-text: #ddd;
 }
-
-
 
 /* ============== INI ADALAH PENGATURAN UNTUK HARGA ITEM ==================== */
 .harga-list {
