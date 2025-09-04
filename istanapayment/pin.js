@@ -1,3 +1,4 @@
+//file pin.js
 const pinOverlay = document.getElementById("pinOverlay");
 const pinMessage = document.getElementById("pinMessage");
 const circles = document.querySelectorAll(".pinCircle");
@@ -35,20 +36,53 @@ function resetPinInput() {
     updateCircles();
 }
 
+function fadeOutOverlay(callback) {
+    pinOverlay.classList.add("fade-out");
+
+    // tunggu animasi selesai sebelum menjalankan callback
+    pinOverlay.addEventListener("animationend", () => {
+        pinOverlay.style.display = "none"; // sembunyikan overlay
+        document.querySelector("main.container").style.display = "block";
+        if (callback) callback();
+    }, { once: true });
+}
+
+
 // cek PIN
 export function checkPin() {
+    animateButtons()
     if (pinInput.length !== 6) return; // ❌ jangan cek jika belum 6 digit
 
     const storedPin = getStoredPin(); // ambil terbaru
     if (!storedPin) return; // aman jika PIN belum ada
     if (btoa(pinInput) === storedPin) {
-        pinOverlay.style.display = "none";
-        document.querySelector("main.container").style.display = "block";
+        fadeOutOverlay(); // <-- panggil animasi fade-out
+        // pinOverlay.style.display = "none";
+        // document.querySelector("main.container").style.display = "block";
     } else {
         pinMessage.textContent = "PIN salah, coba lagi";
+        shakeMessage(); // <-- getar
         resetPinInput();
     }
 }
+
+function shakeMessage() {
+    pinMessage.classList.remove("shake"); // reset jika sebelumnya sudah ada
+    void pinMessage.offsetWidth; // trigger reflow agar animasi bisa diulang
+    pinMessage.classList.add("shake");
+}
+
+function animateButtons() {
+    buttons.forEach((btn, index) => {
+        btn.style.animationDelay = `${index * 0.1}s`; // 0.1s per tombol
+        btn.classList.remove("animated"); // reset jika sebelumnya
+        void btn.offsetWidth; // trigger reflow
+        btn.classList.add("animated"); // menambahkan kelas supaya animasi dijalankan
+    });
+}
+
+// Panggil ini saat overlay PIN ditampilkan
+
 
 
 // tombol diklik
@@ -73,12 +107,14 @@ buttons.forEach(btn => {
                             localStorage.setItem("appPin", btoa(pinInput));
                             pinMessage.textContent = "PIN berhasil dibuat!";
                             setTimeout(() => {
-                                pinOverlay.style.display = "none";
-                                document.querySelector("main.container").style.display = "block";
+                                fadeOutOverlay(); // <-- panggil animasi fade-out
+                                // pinOverlay.style.display = "none";
+                                // document.querySelector("main.container").style.display = "block";
                             }, 2000);
                         } else {
                             pinMessage.textContent = "PIN tidak cocok, coba lagi";
                             pinStep = "set";
+                            shakeMessage(); // <-- getar
                             resetPinInput();
                         }
                     }

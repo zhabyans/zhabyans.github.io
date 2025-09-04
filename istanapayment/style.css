@@ -86,6 +86,9 @@ main.container {
 }
 
 .pinPad button {
+  opacity: 0;
+  /* awalnya tersembunyi */
+  animation: fallIn 0.4s forwards;
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -101,6 +104,66 @@ main.container {
   background: rgba(255, 255, 255, 0.3);
 }
 
+/* Getaran untuk PIN salah */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-5px);
+  }
+
+  40% {
+    transform: translateX(5px);
+  }
+
+  60% {
+    transform: translateX(-5px);
+  }
+
+  80% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Animasi fade-in turun */
+@keyframes fallIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+/* Animasi fade-out dan sedikit mengecil ala iOS */
+@keyframes fadeOutScale {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+.fade-out {
+  animation: fadeOutScale 0.5s forwards;
+}
 
 
 /* ============== INI ADALAH PENGATURAN UNTUK MENU ==================== */
