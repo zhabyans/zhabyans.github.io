@@ -5,7 +5,7 @@ import { setupAuth } from "./auth.js";
 import { getKontak } from "./getKontak.js";
 import { navigasi } from "./navigasi.js";
 import { akunPage } from "./akunPage.js";
-
+import { navigasiKeyboard } from "./navigasiKeyboard.js";
 
 navigasi();
 akunPage();
@@ -75,3 +75,4 @@ getKontak();
 
 setupAuth(domain);
 setupTheme();
+navigasiKeyboard();
