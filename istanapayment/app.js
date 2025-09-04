@@ -6,6 +6,7 @@ import { getKontak } from "./getKontak.js";
 import { navigasi } from "./navigasi.js";
 import { akunPage } from "./akunPage.js";
 import { navigasiKeyboard } from "./navigasiKeyboard.js";
+import { checkPin } from "./pin.js";
 
 navigasi();
 akunPage();
@@ -33,8 +34,6 @@ if ("serviceWorker" in navigator) {
       .catch((err) => console.log("Service Worker failed:", err));
   });
 }
-
-
 
 // ----------------------
 // MENCEGAH KLIK KANAN
@@ -70,9 +69,13 @@ inputTujuan.addEventListener("input", () => {
 preventTextSelectionAndContextMenu();
 
 getKontak();
-
-
-
 setupAuth(domain);
 setupTheme();
 navigasiKeyboard();
+
+document.addEventListener('gesturestart', function (e) {
+  e.preventDefault();
+});
+
+checkPin();
+

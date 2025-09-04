@@ -55,7 +55,6 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 break;
             case Strophe.Status.DISCONNECTED:
                 console.log("Disconnected.");
-                // document.getElementById("logoutBtn").style.display = "none";
                 document.getElementById("formLogin").style.display = "block";
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
@@ -65,8 +64,11 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 break;
             case Strophe.Status.CONNECTED:
                 console.log("Connected as " + connection.jid);
-                connection.send($pres());
-                // document.getElementById("logoutBtn").style.display = "block";
+                // connection.send($pres());
+                // Kirim presence dengan priority
+                connection.send(
+                    $pres().c("priority").t("127") // 🔹 priority = 127
+                );
                 document.getElementById("formLogin").style.display = "none";
 
                 saveCredentials(jid, pass);
