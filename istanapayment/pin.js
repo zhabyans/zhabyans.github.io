@@ -8,77 +8,87 @@ let pinInput = "";
 let pinStep = "check"; // "check", "set", "confirm"
 let tempPin = "";
 
-const storedPin = localStorage.getItem("appPin");
+// ✅ fungsi untuk ambil PIN terbaru dari localStorage
+function getStoredPin() {
+    return localStorage.getItem("appPin");
+}
 
-if (!storedPin) {
-  pinStep = "set";
-  pinMessage.textContent = "Buat PIN 6 digit";
+// Set pesan awal sesuai kondisi terbaru
+if (!getStoredPin()) {
+    pinStep = "set";
+    pinMessage.textContent = "Buat PIN 6 digit";
 } else {
-  pinStep = "check";
-  pinMessage.textContent = "Masukkan PIN";
+    pinStep = "check";
+    pinMessage.textContent = "Masukkan PIN Anda";
 }
 
 // update tampilan lingkaran
 function updateCircles() {
-  circles.forEach((c, i) => {
-    c.classList.toggle("filled", i < pinInput.length);
-  });
+    circles.forEach((c, i) => {
+        c.classList.toggle("filled", i < pinInput.length);
+    });
 }
 
 // reset input
 function resetPinInput() {
-  pinInput = "";
-  updateCircles();
+    pinInput = "";
+    updateCircles();
 }
 
 // cek PIN
 export function checkPin() {
-  if (btoa(pinInput) === storedPin) {
-    pinOverlay.style.display = "none";
-    document.querySelector("main.container").style.display = "block";
-  } else {
-    pinMessage.textContent = "PIN salah, coba lagi";
-    resetPinInput();
-  }
+    if (pinInput.length !== 6) return; // ❌ jangan cek jika belum 6 digit
+
+    const storedPin = getStoredPin(); // ambil terbaru
+    if (!storedPin) return; // aman jika PIN belum ada
+    if (btoa(pinInput) === storedPin) {
+        pinOverlay.style.display = "none";
+        document.querySelector("main.container").style.display = "block";
+    } else {
+        pinMessage.textContent = "PIN salah, coba lagi";
+        resetPinInput();
+    }
 }
+
 
 // tombol diklik
 buttons.forEach(btn => {
-  if (btn.id === "pinBack") return;
-  btn.addEventListener("click", () => {
-    if (pinInput.length < 6) {
-      pinInput += btn.textContent;
-      updateCircles();
-      if (pinInput.length === 6) {
-        setTimeout(() => {
-          if (pinStep === "check") {
-            checkPin();
-          } else if (pinStep === "set") {
-            tempPin = pinInput;
-            pinStep = "confirm";
-            pinMessage.textContent = "Konfirmasi PIN 6 digit";
-            resetPinInput();
-          } else if (pinStep === "confirm") {
-            if (pinInput === tempPin) {
-              localStorage.setItem("appPin", btoa(pinInput));
-              pinMessage.textContent = "PIN berhasil dibuat!";
-              setTimeout(() => {
-                pinOverlay.style.display = "none";
-                document.querySelector("main.container").style.display = "block";
-              }, 500);
-            } else {
-              pinMessage.textContent = "PIN tidak cocok, coba lagi";
-              pinStep = "set";
-              resetPinInput();
+    if (btn.id === "pinBack") return;
+    btn.addEventListener("click", () => {
+        if (pinInput.length < 6) {
+            pinInput += btn.textContent;
+            updateCircles();
+
+            if (pinInput.length === 6) {
+                setTimeout(() => {
+                    if (pinStep === "check") {
+                        checkPin();
+                    } else if (pinStep === "set") {
+                        tempPin = pinInput;
+                        pinStep = "confirm";
+                        pinMessage.textContent = "Konfirmasi PIN 6 digit";
+                        resetPinInput();
+                    } else if (pinStep === "confirm") {
+                        if (pinInput === tempPin) {
+                            localStorage.setItem("appPin", btoa(pinInput));
+                            pinMessage.textContent = "PIN berhasil dibuat!";
+                            setTimeout(() => {
+                                pinOverlay.style.display = "none";
+                                document.querySelector("main.container").style.display = "block";
+                            }, 2000);
+                        } else {
+                            pinMessage.textContent = "PIN tidak cocok, coba lagi";
+                            pinStep = "set";
+                            resetPinInput();
+                        }
+                    }
+                }, 200);
             }
-          }
-        }, 200);
-      }
-    }
-  });
+        }
+    });
 });
 
 backBtn.addEventListener("click", () => {
-  pinInput = pinInput.slice(0, -1);
-  updateCircles();
+    pinInput = pinInput.slice(0, -1);
+    updateCircles();
 });
