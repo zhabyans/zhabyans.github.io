@@ -1,8 +1,7 @@
 // file: printStruk.js
-import { hargaJualMap } from "./hargaJualMap.js";
 import { showToast } from "./utils.js";
 
-export async function printStruk(parsed, tanggal) {
+export async function printStruk(parsed, tanggal, hargaJual) {
     try {
         let jenisProduk = "PRODUK DIGITAL";
 
@@ -27,12 +26,11 @@ export async function printStruk(parsed, tanggal) {
         }
 
         // harga jual dari mapping, fallback ke harga modal
-        const harga = hargaJualMap[parsed.kode.toLowerCase()]
-            ?? (parseInt(parsed.harga?.replace(/\./g, ""), 10) || 0);
+        const harga = hargaJual;
 
         // Admin hanya untuk PLN Pascabayar
         const admin = /^pln/i.test(parsed.kode) ? 3000 : 0;
-        const total = harga + admin;
+        const total = hargaJual + admin;
 
         const namaAgen = localStorage.getItem("nama_agen") || "";
 

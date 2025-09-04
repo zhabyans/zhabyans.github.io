@@ -1,22 +1,15 @@
-// file klikDetailLaporan.js
+// file: klikDetailLaporan.js
 import { showModalCustom } from "./modal.js";
 import { normalizeRupiah } from "./utils.js";
-import { printStruk } from "./printStruk.js"; // import fungsi print
-import { hargaJualMap } from "./hargaJualMap.js";
+import { printStruk } from "./printStruk.js";
+import { getHargaJual } from "./hargaJualMap.js";
 
 export async function klikDetailLaporan(parsed, tanggal) {
     const hargaModal = normalizeRupiah(parsed.harga);
-
-    // normalisasi kode jadi lowercase supaya aman
     const kode = parsed.kode ? parsed.kode.toLowerCase() : "";
 
-    // tentukan harga jual
-    let hargaJual;
-    if (hargaJualMap[kode]) {
-        hargaJual = hargaJualMap[kode];
-    } else {
-        hargaJual = hargaModal; // fallback default
-    }
+    // hitung harga jual pakai aturan baru
+    const hargaJual = getHargaJual(kode, hargaModal);
 
     const keuntungan = hargaJual - hargaModal;
 
@@ -40,7 +33,7 @@ export async function klikDetailLaporan(parsed, tanggal) {
             {
                 text: "Bagikan",
                 className: "modal-ok",
-                onClick: () => printStruk(parsed, tanggal)
+                onClick: () => printStruk(parsed, tanggal, hargaJual)
             },
             {
                 text: "Komplain",
