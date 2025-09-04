@@ -84,6 +84,11 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 showMenuKotak();
                 showLaporanTransaksi();
 
+                // 🔹 Reset navigasi ke Beranda
+                const navButtons = document.querySelectorAll(".bottom-nav .nav-item");
+                navButtons.forEach(b => b.classList.remove("active"));
+                document.getElementById("navBeranda").classList.add("active");
+
                 if (sudahKonek) sudahKonek(); // panggil callback jika ada
                 break;
 

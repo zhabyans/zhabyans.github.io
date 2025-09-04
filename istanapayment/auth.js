@@ -1,3 +1,4 @@
+//file auth.js
 import { showToast } from "./utils.js";
 import { connection, connectXMPP, log, clearCredentials } from "./xmpp.js";
 export function setupAuth(domain) {
