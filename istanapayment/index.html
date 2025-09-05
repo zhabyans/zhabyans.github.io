@@ -70,10 +70,30 @@
 
       <button class="outline" type="submit">Login</button>
       <!-- Button baru untuk registrasi -->
-      <button class="outline" type="button" style="margin-top:10px; width:100%;"
-        onclick="window.location.href='https://pulsa.dpdns.org:5443/reg/'">
+      <button class="outline" type="button" style="margin-top:10px; width:100%;" id="showRegister">
         Buat Akun
       </button>
+
+    </form>
+
+    <!-- Form Register -->
+    <form id="formRegister" style="display:none; margin-top:20px;" autocomplete="off">
+      <label for="regUser">Username
+        <small style="color: rgb(1, 170, 219);">(contoh username jon789)</small>
+      </label>
+      <input type="text" id="regUser" autocomplete="off" required>
+      <p id="regWarning" style="color:red; display:none; font-size:0.9em;"></p>
+
+      <label for="regPass">Password</label>
+      <input type="password" id="regPass" autocomplete="new-password" required>
+
+      <label for="regPass2">Ulangi Password</label>
+      <input type="password" id="regPass2" autocomplete="new-password" required>
+      <p id="passWarning" style="color:red; display:none; font-size:0.9em;"></p>
+
+      <button type="submit" style="margin-top:10px; width:100%;">Buat Akun Sekarang</button>
+      <button type="button" id="backToLogin" class="outline" style="margin-top:10px; width:100%;">Kembali ke
+        Login</button>
     </form>
 
     <!-- 📌 Laporan Transaksi di artikel terpisah -->

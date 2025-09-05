@@ -52,6 +52,7 @@ main.container {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  display: none;
 }
 
 #pinOverlay h2 {

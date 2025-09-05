@@ -107,14 +107,12 @@ buttons.forEach(btn => {
                             localStorage.setItem("appPin", btoa(pinInput));
                             pinMessage.textContent = "PIN berhasil dibuat!";
                             setTimeout(() => {
-                                fadeOutOverlay(); // <-- panggil animasi fade-out
-                                // pinOverlay.style.display = "none";
-                                // document.querySelector("main.container").style.display = "block";
+                                fadeOutOverlay(); 
                             }, 2000);
                         } else {
                             pinMessage.textContent = "PIN tidak cocok, coba lagi";
                             pinStep = "set";
-                            shakeMessage(); // <-- getar
+                            shakeMessage(); 
                             resetPinInput();
                         }
                     }

@@ -1,3 +1,4 @@
+//file xmpp.js
 import { getDataAkun } from "./getDataAkun.js";
 import { showMenuKotak } from "./showMenuKotak.js";
 import { showLaporanTransaksi } from "./showLaporanTransaksi.js";
@@ -5,6 +6,7 @@ import { laporanHandler } from "./showLaporanTransaksi.js";
 import { menuHandler } from "./showMenuKotak.js";
 import { kirimPesan } from "./xmppHelper.js";
 import { notifikasiTransaksi } from "./notifikasiTransaksi.js";
+import { checkPin } from "./pin.js";
 
 export let connection = null;
 export let loginLocked = false; // cegah spam login
@@ -90,7 +92,8 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 const navButtons = document.querySelectorAll(".bottom-nav .nav-item");
                 navButtons.forEach(b => b.classList.remove("active"));
                 document.getElementById("navBeranda").classList.add("active");
-
+                document.getElementById("pinOverlay").style.display = "flex";
+                checkPin();
                 if (sudahKonek) sudahKonek(); // panggil callback jika ada
                 break;
 

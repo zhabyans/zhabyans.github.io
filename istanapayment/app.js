@@ -6,7 +6,7 @@ import { getKontak } from "./getKontak.js";
 import { navigasi } from "./navigasi.js";
 import { akunPage } from "./akunPage.js";
 import { navigasiKeyboard } from "./navigasiKeyboard.js";
-import { checkPin } from "./pin.js";
+import { setupRegister } from "./register.js";
 
 navigasi();
 akunPage();
@@ -70,12 +70,11 @@ preventTextSelectionAndContextMenu();
 
 getKontak();
 setupAuth(domain);
+setupRegister(domain);
 setupTheme();
 navigasiKeyboard();
 
 document.addEventListener('gesturestart', function (e) {
   e.preventDefault();
 });
-
-checkPin();
 
