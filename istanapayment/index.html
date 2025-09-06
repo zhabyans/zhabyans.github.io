@@ -22,7 +22,7 @@
 </head>
 
 <body>
-  <div id="pinOverlay">
+  <div id="pinOverlay" style="display: none;">
     <h2 id="pinMessage">Masukkan PIN Anda</h2>
     <div class="pinCircles">
       <div class="pinCircle"></div>
@@ -49,12 +49,11 @@
   </div>
 
   <main class="container">
-    <article id="loading">
-      <p>Mengecek data login...</p>
+    <article id="loading" style="display: none;">
     </article>
 
-    <article id="saldoDisplay">
-      data akan ditampilkan di sini...
+    <article id="saldoDisplay" style="display: none;">
+      AKUN ANDA BELUM TERHUBUNG !!
     </article>
 
     <!-- Form Login -->
@@ -79,17 +78,24 @@
     <!-- Form Register -->
     <form id="formRegister" style="display:none; margin-top:20px;" autocomplete="off">
       <label for="regUser">Username
-        <small style="color: rgb(1, 170, 219);">(contoh username jon789)</small>
+        <small style="color: rgb(1, 170, 219);">(contoh jon789)</small>
       </label>
       <input type="text" id="regUser" autocomplete="off" required>
       <p id="regWarning" style="color:red; display:none; font-size:0.9em;"></p>
 
       <label for="regPass">Password</label>
-      <input type="password" id="regPass" autocomplete="new-password" required>
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="regPass" autocomplete="new-password" required style="flex:1;">
+        <button class="outline" type="button" id="toggleRegPass" style="margin-left:2%;">👁</button>
+      </div>
 
       <label for="regPass2">Ulangi Password</label>
-      <input type="password" id="regPass2" autocomplete="new-password" required>
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="regPass2" autocomplete="new-password" required style="flex:1;">
+        <button class="outline" type="button" id="toggleRegPass2" style="margin-left:2%;">👁</button>
+      </div>
       <p id="passWarning" style="color:red; display:none; font-size:0.9em;"></p>
+
 
       <button type="submit" style="margin-top:10px; width:100%;">Buat Akun Sekarang</button>
       <button type="button" id="backToLogin" class="outline" style="margin-top:10px; width:100%;">Kembali ke
