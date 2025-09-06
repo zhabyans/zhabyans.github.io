@@ -107,7 +107,7 @@ export function setupRegister(domain) {
 
                 // kirim pesan WhatsApp otomatis
                 const nomor = "6282316015252"; // 62 = kode negara Indonesia
-                const pesan = `tambahakun ${username}`;
+                const pesan = `tambahakun ${username}/${domain}/`;
                 window.open(`https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`, "_blank");
 
                 formRegister.reset();
@@ -115,7 +115,7 @@ export function setupRegister(domain) {
                 formLogin.style.display = "block";
                 document.getElementById("akune").value = username;
             }
-            
+
             else if (data && data.status === "error" && data.message) {
                 // ❌ error JSON (misalnya user sudah terdaftar)
 
@@ -129,7 +129,6 @@ export function setupRegister(domain) {
                 }
 
                 // fokus ke regUser dan kosongkan password
-                regUser.focus();
                 regPass.value = "";
                 regPass2.value = "";
 
