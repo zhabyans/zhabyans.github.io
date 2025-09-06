@@ -107,7 +107,7 @@ export function setupRegister(domain) {
 
                 // kirim pesan WhatsApp otomatis
                 const nomor = "6282316015252"; // 62 = kode negara Indonesia
-                const pesan = `tambahakun ${username}/${domain}/`;
+                const pesan = `tambahakun ${username}@${domain}/`;
                 window.open(`https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`, "_blank");
 
                 formRegister.reset();
