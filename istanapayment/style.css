@@ -51,7 +51,6 @@ main.container {
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  display: none;
 }
 
 #pinOverlay h2 {
@@ -449,16 +448,30 @@ main.container {
   display: flex;
   justify-content: space-around;
   gap: 1rem;
+  flex-wrap: wrap; /* biar bisa turun ke bawah */
 }
 
 .modal-buttons button {
-  flex: 1;
+  flex: 1 1 auto;
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
   font-weight: bold;
   transition: background 0.2s;
+  min-width: 100px; /* biar nggak terlalu kecil */
+}
+
+/* Atur layout tombol di layar kecil */
+@media (max-width: 480px) {
+  .modal-buttons {
+    flex-direction: column;
+    align-items: stretch; /* tombol full lebar */
+  }
+
+  .modal-buttons button {
+    width: 100%;
+  }
 }
 
 .modal-ok {

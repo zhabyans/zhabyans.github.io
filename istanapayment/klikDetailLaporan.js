@@ -1,8 +1,9 @@
 // file: klikDetailLaporan.js
 import { showModalCustom } from "./modal.js";
 import { normalizeRupiah } from "./utils.js";
-import { printStruk } from "./printStruk.js";
+import { shareStruk } from "./shareStruk.js";
 import { getHargaJual } from "./hargaJualMap.js";
+import { printThermalStruk } from "./printThermal.js"; // ⬅️ import baru
 
 export async function klikDetailLaporan(parsed, tanggal) {
     const hargaModal = normalizeRupiah(parsed.harga);
@@ -33,7 +34,7 @@ export async function klikDetailLaporan(parsed, tanggal) {
             {
                 text: "Bagikan",
                 className: "modal-ok",
-                onClick: () => printStruk(parsed, tanggal, hargaJual)
+                onClick: () => shareStruk(parsed, tanggal, hargaJual)
             },
             {
                 text: "Komplain",
@@ -54,7 +55,12 @@ Terima kasih.
                 }
             },
             {
-                text: "Close dulu",
+                text: "Print",
+                className: "modal-ok",
+                onClick: () => printThermalStruk(parsed, tanggal, hargaJual)
+            },
+            {
+                text: "Close",
                 className: "modal-ok",
                 onClick: () => console.log("Set Harga Jual:", parsed)
             }

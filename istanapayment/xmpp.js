@@ -10,7 +10,8 @@ import { checkPin } from "./pin.js";
 
 export let connection = null;
 export let loginLocked = false; // cegah spam login
-const ws_url = "wss://pulsa.dpdns.org:5443/ws"; // WebSocket 5443
+// const ws_url = "wss://pulsa.dpdns.org:5443/ws"; // WebSocket 5443
+const ws_url = "wss://5.78.73.218:7443/ws"; // WebSocket 7443
 const saldoDisplay = document.getElementById("saldoDisplay");
 const homeDisplay = document.getElementById("homeDisplay");
 const navBottom = document.getElementById("navBottom");

@@ -10,8 +10,8 @@ import { setupRegister } from "./register.js";
 
 navigasi();
 akunPage();
-let domain = "pulsa.dpdns.org";
-
+let domain = "5.78.73.218";
+console.log("test ini : " + Strophe.Connection.prototype.register); // undefined biasanya, plugin nambah
 // Register Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
