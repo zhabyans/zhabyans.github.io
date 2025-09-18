@@ -5,7 +5,7 @@ export function setupRegister(domain) {
 
     const formLogin = document.getElementById("formLogin");
     const formRegister = document.getElementById("formRegister");
-    const btnShowRegister = document.getElementById("showRegister");
+    // const btnShowRegister = document.getElementById("showRegister");
     const btnBack = document.getElementById("backToLogin");
 
     const regUser = document.getElementById("regUser");
@@ -19,10 +19,10 @@ export function setupRegister(domain) {
     setupTogglePassword(document.getElementById("toggleRegPass2"), regPass2);
 
     // 🔹 tampilkan form register
-    btnShowRegister.addEventListener("click", () => {
-        formLogin.style.display = "none";
-        formRegister.style.display = "block";
-    });
+    // btnShowRegister.addEventListener("click", () => {
+    //     formLogin.style.display = "none";
+    //     formRegister.style.display = "block";
+    // });
 
     // 🔹 kembali ke login
     btnBack.addEventListener("click", () => {
