@@ -20,4 +20,24 @@ export function navigasiKeyboard() {
   viewport.addEventListener("scroll", updatePosition);
 }
 
-document.addEventListener("DOMContentLoaded", navigasiKeyboard);
+// 🔹 Tambahkan fungsi baru untuk toast
+export function navigasiToast() {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+
+  const viewport = window.visualViewport;
+
+  function updatePosition() {
+    const centerY = viewport.height / 2 + viewport.offsetTop;
+    toast.style.top = centerY + "px";
+  }
+
+  viewport.addEventListener("resize", updatePosition);
+  viewport.addEventListener("scroll", updatePosition);
+  updatePosition(); // jalankan pertama kali
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  navigasiKeyboard();
+  navigasiToast();   // 🔹 aktifkan untuk toast
+});

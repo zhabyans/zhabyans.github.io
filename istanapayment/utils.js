@@ -1,4 +1,3 @@
-let toastTimeout = null; // global untuk mengontrol hide toast
 
 // fungsi buat tombol reusable
 export function createButton(label, onClick) {
@@ -9,6 +8,7 @@ export function createButton(label, onClick) {
   return btn;
 }
 
+let toastTimeout = null; // global untuk mengontrol hide toast
 export function showToast(message, type = "error", durasi = 3000) {
   const toast = document.getElementById("toast");
   if (!toast) return;

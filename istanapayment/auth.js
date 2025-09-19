@@ -15,7 +15,7 @@ export function setupAuth(domain) {
     document.getElementById("formLogin").addEventListener("submit", function (e) {
         e.preventDefault();
         const loginBtn = this.querySelector('button[type="submit"]'); // tombol Login
-        const user = document.getElementById("akune").value;
+        const user = document.getElementById("akune").value.toLowerCase();
         const pass = document.getElementById("paswote").value;
 
         if (!user || !pass) {

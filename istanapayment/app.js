@@ -5,7 +5,7 @@ import { setupAuth } from "./auth.js";
 import { getKontak } from "./getKontak.js";
 import { navigasi } from "./navigasi.js";
 import { akunPage } from "./akunPage.js";
-import { navigasiKeyboard } from "./navigasiKeyboard.js";
+import { navigasiKeyboard, navigasiToast } from "./navigasiKeyboard.js";
 import { setupRegister } from "./register.js";
 
 navigasi();
@@ -24,7 +24,7 @@ if ("serviceWorker" in navigator) {
           newWorker.onstatechange = () => {
             if (newWorker.state === "installed") {
               if (navigator.serviceWorker.controller) {
-                showToast("Versi baru tersedia, silakan refresh halaman!", "success");
+                showToast("Versi baru tersedia\nsilakan keluar lalu masuk lagi!", "success");
                 setTimeout(() => window.location.reload(), 1500);
               }
             }
@@ -73,6 +73,7 @@ setupAuth(domain);
 setupRegister(domain);
 setupTheme();
 navigasiKeyboard();
+navigasiToast();
 
 document.addEventListener('gesturestart', function (e) {
   e.preventDefault();
