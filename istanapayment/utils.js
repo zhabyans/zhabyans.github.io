@@ -87,3 +87,21 @@ export function preventTextSelectionAndContextMenu() {
     e.preventDefault();
   });
 }
+
+export function showLoadingModal() {
+    document.getElementById("loadingModal").style.display = "flex";
+    updateProgress(0);
+}
+
+export function hideLoadingModal() {
+    document.getElementById("loadingModal").style.display = "none";
+}
+
+export function updateProgress(val) {
+    const progress = document.getElementById("loginProgress");
+    const text = document.getElementById("loginProgressText");
+    if (progress && text) {
+        progress.value = val;
+        text.textContent = val + "%";
+    }
+}

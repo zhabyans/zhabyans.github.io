@@ -1,5 +1,5 @@
 //file auth.js
-import { showToast } from "./utils.js";
+import { showToast, showLoadingModal, updateProgress } from "./utils.js";
 import { connection, connectXMPP, log, clearCredentials } from "./xmpp.js";
 export function setupAuth(domain) {
 
@@ -14,6 +14,7 @@ export function setupAuth(domain) {
     // Event login manual
     document.getElementById("formLogin").addEventListener("submit", function (e) {
         e.preventDefault();
+        const loginBtn = this.querySelector('button[type="submit"]'); // tombol Login
         const user = document.getElementById("akune").value;
         const pass = document.getElementById("paswote").value;
 
@@ -22,8 +23,22 @@ export function setupAuth(domain) {
             return;
         }
 
+        // 🔹 Disable tombol login, tunggu sampai unlock event
+        loginBtn.disabled = true;
+        loginBtn.textContent = "Tunggu...";
+
         const jid = user + "@" + domain;
+        showLoadingModal();
         connectXMPP(jid, pass);
+    });
+
+    // 🔹 Listener: aktifkan tombol login saat xmpp.js bilang unlocked
+    window.addEventListener("loginUnlocked", () => {
+        const loginBtn = document.querySelector('#formLogin button[type="submit"]');
+        if (loginBtn) {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Login";
+        }
     });
 
     // Auto login jika ada data tersimpan
@@ -43,6 +58,10 @@ export function setupAuth(domain) {
             // Isi otomatis ke input
             document.getElementById("akune").value = creds.jid.split("@")[0];
             document.getElementById("paswote").value = creds.pass;
+
+            // 🔹 Tampilkan loading modal & reset progress
+            showLoadingModal();
+            updateProgress(0);
 
             // Tetap tampil loading sampai status CONNECTED
             connectXMPP(creds.jid, creds.pass, () => {

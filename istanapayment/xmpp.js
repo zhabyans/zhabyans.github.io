@@ -7,6 +7,7 @@ import { menuHandler } from "./showMenuKotak.js";
 import { kirimPesan } from "./xmppHelper.js";
 import { notifikasiTransaksi } from "./notifikasiTransaksi.js";
 import { checkPin } from "./pin.js";
+import { showToast, updateProgress, hideLoadingModal } from "./utils.js";
 
 export let connection = null;
 export let loginLocked = false; // cegah spam login
@@ -44,20 +45,26 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
     }
 
     connection = new Strophe.Connection(ws_url);
+
     connection.connect(jid + "/", pass, function (status) {
         console.log("[DEBUG] Strophe status:", status);
         switch (status) {
             case Strophe.Status.CONNECTING:
                 console.log("Connecting...");
+                updateProgress(50);
                 break;
             case Strophe.Status.CONNFAIL:
                 console.log("Connection failed.");
+                updateProgress(100);
+                hideLoadingModal();
                 break;
             case Strophe.Status.DISCONNECTING:
                 console.log("Disconnecting...");
                 break;
             case Strophe.Status.DISCONNECTED:
                 console.log("Disconnected.");
+                updateProgress(0);
+                hideLoadingModal();
                 document.getElementById("formLogin").style.display = "block";
                 saldoDisplay.style.display = "none";
                 homeDisplay.style.display = "none";
@@ -67,8 +74,8 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 break;
             case Strophe.Status.CONNECTED:
                 console.log("Connected as " + connection.jid);
-                // connection.send($pres());
-                // Kirim presence dengan priority
+                updateProgress(100);
+                hideLoadingModal();
                 connection.send(
                     $pres().c("priority").t("127") // 🔹 priority = 127
                 );
@@ -95,19 +102,25 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 document.getElementById("navBeranda").classList.add("active");
                 document.getElementById("pinOverlay").style.display = "flex";
                 checkPin();
+                window.dispatchEvent(new Event("loginUnlocked"));
                 if (sudahKonek) sudahKonek(); // panggil callback jika ada
                 break;
 
             case Strophe.Status.AUTHFAIL:
                 console.log("Authentication failed.");
                 clearCredentials();
-
+                showToast("Login Gagal\nPeriksa Username dan Password!", "error");
+                updateProgress(100);
+                hideLoadingModal();
                 loginLocked = true;
                 setTimeout(() => {
                     loginLocked = false;
                     console.log("Login unlocked, you can try again.");
+                    // 🔹 Trigger event supaya auth.js tahu
+                    window.dispatchEvent(new Event("loginUnlocked"));
                 }, 5000);
                 break;
+
             case Strophe.Status.ATTACHED:
                 console.log("Attached.");
                 break;
