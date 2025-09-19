@@ -6,7 +6,7 @@ import { connection } from "./xmpp.js";
  * @param {string} isiPesan - isi pesan
  * @param {string} to - tujuan (default user1)
  */
-export function kirimPesan(isiPesan, to = "user1@istanapay.com") {
+export function kirimPesan(isiPesan, to = "user1@pulsa.dpdns.org") {
     if (!connection) {
         console.warn("XMPP connection belum tersedia.");
         return;
