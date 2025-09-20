@@ -11,7 +11,6 @@ import { setupRegister } from "./register.js";
 navigasi();
 akunPage();
 let domain = "pulsa.dpdns.org";
-console.log("test ini : " + Strophe.Connection.prototype.register); // undefined biasanya, plugin nambah
 // Register Service Worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -77,5 +76,51 @@ navigasiToast();
 
 document.addEventListener('gesturestart', function (e) {
   e.preventDefault();
+});
+
+let backPressedOnce = false;
+let backPressTimer = null;
+
+function showExitToast() {
+  // bikin toast sederhana (atau pakai toast kamu sendiri)
+  const toast = document.createElement("div");
+  toast.textContent = "Tekan sekali lagi untuk keluar";
+  toast.style.position = "fixed";
+  toast.style.bottom = "60px";
+  toast.style.left = "50%";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.background = "#333";
+  toast.style.color = "#fff";
+  toast.style.padding = "10px 20px";
+  toast.style.borderRadius = "8px";
+  toast.style.zIndex = "9999";
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.remove(), 1500);
+}
+
+// pasang event listener
+window.addEventListener("popstate", (e) => {
+  if (!backPressedOnce) {
+    e.preventDefault();
+    showExitToast();
+    backPressedOnce = true;
+
+    backPressTimer = setTimeout(() => {
+      backPressedOnce = false;
+    }, 1500);
+    // dorong lagi history supaya ga langsung keluar
+    history.pushState(null, null, location.href);
+  } else {
+    // biarin default, aplikasi akan keluar
+    if (backPressTimer) clearTimeout(backPressTimer);
+    backPressedOnce = false;
+    history.back();
+  }
+});
+
+// triknya: tambahkan 1 state dummy saat load
+window.addEventListener("load", () => {
+  history.pushState(null, null, location.href);
 });
 

@@ -8,7 +8,7 @@ const clearInput = document.getElementById("clearInput"); // tambahkan ini
 const operatorPrefix = {
     "Telkomsel": ["0811", "0812", "0813", "0851", "0852", "0853", "0821", "0822", "0823", "0824"],
     "Indosat": ["0814", "0815", "0816", "0855", "0856", "0857", "0858"],
-    "Axis": ["083", "0859"],
+    "Axis": ["083"],
     "By.U": ["085155", "085156", "085157", "085158", "085154", "085159", "08512"],
     "Token Listrik": ["01", "04", "05", "06", "07", "09", "1", "2", "3", "4", "5", "6", "7", "8", "9", "001", "020", "03"],
     "Smartfren": ["088"],
@@ -47,21 +47,25 @@ export function handleInputChange() {
 
     if (!nomor) {
         operatorDisplay.textContent = "";
+        inputTujuan.classList.remove("with-operator");
         extraButtons.innerHTML = "";
         return;
     }
 
     const operator = detectOperator(nomor);
 
-    // kalau operator "Token Listrik", jangan tampilkan
-    if (operator === "Token Listrik") {
-        operatorDisplay.textContent = "";
+    // tampilkan hanya kalau bukan Token Listrik
+    if (operator && operator !== "Token Listrik") {
+        operatorDisplay.textContent = operator;
+        inputTujuan.classList.add("with-operator");
     } else {
-        operatorDisplay.textContent = operator || "";
+        operatorDisplay.textContent = "";
+        inputTujuan.classList.remove("with-operator");
     }
 
     extraButtons.innerHTML = "";
 }
+
 
 
 // aktifkan event listener

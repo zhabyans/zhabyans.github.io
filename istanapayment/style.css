@@ -574,9 +574,8 @@ main.container {
 #inputTujuan {
   flex: 1;
   padding-left: 1rem;
-  /* kasih ruang supaya teks tidak ketimpa icon */
-  padding-right: 7rem;
-  /* ruang untuk clear button & operator display */
+  padding-right: 3rem;
+  /* default cukup untuk tombol X */
   box-sizing: border-box;
 }
 
@@ -628,6 +627,11 @@ main.container {
   margin-right: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+#inputTujuan.with-operator {
+  padding-right: 7rem;
+  /* lebih lebar kalau ada operator */
 }
 
 /* ============== INI ADALAH PENGATURAN UNTUK LAPORAN TRANSAKSI ==================== */

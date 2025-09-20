@@ -98,4 +98,10 @@ export function handleMenuClick(menu) {
     } else {
         showToast("Menu belum siap", "error");
     }
+
+    // ⬇️ Scroll otomatis ke atas homeDisplay
+    const homeDisplay = document.getElementById("homeDisplay");
+    if (homeDisplay) {
+        homeDisplay.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 }
