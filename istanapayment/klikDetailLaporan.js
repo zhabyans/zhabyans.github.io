@@ -58,11 +58,6 @@ Terima kasih.
                 text: "Print",
                 className: "modal-ok",
                 onClick: () => printThermalStruk(parsed, tanggal, hargaJual)
-            },
-            {
-                text: "Close",
-                className: "modal-ok",
-                onClick: () => console.log("Set Harga Jual:", parsed)
             }
         ]
     });

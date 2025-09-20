@@ -66,17 +66,18 @@ export async function shareStruk(parsed, tanggal, hargaJual) {
                 font-size: 18px;
                 width: 450px;
                 color: #000;
+                padding: 20px;
                 background: #fff url('data:image/svg+xml,${encoded}') repeat;
                 background-size: ${tileSize * 0.6}px ${tileSize * 0.6}px; /* 🔹 scale down 80% */
           ">
               <div style="text-align:center; font-size: 26px">${namaAgen}</div>
-              <div>${tanggal} ${parsed.waktu}</div>
               <div style="text-align:center; font-size: 22px">-- STRUK BUKTI PEMBELIAN --</div>
               <div style="text-align:center; font-size: 22px">${jenisProduk}</div>
               <hr style="border:2px dashed black; margin:5px 0;">
+              <div>TGL   : ${tanggal} ${parsed.waktu}</div>
               <div>NOMOR : ${parsed.tujuan}</div>
-              <div>KODE : ${parsed.kode}</div>
-              <div>SN : ${parsed.sn}</div>
+              <div>KODE  : ${parsed.kode}</div>
+              <div>SN    : ${parsed.sn}</div>
               <div style="text-align:center; margin-top:5px; margin-bottom:5px;">
                 ------- RINCIAN PEMBAYARAN -------
               </div>

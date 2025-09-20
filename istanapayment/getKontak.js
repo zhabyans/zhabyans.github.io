@@ -1,4 +1,4 @@
-import { normalizeInput } from "./utils.js";
+import { normalizeInput, showToast } from "./utils.js";
 
 export function getKontak() {
     const contactBtn = document.getElementById("contactBtn");
@@ -17,7 +17,7 @@ export function getKontak() {
                 console.error("Akses kontak gagal:", err);
             }
         } else {
-            alert("Browser Anda tidak mendukung akses kontak.");
+            showToast("Browser Anda tidak mendukung akses kontak.", "error");
         }
     });
 }

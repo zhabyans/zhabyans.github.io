@@ -1,3 +1,5 @@
+import { showToast } from "./utils.js";
+
 // file: printThermal.js
 let printCharacteristic = null;
 
@@ -61,8 +63,8 @@ TERIMA KASIH
 
   try {
     await sendToPrinter(strukText);
-    alert("✅ Struk berhasil dikirim ke printer thermal");
+    showToast("✅ Struk berhasil dikirim ke printer thermal", "success");
   } catch (err) {
-    alert("❌ Gagal print: " + err);
+    showToast("❌ Gagal print: " + err, "error");
   }
 }

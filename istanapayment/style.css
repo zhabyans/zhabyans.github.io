@@ -45,7 +45,8 @@ main.container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--pin-overlay-bg); /* ganti ke var baru */
+  background: var(--pin-overlay-bg);
+  /* ganti ke var baru */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +56,8 @@ main.container {
 
 /* 🌞 Light mode */
 :root[data-theme="light"] {
-  --pin-overlay-bg: #f9f9fb;         /* background solid terang */
+  --pin-overlay-bg: #f9f9fb;
+  /* background solid terang */
   --pin-bg: rgba(0, 0, 0, 0.05);
   --pin-bg-active: rgba(0, 0, 0, 0.15);
   --pin-text: #111;
@@ -65,7 +67,8 @@ main.container {
 
 /* 🌙 Dark mode */
 :root[data-theme="dark"] {
-  --pin-overlay-bg: #000;            /* solid hitam */
+  --pin-overlay-bg: #000;
+  /* solid hitam */
   --pin-bg: rgba(255, 255, 255, 0.1);
   --pin-bg-active: rgba(255, 255, 255, 0.3);
   --pin-text: #fff;
@@ -439,6 +442,7 @@ main.container {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   text-align: center;
   animation: scaleIn 0.3s ease;
+  position: relative;
 }
 
 
@@ -467,7 +471,8 @@ main.container {
   display: flex;
   justify-content: space-around;
   gap: 1rem;
-  flex-wrap: wrap; /* biar bisa turun ke bawah */
+  flex-wrap: wrap;
+  /* biar bisa turun ke bawah */
 }
 
 .modal-buttons button {
@@ -478,14 +483,16 @@ main.container {
   cursor: pointer;
   font-weight: bold;
   transition: background 0.2s;
-  min-width: 100px; /* biar nggak terlalu kecil */
+  min-width: 100px;
+  /* biar nggak terlalu kecil */
 }
 
 /* Atur layout tombol di layar kecil */
 @media (max-width: 480px) {
   .modal-buttons {
     flex-direction: column;
-    align-items: stretch; /* tombol full lebar */
+    align-items: stretch;
+    /* tombol full lebar */
   }
 
   .modal-buttons button {
@@ -510,6 +517,26 @@ main.container {
 .modal-cancel:hover {
   background: rgba(220, 53, 69, 1);
 }
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+  scale: 1.5;
+}
+
+.modal-close:hover {
+  color: red;
+}
+
 
 @keyframes scaleIn {
   from {

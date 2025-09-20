@@ -92,7 +92,7 @@ function tampilkanLaporanTransaksi(dataText) {
 
                 // tampilkan pesan "belum tersedia"
                 const info = document.createElement("div");
-                info.textContent = "Laporan Masih Belum Tersedia";
+                info.textContent = "Belum ada transaksi";
                 info.style.textAlign = "center";
                 info.style.padding = "1rem";
                 info.style.color = "#666";
