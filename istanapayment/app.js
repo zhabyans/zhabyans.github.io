@@ -109,15 +109,18 @@ window.addEventListener("popstate", (e) => {
     backPressTimer = setTimeout(() => {
       backPressedOnce = false;
     }, 1500);
-    // dorong lagi history supaya ga langsung keluar
+
+    // dorong lagi state biar gak langsung keluar
     history.pushState(null, null, location.href);
   } else {
-    // biarin default, aplikasi akan keluar
+    // tekan 2x dalam 1.5 detik → benar-benar keluar
     if (backPressTimer) clearTimeout(backPressTimer);
     backPressedOnce = false;
-    history.back();
+    // biarkan default → tidak perlu history.back()
+    // di PWA ini otomatis close app
   }
 });
+
 
 // triknya: tambahkan 1 state dummy saat load
 window.addEventListener("load", () => {
