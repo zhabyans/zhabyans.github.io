@@ -7,32 +7,15 @@ import { navigasi } from "./navigasi.js";
 import { akunPage } from "./akunPage.js";
 import { navigasiKeyboard, navigasiToast } from "./navigasiKeyboard.js";
 import { setupRegister } from "./register.js";
+import { setupBackHandler } from "./backHandler.js";
+import { registerServiceWorker } from "./serviceWorkerRegister.js";
 
 navigasi();
 akunPage();
 let domain = "pulsa.dpdns.org";
-// Register Service Worker
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js")
-      .then((reg) => {
-        console.log("Service Worker registered:", reg.scope);
 
-        reg.onupdatefound = () => {
-          const newWorker = reg.installing;
-          newWorker.onstatechange = () => {
-            if (newWorker.state === "installed") {
-              if (navigator.serviceWorker.controller) {
-                showToast("Versi baru tersedia\nsilakan keluar lalu masuk lagi!", "success");
-                setTimeout(() => window.location.reload(), 1500);
-              }
-            }
-          };
-        };
-      })
-      .catch((err) => console.log("Service Worker failed:", err));
-  });
-}
+// panggil modul registrasi service worker
+registerServiceWorker();
 
 // ----------------------
 // MENCEGAH KLIK KANAN
@@ -78,36 +61,4 @@ document.addEventListener('gesturestart', function (e) {
   e.preventDefault();
 });
 
-let backPressedOnce = false;
-let backPressTimer = null;
-
-function showExitToast() {
-  showToast("Tekan sekali lagi untuk keluar", "sukses"); // pakai toast kamu sendiri
-}
-
-window.addEventListener("popstate", (e) => {
-  if (!backPressedOnce) {
-    e.preventDefault();
-    showExitToast();
-    backPressedOnce = true;
-
-    if (backPressTimer) clearTimeout(backPressTimer);
-    backPressTimer = setTimeout(() => {
-      backPressedOnce = false; // cukup reset flag saja
-    }, 1500);
-
-    // dorong lagi state supaya tidak keluar
-    history.pushState({ dummy: true }, null, location.href);
-  } else {
-    // tekan 2x cepat → keluar
-    if (backPressTimer) clearTimeout(backPressTimer);
-    backPressedOnce = false;
-    // biarkan default → PWA akan close
-  }
-});
-
-// saat load tambahkan 1 state dummy
-window.addEventListener("load", () => {
-  history.pushState({ first: true }, null, location.href);
-});
-
+setupBackHandler();
