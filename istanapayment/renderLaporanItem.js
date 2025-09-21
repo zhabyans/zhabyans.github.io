@@ -1,3 +1,4 @@
+//file renderLaporanItem.js
 import { klikDetailLaporan } from "./klikDetailLaporan.js";
 
 export function renderLaporanItem(parsed, list, tanggal) {

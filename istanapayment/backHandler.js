@@ -9,8 +9,6 @@ function showExitToast() {
 
 export function setupBackHandler() {
   window.addEventListener("popstate", (e) => {
-    e.preventDefault();
-
     // cek dulu kalau ada modal terbuka
     if (window.modalTerbuka) {
       const modalOverlay = document.getElementById("modalOverlay");
@@ -18,7 +16,7 @@ export function setupBackHandler() {
         modalOverlay.style.display = "none";
         window.modalTerbuka = false;
       }
-      return; // cukup close modal
+      return; // stop di sini, jangan ke exit logic
     }
 
     // kalau tidak ada modal → lanjut logika exit
@@ -39,8 +37,8 @@ export function setupBackHandler() {
     }
   });
 
-  // tambahkan 1 state dummy saat load
   window.addEventListener("load", () => {
     history.pushState({ first: true }, null, location.href);
   });
 }
+

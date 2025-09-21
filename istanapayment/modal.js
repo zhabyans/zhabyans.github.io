@@ -15,6 +15,9 @@ export function showModalCustom({
     modalOverlay.style.display = "flex";
     window.modalTerbuka = true; // ⬅️ tandai modal terbuka
 
+    // setiap kali buka modal, dorong state baru
+    history.pushState({ modal: true }, null, location.href);
+
     // kosongkan tombol lama
     modalButtons.innerHTML = "";
 
@@ -24,7 +27,7 @@ export function showModalCustom({
         buttonEl.className = btn.className || "modal-ok";
         buttonEl.onclick = () => {
             modalOverlay.style.display = "none";
-            window.modalTerbuka = false; // ⬅️ modal tertutup
+            window.modalTerbuka = false;
             if (btn.onClick) btn.onClick();
         };
         modalButtons.appendChild(buttonEl);
@@ -32,10 +35,9 @@ export function showModalCustom({
 
     modalCloseBtn.onclick = () => {
         modalOverlay.style.display = "none";
-        window.modalTerbuka = false; // ⬅️ modal tertutup
+        window.modalTerbuka = false;
     };
 }
-
 
 
 // === wrapper lama agar tetap kompatibel ===
