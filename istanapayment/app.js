@@ -82,51 +82,32 @@ let backPressedOnce = false;
 let backPressTimer = null;
 
 function showExitToast() {
-  // bikin toast sederhana (atau pakai toast kamu sendiri)
-  const toast = document.createElement("div");
-  toast.textContent = "Tekan sekali lagi untuk keluar";
-  toast.style.position = "fixed";
-  toast.style.bottom = "60px";
-  toast.style.left = "50%";
-  toast.style.transform = "translateX(-50%)";
-  toast.style.background = "#333";
-  toast.style.color = "#fff";
-  toast.style.padding = "10px 20px";
-  toast.style.borderRadius = "8px";
-  toast.style.zIndex = "9999";
-  document.body.appendChild(toast);
-
-  setTimeout(() => toast.remove(), 1500);
+  showToast("Tekan sekali lagi untuk keluar", "sukses"); // pakai toast kamu sendiri
 }
 
-// pasang event listener
 window.addEventListener("popstate", (e) => {
   if (!backPressedOnce) {
     e.preventDefault();
     showExitToast();
     backPressedOnce = true;
 
+    if (backPressTimer) clearTimeout(backPressTimer);
     backPressTimer = setTimeout(() => {
-      backPressedOnce = false;
-      // bersihkan dummy state supaya tidak langsung keluar
-      if (history.state === null) {
-        history.back();
-      }
+      backPressedOnce = false; // cukup reset flag saja
     }, 1500);
 
-    // dorong lagi state biar ga langsung keluar
-    history.pushState({dummy:true}, null, location.href);
+    // dorong lagi state supaya tidak keluar
+    history.pushState({ dummy: true }, null, location.href);
   } else {
-    // tekan 2x dalam 1.5 detik → benar-benar keluar
+    // tekan 2x cepat → keluar
     if (backPressTimer) clearTimeout(backPressTimer);
     backPressedOnce = false;
-    // biarkan default → aplikasi close
+    // biarkan default → PWA akan close
   }
 });
 
-// saat load tambahkan dummy sekali
+// saat load tambahkan 1 state dummy
 window.addEventListener("load", () => {
-  history.pushState({first:true}, null, location.href);
+  history.pushState({ first: true }, null, location.href);
 });
-
 
