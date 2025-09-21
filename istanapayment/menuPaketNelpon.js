@@ -10,12 +10,12 @@ export function menuPaketNelpon(extraButtons, operatorDisplay, operator) {
     extraButtons.style.display = "block";
     operatorDisplay.textContent = operator;
 
-    if (operator === "Telkomsel") {
+    if (operator === "Tsel") {
         extraButtons.appendChild(
             createButton("Telkomsel Nelpon", () => kirimPesan("harga.tn"))
         );
     }
-    else if (operator === "Indosat") {
+    else if (operator === "Isat") {
         extraButtons.appendChild(
             createButton("Indosat Nelpon", () => kirimPesan("harga.in"))
         );

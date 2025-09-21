@@ -10,7 +10,7 @@ export function menuPaketData(extraButtons, operatorDisplay, operator) {
     extraButtons.style.display = "block";
     operatorDisplay.textContent = operator;
 
-    if (operator === "Telkomsel") {
+    if (operator === "Tsel") {
         extraButtons.appendChild(
             createButton("1 Bulan", () => kirimPesan("harga.td"))
         );
@@ -24,7 +24,7 @@ export function menuPaketData(extraButtons, operatorDisplay, operator) {
             createButton("Jawa Barat", () => kirimPesan("harga.jbr"))
         );
     }
-    else if (operator === "Indosat") {
+    else if (operator === "Isat") {
         extraButtons.appendChild(
             createButton("Freedom Internet", () => kirimPesan("harga.if"))
         );

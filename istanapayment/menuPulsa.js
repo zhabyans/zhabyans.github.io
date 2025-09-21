@@ -10,8 +10,7 @@ export function menuPulsa(extraButtons, operatorDisplay, operator) {
     extraButtons.style.display = "block";
     operatorDisplay.textContent = operator;
 
-    // contoh: Telkomsel ada 2 tombol khusus
-    if (operator === "Telkomsel") {
+    if (operator === "Tsel") {
         extraButtons.appendChild(
             createButton("Pulsa Reguler", () => kirimPesan("harga.t"))
         );
@@ -19,7 +18,7 @@ export function menuPulsa(extraButtons, operatorDisplay, operator) {
             createButton("Tambah Masa Aktif", () => kirimPesan("harga.tmat"))
         );
     } 
-    else if (operator === "Indosat") {
+    else if (operator === "Isat") {
         extraButtons.appendChild(
             createButton("Pulsa Reguler", () => kirimPesan("harga.i"))
         );

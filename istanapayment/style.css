@@ -391,7 +391,7 @@ main.container {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  z-index: 4000;
+  z-index: 2000;
 }
 
 .toast.show {
@@ -630,7 +630,7 @@ main.container {
 }
 
 #inputTujuan.with-operator {
-  padding-right: 7rem;
+  padding-right: 4.5rem;
   /* lebih lebar kalau ada operator */
 }
 
