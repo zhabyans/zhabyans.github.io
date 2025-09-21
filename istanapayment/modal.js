@@ -13,27 +13,29 @@ export function showModalCustom({
     modalHeader.textContent = title;
     modalMessage.innerHTML = message;
     modalOverlay.style.display = "flex";
+    window.modalTerbuka = true; // ⬅️ tandai modal terbuka
 
     // kosongkan tombol lama
     modalButtons.innerHTML = "";
 
-    // render tombol baru
     buttons.forEach(btn => {
         const buttonEl = document.createElement("button");
         buttonEl.textContent = btn.text;
         buttonEl.className = btn.className || "modal-ok";
         buttonEl.onclick = () => {
             modalOverlay.style.display = "none";
+            window.modalTerbuka = false; // ⬅️ modal tertutup
             if (btn.onClick) btn.onClick();
         };
         modalButtons.appendChild(buttonEl);
     });
 
-    // event close (klik silang)
     modalCloseBtn.onclick = () => {
         modalOverlay.style.display = "none";
+        window.modalTerbuka = false; // ⬅️ modal tertutup
     };
 }
+
 
 
 // === wrapper lama agar tetap kompatibel ===
@@ -45,13 +47,20 @@ export function showModalConfirm(judul, message, onConfirm, onCancel) {
             {
                 text: "OK",
                 className: "modal-ok",
-                onClick: onConfirm
+                onClick: () => {
+                    window.modalTerbuka = false; // pastikan reset
+                    if (onConfirm) onConfirm();
+                }
             },
             {
                 text: "Cancel",
                 className: "modal-cancel",
-                onClick: onCancel
+                onClick: () => {
+                    window.modalTerbuka = false; // pastikan reset
+                    if (onCancel) onCancel();
+                }
             }
         ]
     });
 }
+

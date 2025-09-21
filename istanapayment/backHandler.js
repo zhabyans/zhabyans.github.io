@@ -9,8 +9,20 @@ function showExitToast() {
 
 export function setupBackHandler() {
   window.addEventListener("popstate", (e) => {
+    e.preventDefault();
+
+    // cek dulu kalau ada modal terbuka
+    if (window.modalTerbuka) {
+      const modalOverlay = document.getElementById("modalOverlay");
+      if (modalOverlay) {
+        modalOverlay.style.display = "none";
+        window.modalTerbuka = false;
+      }
+      return; // cukup close modal
+    }
+
+    // kalau tidak ada modal → lanjut logika exit
     if (!backPressedOnce) {
-      e.preventDefault();
       showExitToast();
       backPressedOnce = true;
 
