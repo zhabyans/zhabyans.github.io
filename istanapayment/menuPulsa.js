@@ -50,7 +50,7 @@ export function menuPulsa(extraButtons, operatorDisplay, operator) {
             createButton("Tambah Masa Aktif", () => kirimPesan("harga.tmatri"))
         );
     } 
-    else if (operator === "Smartfren") {
+    else if (operator === "Smar") {
         extraButtons.appendChild(
             createButton("Pulsa Reguler", () => kirimPesan("harga.s"))
         );

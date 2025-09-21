@@ -59,7 +59,7 @@ export function menuPaketData(extraButtons, operatorDisplay, operator) {
             createButton("Happy", () => kirimPesan("harga.hap"))
         );
     }
-    else if (operator === "Smartfren") {
+    else if (operator === "Smar") {
         extraButtons.appendChild(
             createButton("Unlimited Harian", () => kirimPesan("harga.suh"))
         );

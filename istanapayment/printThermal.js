@@ -32,7 +32,7 @@ export async function printThermalStruk(parsed, tanggal, hargaJual) {
   else if (/^td/i.test(parsed.kode)) jenisProduk = "PAKET DATA";
   else if (/^tr/i.test(parsed.kode)) jenisProduk = "PULSA TRI";
   else if (/^i/i.test(parsed.kode)) jenisProduk = "PULSA INDOSAT";
-  else if (/^s/i.test(parsed.kode)) jenisProduk = "PULSA SMARTFREN";
+  else if (/^s/i.test(parsed.kode)) jenisProduk = "PULSA TFREN";
   else if (/^x/i.test(parsed.kode)) jenisProduk = "PULSA XL";
   else if (/^a/i.test(parsed.kode)) jenisProduk = "PULSA AXIS";
   else if (/^t(?!d)/i.test(parsed.kode)) jenisProduk = "PULSA TELKOMSEL";
