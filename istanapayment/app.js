@@ -62,3 +62,15 @@ document.addEventListener('gesturestart', function (e) {
 });
 
 setupBackHandler();
+
+// file: app.js
+document.addEventListener("focusin", (e) => {
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+    setTimeout(() => {
+      e.target.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    }, 300);
+  }
+});

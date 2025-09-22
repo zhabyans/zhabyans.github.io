@@ -73,50 +73,47 @@ Terima kasih.
     // 🔹 Tambahkan listener klik untuk emoji edit
     const editBtn = document.getElementById("editHarga");
     editBtn.onclick = () => {
-    // sembunyikan tombol edit
-    editBtn.style.display = "none";
+        // sembunyikan tombol edit
+        editBtn.style.display = "none";
 
-    const hargaSpan = document.getElementById(hargaJualId);
-    const currentVal = hargaJual;
+        const hargaSpan = document.getElementById(hargaJualId);
+        const currentVal = hargaJual;
 
-    hargaSpan.innerHTML = `<input id="inputHargaInline" type="text" value="${currentVal.toLocaleString("id-ID")}" style="padding:0; margin:0; width:70px; height:1.2em; line-height:1.2em; border:1px solid #ccc; vertical-align:middle; text-align:right;"><span id="btnSimpanInline" style="cursor:pointer; margin-left:4px;">✅</span><span id="btnBatalInline" style="cursor:pointer; margin-left:4px;">❌</span>`;
+        hargaSpan.innerHTML = `<input id="inputHargaInline" type="text" value="${currentVal.toLocaleString("id-ID")}" style="padding:0; margin:0; width:70px; height:1.2em; line-height:1.2em; border:1px solid #ccc; vertical-align:middle; text-align:right;"><span id="btnSimpanInline" style="cursor:pointer; margin-left:4px;">✅</span><span id="btnBatalInline" style="cursor:pointer; margin-left:4px;">❌</span>`;
 
-    const inputEl = document.getElementById("inputHargaInline");
+        const inputEl = document.getElementById("inputHargaInline");
 
-    // 🔹 Format ribuan otomatis saat mengetik
-    inputEl.addEventListener("input", () => {
-        let raw = inputEl.value.replace(/\D/g, ""); // hanya angka
-        if (raw) {
-            inputEl.value = parseInt(raw, 10).toLocaleString("id-ID");
-        } else {
-            inputEl.value = "";
-        }
-    });
+        // 🔹 Format ribuan otomatis saat mengetik
+        inputEl.addEventListener("input", () => {
+            let raw = inputEl.value.replace(/\D/g, ""); // hanya angka
+            if (raw) {
+                inputEl.value = parseInt(raw, 10).toLocaleString("id-ID");
+            } else {
+                inputEl.value = "";
+            }
+        });
 
-    document.getElementById("btnSimpanInline").onclick = () => {
-        let raw = inputEl.value.replace(/\D/g, ""); // ambil angka asli
-        const val = parseFloat(raw);
-        if (!isNaN(val) && val > 0) {
-            hargaJual = val;
+        document.getElementById("btnSimpanInline").onclick = () => {
+            let raw = inputEl.value.replace(/\D/g, ""); // ambil angka asli
+            const val = parseFloat(raw);
+            if (!isNaN(val) && val > 0) {
+                hargaJual = val;
+                hargaSpan.textContent = "Rp" + hargaJual.toLocaleString("id-ID");
+                document.getElementById("keuntungan").textContent =
+                    "Rp" + (hargaJual - hargaModal).toLocaleString("id-ID");
+            } else {
+                alert("Harga tidak valid!");
+                hargaSpan.textContent = "Rp" + hargaJual.toLocaleString("id-ID");
+            }
+            // tampilkan kembali tombol edit
+            editBtn.style.display = "inline";
+        };
+
+        document.getElementById("btnBatalInline").onclick = () => {
             hargaSpan.textContent = "Rp" + hargaJual.toLocaleString("id-ID");
-            document.getElementById("keuntungan").textContent =
-                "Rp" + (hargaJual - hargaModal).toLocaleString("id-ID");
-        } else {
-            alert("Harga tidak valid!");
-            hargaSpan.textContent = "Rp" + hargaJual.toLocaleString("id-ID");
-        }
-        // tampilkan kembali tombol edit
-        editBtn.style.display = "inline";
+            // tampilkan kembali tombol edit
+            editBtn.style.display = "inline";
+        };
     };
-
-    document.getElementById("btnBatalInline").onclick = () => {
-        hargaSpan.textContent = "Rp" + hargaJual.toLocaleString("id-ID");
-        // tampilkan kembali tombol edit
-        editBtn.style.display = "inline";
-    };
-};
-
-
-
 
 }
