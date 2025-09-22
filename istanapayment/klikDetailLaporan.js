@@ -5,6 +5,14 @@ import { shareStruk } from "./shareStruk.js";
 import { getHargaJual } from "./hargaJualMap.js";
 import { printThermalStruk } from "./printThermal.js"; // ⬅️ import baru
 
+function getHargaTerbaru(fallback) {
+    const el = document.getElementById("hargaJualInput");
+    if (!el) return fallback;
+    const raw = el.textContent.replace(/[^\d]/g, "");
+    return parseInt(raw || "0", 10) || fallback;
+}
+
+
 export async function klikDetailLaporan(parsed, tanggal) {
     const hargaModal = normalizeRupiah(parsed.harga);
     const kode = parsed.kode ? parsed.kode.toLowerCase() : "";
@@ -40,7 +48,7 @@ export async function klikDetailLaporan(parsed, tanggal) {
             {
                 text: "🖼️ Bagikan",
                 className: "modal-share",
-                onClick: () => shareStruk(parsed, tanggal, hargaJual),
+                onClick: () => shareStruk(parsed, tanggal, getHargaTerbaru(hargaJual)),
                 disabled: isSNInvalid
             },
             {
@@ -64,7 +72,8 @@ Terima kasih.
             {
                 text: "🖨️ Print",
                 className: "modal-print",
-                onClick: () => printThermalStruk(parsed, tanggal, hargaJual),
+                onClick: () => printThermalStruk(parsed, tanggal, getHargaTerbaru(hargaJual))
+                ,
                 disabled: isSNInvalid
             }
         ]
