@@ -22,11 +22,38 @@ function log(msg) {
     console.log("[XMPP]", msg);
 }
 
-// Simpan kredensial ke localStorage
+// xmpp.js
 function saveCredentials(jid, pass) {
-    // console.log("Saving credentials to localStorage:", jid, pass);
-    localStorage.setItem("xmpp_jid", jid);
-    localStorage.setItem("xmpp_pass", pass);
+    const pinHash = localStorage.getItem("appPin");
+    if (!pinHash) {
+        console.error("PIN belum ada, tidak bisa enkripsi");
+        return;
+    }
+
+    const encryptedJid = CryptoJS.AES.encrypt(jid, pinHash).toString();
+    const encryptedPass = CryptoJS.AES.encrypt(pass, pinHash).toString();
+
+    localStorage.setItem("xmpp_jid", encryptedJid);
+    localStorage.setItem("xmpp_pass", encryptedPass);
+}
+
+export function loadCredentials() {
+    const pinHash = localStorage.getItem("appPin");
+    if (!pinHash) return null;
+
+    const encJid = localStorage.getItem("xmpp_jid");
+    const encPass = localStorage.getItem("xmpp_pass");
+
+    if (!encJid || !encPass) return null;
+
+    try {
+        const jid = CryptoJS.AES.decrypt(encJid, pinHash).toString(CryptoJS.enc.Utf8);
+        const pass = CryptoJS.AES.decrypt(encPass, pinHash).toString(CryptoJS.enc.Utf8);
+        return { jid, pass };
+    } catch (e) {
+        console.error("Gagal dekripsi:", e);
+        return null;
+    }
 }
 
 // Hapus kredensial

@@ -1,15 +1,7 @@
 //file auth.js
 import { showToast, showLoadingModal, updateProgress } from "./utils.js";
-import { connection, connectXMPP, log, clearCredentials } from "./xmpp.js";
+import { connection, connectXMPP, log, clearCredentials, loadCredentials } from "./xmpp.js";
 export function setupAuth(domain) {
-
-    // Ambil kredensial dari localStorage
-    function getCredentials() {
-        return {
-            jid: localStorage.getItem("xmpp_jid"),
-            pass: localStorage.getItem("xmpp_pass"),
-        };
-    }
 
     // Event login manual
     document.getElementById("formLogin").addEventListener("submit", function (e) {
@@ -43,38 +35,26 @@ export function setupAuth(domain) {
 
     // Auto login jika ada data tersimpan
     window.addEventListener("load", () => {
-        const creds = getCredentials();
+        const creds = loadCredentials(); // 🔹 pakai dekripsi
+
         console.log("Loaded credentials from localStorage:", creds);
 
-        const loadingDiv = document.getElementById("loading");
-        const formLogin = document.getElementById("formLogin");
-        const homeDisplay = document.getElementById("homeDisplay");
-        const saldoDisplay = document.getElementById("saldoDisplay");
-
-
-        if (creds.jid && creds.pass) {
+        if (creds && creds.jid && creds.pass) {
             log("Found saved credentials, auto-logging in...");
 
-            // Isi otomatis ke input
             document.getElementById("akune").value = creds.jid.split("@")[0];
             document.getElementById("paswote").value = creds.pass;
 
-            // 🔹 Tampilkan loading modal & reset progress
             showLoadingModal();
             updateProgress(0);
 
-            // Tetap tampil loading sampai status CONNECTED
             connectXMPP(creds.jid, creds.pass, () => {
-                // Setelah berhasil connect, sembunyikan loading
-                loadingDiv.style.display = "none";
+                document.getElementById("loading").style.display = "none";
             });
-
         } else {
-            // Tidak ada kredensial → sembunyikan loading, tampilkan form login
-            loadingDiv.style.display = "none";
-            saldoDisplay.style.display = "none";
-            homeDisplay.style.display = "none";
-            formLogin.style.display = "block";
+            // kalau gak ada, tampilkan form login
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("formLogin").style.display = "block";
         }
     });
 

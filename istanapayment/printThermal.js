@@ -18,7 +18,7 @@ async function sendToPrinter(text) {
   }
   if (printCharacteristic) {
     const encoder = new TextEncoder("utf-8");
-    const data = encoder.encode(text + "\n\r\n\r\n\r\n\r\n\r"); // margin bawah
+    const data = encoder.encode(text + "\n\r\n\r\n\r\n\r"); // margin bawah
     await printCharacteristic.writeValue(data);
   }
 }

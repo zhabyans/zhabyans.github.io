@@ -9,6 +9,15 @@ let pinInput = "";
 let pinStep = "check"; // "check", "set", "confirm"
 let tempPin = "";
 
+// fungsi util untuk hashing SHA-256
+async function sha256(str) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, "0")).join(""); // hex string
+}
+
 // ✅ fungsi untuk ambil PIN terbaru dari localStorage
 function getStoredPin() {
     return localStorage.getItem("appPin");
@@ -17,7 +26,7 @@ function getStoredPin() {
 // Set pesan awal sesuai kondisi terbaru
 if (!getStoredPin()) {
     pinStep = "set";
-    pinMessage.textContent = "Buat PIN 6 digit";
+    pinMessage.textContent = "Buat PIN Baru 6 Digit";
 } else {
     pinStep = "check";
     pinMessage.textContent = "Masukkan PIN Anda";
@@ -49,22 +58,23 @@ function fadeOutOverlay(callback) {
 
 
 // cek PIN
-export function checkPin() {
-    animateButtons()
-    if (pinInput.length !== 6) return; // ❌ jangan cek jika belum 6 digit
+export async function checkPin() {
+    animateButtons();
+    if (pinInput.length !== 6) return;
 
-    const storedPin = getStoredPin(); // ambil terbaru
-    if (!storedPin) return; // aman jika PIN belum ada
-    if (btoa(pinInput) === storedPin) {
-        fadeOutOverlay(); // <-- panggil animasi fade-out
-        // pinOverlay.style.display = "none";
-        // document.querySelector("main.container").style.display = "block";
+    const storedPin = getStoredPin();
+    if (!storedPin) return;
+
+    const inputHash = await sha256(pinInput);
+    if (inputHash === storedPin) {
+        fadeOutOverlay();
     } else {
         pinMessage.textContent = "PIN salah, coba lagi";
-        shakeMessage(); // <-- getar
+        shakeMessage();
         resetPinInput();
     }
 }
+
 
 function shakeMessage() {
     pinMessage.classList.remove("shake"); // reset jika sebelumnya sudah ada
@@ -88,15 +98,15 @@ function animateButtons() {
 // tombol diklik
 buttons.forEach(btn => {
     if (btn.id === "pinBack") return;
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
         if (pinInput.length < 6) {
             pinInput += btn.textContent;
             updateCircles();
 
             if (pinInput.length === 6) {
-                setTimeout(() => {
+                setTimeout(async () => {
                     if (pinStep === "check") {
-                        checkPin();
+                        await checkPin();
                     } else if (pinStep === "set") {
                         tempPin = pinInput;
                         pinStep = "confirm";
@@ -104,15 +114,14 @@ buttons.forEach(btn => {
                         resetPinInput();
                     } else if (pinStep === "confirm") {
                         if (pinInput === tempPin) {
-                            localStorage.setItem("appPin", btoa(pinInput));
+                            const hashed = await sha256(pinInput);
+                            localStorage.setItem("appPin", hashed);
                             pinMessage.textContent = "PIN berhasil dibuat!";
-                            setTimeout(() => {
-                                fadeOutOverlay(); 
-                            }, 2000);
+                            setTimeout(() => fadeOutOverlay(), 2000);
                         } else {
                             pinMessage.textContent = "PIN tidak cocok, coba lagi";
                             pinStep = "set";
-                            shakeMessage(); 
+                            shakeMessage();
                             resetPinInput();
                         }
                     }
