@@ -1,15 +1,15 @@
+//file getDataAkun.js
 export function getDataAkun(msg) {
-    // console.log("[DEBUG] Pesan diterima:", msg);
     const elems = msg.getElementsByTagName("body");
 
     if (elems.length > 0) {
         const body = elems[0].textContent;
         console.log("[DEBUG] body:", body);
 
-        // 🔎 Filter: hanya lanjut kalau pesan ada "Yth."
         if (!body.includes("Yth.")) {
-            return true; // biar handler tetap jalan untuk pesan berikutnya
+            return true;
         }
+
         // Ambil nama agen dan kode
         const agenMatch = body.match(/Yth\.\s+([^-]+)-\s*([A-Z0-9]+)/);
         const agen = agenMatch ? agenMatch[1].trim() : "tidak diketahui";
@@ -31,31 +31,40 @@ export function getDataAkun(msg) {
         const poin = poinMatch ? poinMatch[1] : "-";
         const pemakaian = pemakaianMatch ? pemakaianMatch[1] : "-";
 
-        // Tampilkan ke halaman dengan icon
+        // 🔹 Ambil tipe akun dari "Grup X" (bisa huruf atau angka)
+        const grupMatch = body.match(/Grup\s+([A-Z0-9]+)/i);
+        if (grupMatch) {
+            const tipeAkun = grupMatch[1].toUpperCase();
+            localStorage.setItem("tipe_akun", tipeAkun);
+            console.log("[DEBUG] tipe_akun tersimpan:", tipeAkun);
+        }
+
+
+        // Tampilkan ke halaman
         document.getElementById("saldoDisplay").innerHTML = `
-                           <header style="
-                            margin-bottom:0.5rem;
-                            display:grid; 
-                            grid-template-columns: 1fr 1fr; 
-                            text-align:center;
-                            gap:0.5rem;
-                        ">
-                            <div>👤 <strong>${agen}</strong></div>
-                            <div>🆔 <strong>${kodeAgen}</strong></div>
-                        </header>
-                        <div style="
-                            display:grid; 
-                            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
-                            gap:0.5rem;
-                        ">
-                            <div>💰 <strong>Saldo:</strong> ${saldo}</div>
-                            <div>⚙️ <strong>Proses:</strong> ${proses}</div>
-                            <div>📊 <strong>Jml TRX:</strong> ${trx}</div>
-                            <div>🎁 <strong>Bonus:</strong> ${bonus}</div>
-                            <div>⭐ <strong>Poin:</strong> ${poin}</div>
-                            <div>📅 <strong>Terpakai:</strong> ${pemakaian}</div>
-                        </div>
-                            `;
+            <header style="
+                margin-bottom:0.5rem;
+                display:grid; 
+                grid-template-columns: 1fr 1fr; 
+                text-align:center;
+                gap:0.5rem;
+            ">
+                <div>👤 <strong>${agen}</strong></div>
+                <div>🆔 <strong>${kodeAgen}</strong></div>
+            </header>
+            <div style="
+                display:grid; 
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+                gap:0.5rem;
+            ">
+                <div>💰 <strong>Saldo:</strong> ${saldo}</div>
+                <div>⚙️ <strong>Proses:</strong> ${proses}</div>
+                <div>📊 <strong>Jml TRX:</strong> ${trx}</div>
+                <div>🎁 <strong>Bonus:</strong> ${bonus}</div>
+                <div>⭐ <strong>Poin:</strong> ${poin}</div>
+                <div>📅 <strong>Terpakai:</strong> ${pemakaian}</div>
+            </div>
+        `;
     }
     return true;
 }

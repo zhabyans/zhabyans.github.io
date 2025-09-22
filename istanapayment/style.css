@@ -469,34 +469,30 @@ main.container {
 
 .modal-buttons {
   display: flex;
-  justify-content: space-around;
-  gap: 1rem;
   flex-wrap: wrap;
-  /* biar bisa turun ke bawah */
+  /* biar bisa turun kalau sempit */
+  gap: 0.3rem;
+  /* jarak antar tombol kecil */
+  justify-content: space-between;
 }
 
 .modal-buttons button {
-  flex: 1 1 auto;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
-  min-width: 100px;
+  flex: 1 1 30%;
+  /* target 3 tombol sejajar */
+  min-width: 90px;
   /* biar nggak terlalu kecil */
+  padding: 0.3rem 0.4rem;
+  /* padding tipis */
+  font-size: 0.9rem;
+  /* teks sedikit lebih kecil */
+  border-radius: 0.4rem;
 }
 
-/* Atur layout tombol di layar kecil */
-@media (max-width: 480px) {
-  .modal-buttons {
-    flex-direction: column;
-    align-items: stretch;
-    /* tombol full lebar */
-  }
-
+/* Kalau layar benar-benar kecil (misalnya <= 320px) */
+@media (max-width: 320px) {
   .modal-buttons button {
-    width: 100%;
+    flex: 1 1 45%;
+    /* otomatis isi 2 kolom, sisanya turun */
   }
 }
 
@@ -537,6 +533,38 @@ main.container {
   color: red;
 }
 
+/* Tombol Bagikan */
+.modal-share {
+  background: #2563eb;
+  /* biru */
+  color: white;
+}
+
+.modal-share:hover {
+  background: #1d4ed8;
+}
+
+/* Tombol Komplain */
+.modal-complain {
+  background: #dc2626;
+  /* merah */
+  color: white;
+}
+
+.modal-complain:hover {
+  background: #b91c1c;
+}
+
+.modal-print {
+  background: #16a34a;
+  /* hijau */
+  color: white;
+}
+
+.modal-print:hover {
+  background: #15803d;
+}
+
 
 @keyframes scaleIn {
   from {
@@ -574,6 +602,7 @@ main.container {
 #inputTujuan {
   flex: 1;
   box-sizing: border-box;
+  padding-left: 0.5rem;
 }
 
 .input-right-wrapper {

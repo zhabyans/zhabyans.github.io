@@ -1,4 +1,4 @@
-import { createButton } from "./utils.js";
+import { createButton, productCommand } from "./utils.js";
 import { kirimPesan } from "./xmppHelper.js";
 const inputTujuan = document.getElementById("inputTujuan");
 
@@ -9,6 +9,6 @@ export function menuTokenListrik(extraButtons, operatorDisplay, operator) {
         createButton("Cek Nama Pemilik", () => kirimPesan("cektoken." + inputTujuan.value))
     );
     extraButtons.appendChild(
-        createButton("Beli Token Listrik", () => kirimPesan("harga.p"))
+        createButton("Beli Token Listrik", () => kirimPesan(productCommand("p")))
     );
 }

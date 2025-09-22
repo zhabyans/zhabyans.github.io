@@ -105,3 +105,11 @@ export function updateProgress(val) {
         text.textContent = val + "%";
     }
 }
+
+export function productCommand(baseCode) {
+    const tipeAkun = localStorage.getItem("tipe_akun");
+    if (tipeAkun === "SP") {
+        return `harga.${baseCode}x`; // selalu tambahkan "x" di akhir
+    }
+    return `harga.${baseCode}`;
+}

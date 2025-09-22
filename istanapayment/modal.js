@@ -25,13 +25,23 @@ export function showModalCustom({
         const buttonEl = document.createElement("button");
         buttonEl.textContent = btn.text;
         buttonEl.className = btn.className || "modal-ok";
-        buttonEl.onclick = () => {
-            modalOverlay.style.display = "none";
-            window.modalTerbuka = false;
-            if (btn.onClick) btn.onClick();
-        };
+
+        // cek apakah tombol harus disabled
+        if (btn.disabled) {
+            buttonEl.disabled = true;
+            buttonEl.style.opacity = "0.6";      // biar kelihatan nonaktif
+            buttonEl.style.cursor = "not-allowed";
+        } else {
+            buttonEl.onclick = () => {
+                modalOverlay.style.display = "none";
+                window.modalTerbuka = false;
+                if (btn.onClick) btn.onClick();
+            };
+        }
+
         modalButtons.appendChild(buttonEl);
     });
+
 
     modalCloseBtn.onclick = () => {
         modalOverlay.style.display = "none";

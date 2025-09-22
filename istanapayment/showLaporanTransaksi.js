@@ -74,7 +74,6 @@ function tampilkanLaporanTransaksi(dataText) {
 
     // jika laporan sedang terbuka dan tidak ada baris Tgl → abaikan
     if (window.laporanTerbuka && !lines.some(l => l.startsWith("Tgl"))) {
-        console.log("Respon diabaikan karena laporan sedang terbuka:", dataText);
         return;
     }
 
