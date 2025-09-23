@@ -103,6 +103,11 @@ export function connectXMPP(jid, pass, sudahKonek = null) {
                 console.log("Connected as " + connection.jid);
                 updateProgress(100);
                 hideLoadingModal();
+
+                // 🔹 kosongkan input username & password biar tidak ada jejak
+                document.getElementById("akune").value = "";
+                document.getElementById("paswote").value = "";
+
                 connection.send(
                     $pres().c("priority").t("127") // 🔹 priority = 127
                 );

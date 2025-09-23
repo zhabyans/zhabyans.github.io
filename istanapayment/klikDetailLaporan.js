@@ -1,6 +1,6 @@
 // file: klikDetailLaporan.js
 import { showModalCustom } from "./modal.js";
-import { normalizeRupiah } from "./utils.js";
+import { normalizeRupiah, showToast } from "./utils.js";
 import { shareStruk } from "./shareStruk.js";
 import { getHargaJual } from "./hargaJualMap.js";
 import { printThermalStruk } from "./printThermal.js"; // ⬅️ import baru
@@ -111,7 +111,7 @@ Terima kasih.
                 document.getElementById("keuntungan").textContent =
                     "Rp" + (hargaJual - hargaModal).toLocaleString("id-ID");
             } else {
-                alert("Harga tidak valid!");
+                showToast("Harga tidak valid!", "error");
                 hargaSpan.textContent = "Rp" + hargaJual.toLocaleString("id-ID");
             }
             // tampilkan kembali tombol edit

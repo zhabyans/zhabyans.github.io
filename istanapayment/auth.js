@@ -1,6 +1,13 @@
 //file auth.js
 import { showToast, showLoadingModal, updateProgress } from "./utils.js";
 import { connection, connectXMPP, log, clearCredentials, loadCredentials } from "./xmpp.js";
+
+function clearLoginForm() {
+    document.getElementById("akune").value = "";
+    document.getElementById("paswote").value = "";
+}
+
+
 export function setupAuth(domain) {
 
     // Event login manual
@@ -65,5 +72,6 @@ export function setupAuth(domain) {
             connection.disconnect();
             clearCredentials();
         }
+        clearLoginForm(); // 🔹 kosongkan input field juga
     });
 }
