@@ -1,0 +1,764 @@
+html,
+body {
+  overscroll-behavior-y: contain;
+  /* mencegah pull-to-refresh */
+  overscroll-behavior-x: none;
+  height: 100%;
+  margin: 0;
+
+  -webkit-touch-callout: none;
+  /* Safari & Chrome iOS/Android */
+  -webkit-tap-highlight-color: transparent;
+  /* Hapus highlight ketika tap */
+  -webkit-user-select: none;
+  /* Chrome, Safari, Edge */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE/Edge */
+  user-select: none;
+  /* Standard */
+  touch-action: manipulation;
+  /* cegah gesture zoom */
+
+}
+
+main.container,
+header.container {
+  max-width: 100% !important;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+main.container {
+  min-height: calc(100vh - 65px);
+  /* tinggi penuh layar dikurangi tinggi nav */
+  padding-bottom: 70px;
+}
+
+
+
+/* ============== INI ADALAH PENGATURAN UNTUK INPUT PIN ==================== */
+#pinOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--pin-overlay-bg);
+  /* ganti ke var baru */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* 🌞 Light mode */
+:root[data-theme="light"] {
+  --pin-overlay-bg: #f9f9fb;
+  /* background solid terang */
+  --pin-bg: rgba(0, 0, 0, 0.05);
+  --pin-bg-active: rgba(0, 0, 0, 0.15);
+  --pin-text: #111;
+  --pin-circle-border: #111;
+  --pin-circle-filled: #111;
+}
+
+/* 🌙 Dark mode */
+:root[data-theme="dark"] {
+  --pin-overlay-bg: #000;
+  /* solid hitam */
+  --pin-bg: rgba(255, 255, 255, 0.1);
+  --pin-bg-active: rgba(255, 255, 255, 0.3);
+  --pin-text: #fff;
+  --pin-circle-border: #fff;
+  --pin-circle-filled: #fff;
+}
+
+#pinOverlay h2 {
+  color: var(--pin-text);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.pinCircles {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 2rem;
+}
+
+.pinCircle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--pin-circle-border);
+  background-color: transparent;
+  transition: background 0.2s;
+}
+
+.pinCircle.filled {
+  background-color: var(--pin-circle-filled);
+}
+
+.pinPad {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  grid-gap: 15px;
+}
+
+.pinPad button {
+  opacity: 0;
+  /* awalnya tersembunyi */
+  animation: fallIn 0.4s forwards;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background: var(--pin-bg);
+  color: var(--pin-text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.pinPad button:active {
+  background: var(--pin-bg-active);
+}
+
+/* Getaran untuk PIN salah */
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-5px);
+  }
+
+  40% {
+    transform: translateX(5px);
+  }
+
+  60% {
+    transform: translateX(-5px);
+  }
+
+  80% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Animasi fade-in turun */
+@keyframes fallIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shake {
+  animation: shake 0.5s;
+}
+
+/* Animasi fade-out dan sedikit mengecil ala iOS */
+@keyframes fadeOutScale {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+.fade-out {
+  animation: fadeOutScale 0.5s forwards;
+}
+
+
+/* ============== INI ADALAH PENGATURAN UNTUK MENU ==================== */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  /* bisa lebih kecil dari 150px */
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+  /* pastikan full */
+}
+
+.menu-item {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: var(--pico-border-radius);
+  background: var(--pico-background-color);
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+  background: var(--pico-muted-color);
+  color: white;
+}
+
+.big-icon-btn-menu {
+  font-size: 1.6rem;
+  padding: 0rem 0rem;
+  cursor: pointer;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK HALAMAN AKUN ==================== */
+
+.akun-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.akun-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 12px;
+  background: var(--pico-background-color);
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.akun-item:hover {
+  background: var(--pico-muted-color);
+  color: white;
+}
+
+.akun-icon {
+  font-size: 1.4rem;
+}
+
+.akun-label {
+  flex: 1;
+  text-align: left;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK BOTTOM NAVIGATION ==================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+
+  /* 🔹 Glass effect */
+  background: rgba(255, 255, 255, 0.2);
+  /* transparan putih */
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  /* safari support */
+
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--bottom-nav-text);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.nav-item {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: inherit;
+  height: 100%;
+  /* isi penuh tinggi nav */
+  /* ikut warna teks tema */
+  font: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    color 0.1s ease,
+    transform 0.1s ease;
+}
+
+.nav-item .nav-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: transform 0.1s ease, text-shadow 0.1s ease;
+}
+
+.nav-item .nav-label {
+  font-size: 0.8rem;
+  margin-top: 2px;
+  transition: font-size 0.1s ease;
+}
+
+/* 🔹 State aktif */
+.nav-item.active {
+  color: var(--pico-primary);
+  font-weight: bold;
+  transform: scale(1.03);
+  /* sedikit lebih besar */
+}
+
+.nav-item.active .nav-icon {
+  font-size: 1.6rem;
+  /* lebih besar dari default */
+  text-shadow: 0 0 8px var(--pico-primary);
+  /* efek glow */
+  transform: scale(1.06);
+}
+
+.nav-item.active .nav-label {
+  font-size: 0.8rem;
+  /* sedikit lebih besar */
+}
+
+/* 🌞 Light mode */
+:root[data-theme="light"] {
+  --bottom-nav-bg: #f9f9fb;
+  /* abu soft, bukan putih polos */
+  --bottom-nav-border: #e0e0e5;
+  --bottom-nav-text: #222;
+}
+
+/* 🌙 Dark mode */
+:root[data-theme="dark"] {
+  --bottom-nav-bg: rgba(30, 30, 40, 0.5);
+  /* transparan gelap */
+  --bottom-nav-border: rgba(255, 255, 255, 0.2);
+  --bottom-nav-text: #ddd;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK HARGA ITEM ==================== */
+.harga-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.harga-item:hover {
+  background: var(--pico-muted-color);
+  cursor: pointer;
+}
+
+/* Override inline warna ke putih */
+.harga-item:hover span {
+  color: white !important;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK TOAST ==================== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  /* icon di atas pesan */
+  align-items: center;
+  /* rata tengah */
+  text-align: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 4000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.toast.success {
+  background-color: rgba(22, 163, 74, 0.95);
+}
+
+.toast.error {
+  background-color: rgba(220, 53, 69, 0.95);
+}
+
+.toast-icon {
+  font-size: 3rem;
+  /* lebih besar */
+}
+
+.toast-message {
+  font-size: 1.1rem;
+  white-space: pre-line;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK MODAL KONFIRMASI ==================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  /* default hidden */
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.modal {
+  background: var(--modal-bg);
+  color: var(--modal-text);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  width: clamp(300px, 80%, 600px);
+  /* ⬅️ kunci responsive */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: scaleIn 0.3s ease;
+  position: relative;
+}
+
+
+.modal-header {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--modal-border);
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.modal-message {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  white-space: pre-line;
+  max-height: 60vh;
+  /* biar tidak lebih tinggi dari 60% layar */
+  overflow-y: auto;
+  /* kalau konten banyak, bisa di-scroll */
+  text-align: left;
+  /* tabel lebih rapi rata kiri */
+}
+
+.modal-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  /* biar bisa turun kalau sempit */
+  gap: 0.3rem;
+  /* jarak antar tombol kecil */
+  justify-content: space-between;
+}
+
+.modal-buttons button {
+  flex: 1 1 30%;
+  /* target 3 tombol sejajar */
+  min-width: 90px;
+  /* biar nggak terlalu kecil */
+  padding: 0.3rem 0.4rem;
+  /* padding tipis */
+  font-size: 0.9rem;
+  /* teks sedikit lebih kecil */
+  border-radius: 0.4rem;
+}
+
+/* Kalau layar benar-benar kecil (misalnya <= 320px) */
+@media (max-width: 320px) {
+  .modal-buttons button {
+    flex: 1 1 45%;
+    /* otomatis isi 2 kolom, sisanya turun */
+  }
+}
+
+.modal-ok {
+  background: rgba(22, 163, 74, 0.95);
+  color: white;
+}
+
+.modal-ok:hover {
+  background: rgba(22, 163, 74, 1);
+}
+
+.modal-cancel {
+  background: rgba(220, 53, 69, 0.95);
+  color: white;
+}
+
+.modal-cancel:hover {
+  background: rgba(220, 53, 69, 1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: red;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+  scale: 1.5;
+}
+
+.modal-close:hover {
+  color: red;
+}
+
+/* Tombol Bagikan */
+.modal-share {
+  background: #2563eb;
+  /* biru */
+  color: white;
+}
+
+.modal-share:hover {
+  background: #1d4ed8;
+}
+
+/* Tombol Komplain */
+.modal-complain {
+  background: #dc2626;
+  /* merah */
+  color: white;
+}
+
+.modal-complain:hover {
+  background: #b91c1c;
+}
+
+.modal-print {
+  background: #16a34a;
+  /* hijau */
+  color: white;
+}
+
+.modal-print:hover {
+  background: #15803d;
+}
+
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+:root[data-theme="light"] {
+  --modal-bg: #fff;
+  --modal-text: #333;
+  --modal-border: #ddd;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] {
+  --modal-bg: #2a2a2a;
+  --modal-text: #eee;
+  --modal-border: #444;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK NOMOR TUJUAN ==================== */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#inputTujuan {
+  flex: 1;
+  box-sizing: border-box;
+  padding-left: 0.5rem;
+}
+
+.input-right-wrapper {
+  position: absolute;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  /* pastikan semua item sejajar vertikal */
+  gap: 0.4rem;
+  /* jarak antar operator dan X */
+  height: 100%;
+  /* biar ikut tinggi input */
+  padding-bottom: 18px;
+}
+
+.input-operator-display {
+  font-size: 0.9rem;
+  font-weight: bold;
+  white-space: nowrap;
+  line-height: 1;
+  /* rapatkan agar tidak turun */
+  display: flex;
+  align-items: center;
+  /* pastikan vertikal align */
+}
+
+.input-clear-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  /* sesuaikan biar mirip tinggi teks */
+  cursor: pointer;
+  display: none;
+  padding: 0;
+  margin: 0;
+}
+
+.input-clear-btn:hover {
+  color: #e74c3c;
+}
+
+/* Tombol kontak di kiri input */
+.input-contact-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+#inputTujuan.with-operator {
+  padding-right: 4rem;
+  /* lebih lebar kalau ada operator */
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK LAPORAN TRANSAKSI ==================== */
+.laporan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.laporan-item {
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  margin-bottom: 0.3rem;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.laporan-item .sn-text {
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.laporan-item.success {
+  background: var(--laporan-success-bg);
+  color: var(--laporan-success-text);
+}
+
+.laporan-item.proses {
+  background: var(--laporan-proses-bg);
+  color: var(--laporan-proses-text);
+}
+
+.laporan-item.failed {
+  background: var(--laporan-failed-bg);
+  color: var(--laporan-failed-text);
+}
+
+.laporan-item:hover {
+  background: var(--pico-muted-color);
+  color: white;
+}
+
+/* Light mode */
+:root[data-theme="light"] {
+  --laporan-success-bg: #d4edda;
+  --laporan-success-text: #155724;
+
+  --laporan-proses-bg: #fff3cd;
+  --laporan-proses-text: #856404;
+
+  --laporan-failed-bg: #f8d7da;
+  --laporan-failed-text: #721c24;
+}
+
+/* Dark mode */
+:root[data-theme="dark"] {
+  --laporan-success-bg: #1e3a2a;
+  --laporan-success-text: #a3e4a1;
+
+  --laporan-proses-bg: #3a2e1e;
+  --laporan-proses-text: #f6d88b;
+
+  --laporan-failed-bg: #3a1e1e;
+  --laporan-failed-text: #f2a6a6;
+}
+
+/* ============== INI ADALAH PENGATURAN UNTUK MODAL DETAIL TRANSAKSI ==================== */
+.detail-table-laporan-modal {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  table-layout: fixed;
+  /* penting untuk kontrol lebar */
+}
+
+.detail-table-laporan-modal td {
+  padding: 0.3rem 0.5rem;
+  vertical-align: top;
+}
+
+.detail-table-laporan-modal td:first-child {
+  width: 40%;
+  text-align: left;
+  font-weight: 600;
+  color: var(--modal-text);
+  white-space: nowrap;
+  /* label tetap 1 baris */
+}
+
+.detail-table-laporan-modal td:last-child {
+  width: 60%;
+  text-align: right;
+  font-weight: bold;
+  color: var(--pico-primary, #0d6efd);
+  word-break: break-all;
+  /* biar nomor panjang bisa patah */
+}
+
+@media (max-width: 400px) {
+  .detail-table-laporan-modal td {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.3rem;
+  }
+}

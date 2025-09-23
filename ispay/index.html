@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ISTANA PAYMENT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000" id="theme-color">
+  <meta name="google" content="notranslate">
+
+  <!-- Pico CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+
+  <!-- Strophe -->
+  <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="pinOverlay" style="display: none;">
+    <h2 id="pinMessage">Masukkan PIN Anda</h2>
+    <div class="pinCircles">
+      <div class="pinCircle"></div>
+      <div class="pinCircle"></div>
+      <div class="pinCircle"></div>
+      <div class="pinCircle"></div>
+      <div class="pinCircle"></div>
+      <div class="pinCircle"></div>
+    </div>
+    <div class="pinPad">
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <div></div>
+      <button>0</button>
+      <button id="pinBack">⌫</button>
+    </div>
+  </div>
+
+  <main class="container">
+    <article id="loading" style="display: none;">
+    </article>
+
+    <article id="saldoDisplay" style="display: none;">
+      AKUN ANDA BELUM TERHUBUNG !!
+    </article>
+
+    <!-- Form Login -->
+    <form id="formLogin" style="display:none;">
+      <label for="akune">Username</label>
+      <input type="text" id="akune" autocomplete="off" name="satu">
+
+      <label for="paswote">Password</label>
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="paswote" autocomplete="off" name="dua" style="flex:1;">
+        <button class="outline" type="button" id="togglePass" style="margin-left:2%;">👁</button>
+      </div>
+
+      <button type="submit">Login</button>
+      <!-- Button baru untuk registrasi -->
+      <!-- <button class="outline" type="button" style="margin-top:10px; width:100%;" id="showRegister">
+        Buat Akun
+      </button> -->
+
+    </form>
+
+
+    <form id="formRegister" style="display:none; margin-top:20px;" autocomplete="off">
+      <label for="regUser">Username
+        <small style="color: rgb(1, 170, 219);">(contoh jon789)</small>
+      </label>
+      <input type="text" id="regUser" autocomplete="off" required>
+      <p id="regWarning" style="color:red; display:none; font-size:0.9em;"></p>
+
+      <label for="regPass">Password</label>
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="regPass" autocomplete="new-password" required style="flex:1;">
+        <button class="outline" type="button" id="toggleRegPass" style="margin-left:2%;">👁</button>
+      </div>
+
+      <label for="regPass2">Ulangi Password</label>
+      <div style="display:flex; align-items:center;">
+        <input type="password" id="regPass2" autocomplete="new-password" required style="flex:1;">
+        <button class="outline" type="button" id="toggleRegPass2" style="margin-left:2%;">👁</button>
+      </div>
+      <p id="passWarning" style="color:red; display:none; font-size:0.9em;"></p>
+
+
+      <button type="submit" style="margin-top:10px; width:100%;">Buat Akun Sekarang</button>
+      <button type="button" id="backToLogin" class="outline" style="margin-top:10px; width:100%;">Kembali ke
+        Login</button>
+    </form>
+
+    <!-- 📌 Laporan Transaksi di artikel terpisah -->
+    <article id="laporanTransaksiDisplay" style="display:none;">
+      <div id="laporanHeader"></div>
+      <div id="laporanList"></div>
+    </article>
+
+    <!-- 📌 Halaman Akun -->
+    <article id="akunDisplay" style="display:none;">
+      <!-- konten akun akan di-render lewat akunPage.js -->
+    </article>
+
+    <article id="homeDisplay" style="display:none;">
+      <div class="input-wrapper">
+        <!-- Icon kontak di kiri -->
+        <button id="contactBtn" class="input-contact-btn" type="button" title="Ambil dari Kontak">📇</button>
+
+        <input type="text" id="inputTujuan" placeholder="Masukkan No Tujuan" inputmode="numeric" pattern="[0-9]*"
+          autocomplete="off">
+
+        <div class="input-right-wrapper">
+          <span id="operatorDisplay" class="input-operator-display"></span>
+          <button id="clearInput" class="input-clear-btn" type="button">❌</button>
+        </div>
+      </div>
+
+      <div id="extraButtons" style="margin:0.5rem 0; display:none;"></div>
+      <div id="menuGrid" class="menu-grid"></div>
+    </article>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <button id="modalCloseBtn" class="modal-close">&times;</button>
+      <div id="modalHeader" class="modal-header"></div>
+      <div id="modalMessage" class="modal-message"></div>
+      <div id="modalButtons" class="modal-buttons"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" id="navBottom" style="display: none;">
+    <button class="nav-item" id="navRiwayat" title="Riwayat">
+      <span class="nav-icon">📜</span>
+      <span class="nav-label">Riwayat</span>
+    </button>
+    <button class="nav-item active" id="navBeranda" title="Beranda">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Beranda</span>
+    </button>
+    <button class="nav-item" id="navAkun" title="Akun">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label">Akun</span>
+    </button>
+  </nav>
+
+  <!-- Modal Loading -->
+  <div id="loadingModal" class="modal-overlay" style="display:none;">
+    <div class="modal" style="text-align:center; max-width:300px;">
+      <h3>Sedang login...</h3>
+      <progress id="loginProgress" value="0" max="100" style="width:100%;"></progress>
+      <p id="loginProgressText">0%</p>
+    </div>
+  </div>
+  <script src="dist/bundle.js"></script>
+</body>
+
+</html>
