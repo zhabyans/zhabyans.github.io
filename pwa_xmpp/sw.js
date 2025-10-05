@@ -1,13 +1,11 @@
-const CACHE_NAME = "myapp-cache-v1";
+const CACHE_NAME = "myapp-cache-v3";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
   "/home.html",
   "/manifest.json",
   "/icons/icon-192.png",
-  "/icons/icon-512.png",
-  "https://cdn.tailwindcss.com",
-  "https://cdn.jsdelivr.net/npm/strophe.js@1.6.0/dist/strophe.min.js"
+  "/icons/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
