@@ -1,7 +1,5 @@
-<!-- file index.html -->
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,7 +10,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.min.js"></script>
 </head>
-
 <body class="min-h-screen bg-gray-100 flex items-center justify-center">
 
   <!-- FORM LOGIN -->
@@ -53,12 +50,14 @@
   <script>
     const ws_url = "wss://pulsa.dpdns.org:7443/ws";
     const defaultDomain = "pulsa.dpdns.org";
+
     let conn = null;
     let username = "";
     let password = "";
     let reconnecting = false;
+    let heartbeatTimer = null;
 
-    // LOGIN
+    // Login
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
       username = document.getElementById('username').value.trim();
@@ -68,7 +67,6 @@
         alert("Silakan isi username dan kata sandi!");
         return;
       }
-
       connectToServer();
     });
 
@@ -105,9 +103,10 @@
       });
     }
 
-    // Heartbeat — kirim ping tiap 20 detik agar server tahu kita aktif
+    // Heartbeat — kirim presence tiap 20 detik
     function startHeartbeat() {
-      setInterval(() => {
+      clearInterval(heartbeatTimer);
+      heartbeatTimer = setInterval(() => {
         if (conn && conn.connected) {
           conn.send($pres().c("priority").t("127"));
           console.log("💓 Kirim heartbeat");
@@ -115,10 +114,11 @@
       }, 20000);
     }
 
-    // Handle disconnect
+    // Saat koneksi terputus
     function handleDisconnect() {
       document.getElementById('userStatus').textContent = `🔴 Terputus dari server, mencoba menyambung kembali...`;
-      if (!reconnecting) {
+      clearInterval(heartbeatTimer);
+      if (!reconnecting && username && password) {
         reconnecting = true;
         setTimeout(() => {
           console.log("🔁 Mencoba reconnect...");
@@ -127,9 +127,20 @@
       }
     }
 
+    // Ketika pengguna kembali ke PWA (misal dari background)
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        if (!conn || !conn.connected) {
+          console.log("🟡 Aplikasi aktif kembali, cek koneksi...");
+          handleDisconnect();
+        }
+      }
+    });
+
     // Logout
     document.getElementById('logoutBtn').addEventListener('click', () => {
       if (conn) conn.disconnect();
+      clearInterval(heartbeatTimer);
       document.getElementById('homePage').classList.add('hidden');
       document.getElementById('formLogin').classList.remove('hidden');
     });
@@ -143,7 +154,7 @@
       });
     }
 
-    // Tombol Install
+    // Tombol Install PWA
     let deferredPrompt;
     const installBtn = document.createElement('button');
     installBtn.textContent = '📱 Install Aplikasi';
@@ -168,5 +179,4 @@
   </script>
 
 </body>
-
 </html>
