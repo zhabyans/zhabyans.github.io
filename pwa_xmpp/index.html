@@ -38,6 +38,9 @@
         Masuk
       </button>
     </form>
+
+    <!-- Tempat menampilkan versi cache -->
+    <p id="cacheVersion" class="text-sm text-gray-400 text-center mt-4"></p>
   </div>
 
   <!-- HALAMAN HOME -->
@@ -147,29 +150,30 @@
       document.getElementById('formLogin').classList.remove('hidden');
     });
 
+    // ===== SERVICE WORKER + CACHE VERSION =====
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js').then(reg => {
           console.log('✅ Service Worker terdaftar:', reg.scope);
 
-          // 🆕 Kirim pesan ke SW untuk meminta nama cache
+          // Jika sudah aktif, minta nama cache
           if (navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({ type: "GET_CACHE_NAME" });
+          } else {
+            // Kalau belum ada controller (misal SW baru), tunggu aktivasi
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              navigator.serviceWorker.controller.postMessage({ type: "GET_CACHE_NAME" });
+            });
           }
-
         }).catch(err => console.error('❌ SW gagal:', err));
       });
 
-      // 🆕 Terima balasan dari SW
+      // Menerima balasan dari SW
       navigator.serviceWorker.addEventListener("message", (event) => {
         if (event.data.type === "CACHE_NAME") {
           const cacheName = event.data.value;
           console.log("💾 CACHE_NAME:", cacheName);
-          // Tampilkan di halaman login
-          const cacheLabel = document.createElement("p");
-          cacheLabel.className = "text-sm text-gray-400 text-center mt-4";
-          cacheLabel.textContent = `Cache versi: ${cacheName}`;
-          document.getElementById("formLogin").appendChild(cacheLabel);
+          document.getElementById("cacheVersion").textContent = `Cache versi: ${cacheName}`;
         }
       });
     }
