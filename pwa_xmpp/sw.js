@@ -1,5 +1,5 @@
-//file sw.js
-const CACHE_NAME = "myapp-cache-v7";
+// file: sw.js
+const CACHE_NAME = "myapp-cache-v8";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
@@ -20,4 +20,14 @@ self.addEventListener("fetch", (event) => {
       return response || fetch(event.request);
     })
   );
+});
+
+// 🆕 Tambahan: kirim nama cache saat diminta
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "GET_CACHE_NAME") {
+    event.source.postMessage({
+      type: "CACHE_NAME",
+      value: CACHE_NAME
+    });
+  }
 });

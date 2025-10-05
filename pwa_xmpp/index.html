@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +11,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/strophe.js@3.1.1/dist/strophe.umd.min.js"></script>
 </head>
+
 <body class="min-h-screen bg-gray-100 flex items-center justify-center">
 
   <!-- FORM LOGIN -->
@@ -145,12 +147,30 @@
       document.getElementById('formLogin').classList.remove('hidden');
     });
 
-    // Daftarkan Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
-          .then(reg => console.log('✅ Service Worker terdaftar:', reg.scope))
-          .catch(err => console.error('❌ SW gagal:', err));
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          console.log('✅ Service Worker terdaftar:', reg.scope);
+
+          // 🆕 Kirim pesan ke SW untuk meminta nama cache
+          if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: "GET_CACHE_NAME" });
+          }
+
+        }).catch(err => console.error('❌ SW gagal:', err));
+      });
+
+      // 🆕 Terima balasan dari SW
+      navigator.serviceWorker.addEventListener("message", (event) => {
+        if (event.data.type === "CACHE_NAME") {
+          const cacheName = event.data.value;
+          console.log("💾 CACHE_NAME:", cacheName);
+          // Tampilkan di halaman login
+          const cacheLabel = document.createElement("p");
+          cacheLabel.className = "text-sm text-gray-400 text-center mt-4";
+          cacheLabel.textContent = `Cache versi: ${cacheName}`;
+          document.getElementById("formLogin").appendChild(cacheLabel);
+        }
       });
     }
 
@@ -179,4 +199,5 @@
   </script>
 
 </body>
+
 </html>
