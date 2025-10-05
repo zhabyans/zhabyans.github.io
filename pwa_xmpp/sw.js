@@ -1,8 +1,8 @@
-const CACHE_NAME = "myapp-cache-v3";
+//file sw.js
+const CACHE_NAME = "myapp-cache-v5";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/home.html",
   "/manifest.json",
   "/icons/icon-192.png",
   "/icons/icon-512.png"
