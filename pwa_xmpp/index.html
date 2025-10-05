@@ -23,7 +23,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v11</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v12</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -125,6 +125,25 @@
       document.getElementById('homePage').classList.add('hidden');
       document.getElementById('formLogin').classList.remove('hidden');
     });
+
+    // Deteksi ketika tab PWA di-background atau kembali foreground
+    document.addEventListener("visibilitychange", () => {
+      if (!xmpp) return;
+
+      if (document.visibilityState === "hidden") {
+        // Tab di background → kirim status away
+        xmpp.send(xml("presence", {},
+          xml("show", {}, "away"),
+          xml("status", {}, "Sedang tidak aktif")
+        ));
+        console.log("🔹 Status: away dikirim karena tab di background");
+      } else if (document.visibilityState === "visible") {
+        // Tab kembali ke foreground → kirim status available
+        xmpp.send(xml("presence"));
+        console.log("🟢 Status: available dikirim karena tab aktif");
+      }
+    });
+
   </script>
 
 </body>
