@@ -9,13 +9,6 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/icon-192.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Hapus Strophe.js, ganti dengan XMPP.js -->
-  <script type="module">
-    import { client, xml } from "https://cdn.jsdelivr.net/npm/@xmpp/client@0.13.6/+esm";
-    import * as reconnect from "https://cdn.jsdelivr.net/npm/@xmpp/reconnect@0.13.2/+esm";
-
-    window.XMPPClient = { client, xml, reconnect }; // Expose global supaya bisa dipakai di script bawah
-  </script>
 </head>
 
 <body class="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -23,7 +16,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v13</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v16</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -44,8 +37,6 @@
         Masuk
       </button>
     </form>
-
-    <p id="cacheVersion" class="text-sm text-gray-400 text-center mt-4"></p>
   </div>
 
   <!-- HALAMAN HOME -->
@@ -58,8 +49,9 @@
   </div>
 
   <script type="module">
-    import { client, xml } from "https://cdn.jsdelivr.net/npm/@xmpp/client@0.13.6/+esm";
-    import reconnect from "https://cdn.jsdelivr.net/npm/@xmpp/reconnect@0.13.2/+esm";
+    import { client, xml } from "https://cdn.jsdelivr.net/npm/@xmpp/client@0.13.0/+esm";
+    import reconnect from "https://cdn.jsdelivr.net/npm/@xmpp/reconnect@0.13.0/+esm";
+    import streamManagement from "https://cdn.jsdelivr.net/npm/@xmpp/stream-management@0.13.0/+esm";
 
 
     const ws_url = "wss://pulsa.dpdns.org:7443/ws";
@@ -70,7 +62,12 @@
     let password = "";
     let heartbeatTimer = null;
 
-    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+    const loginForm = document.getElementById('loginForm');
+    const homePage = document.getElementById('homePage');
+    const formLogin = document.getElementById('formLogin');
+    const userStatus = document.getElementById('userStatus');
+
+    loginForm.addEventListener('submit', async function (e) {
       e.preventDefault();
       username = document.getElementById('username').value.trim();
       password = document.getElementById('password').value.trim();
@@ -79,7 +76,7 @@
       connectToServer();
     });
 
-    function connectToServer() {
+    async function connectToServer() {
       xmpp = client({
         service: ws_url,
         domain: defaultDomain,
@@ -87,66 +84,59 @@
         password
       });
 
-      // Pasang reconnect otomatis setelah xmpp dibuat
+      // ✅ Gunakan reconnect saja
       reconnect({ entity: xmpp });
 
-      xmpp.on("status", status => {
-        console.log("Status XMPP:", status);
-      });
+      xmpp.on("status", status => console.log("Status XMPP:", status));
 
-      xmpp.on("online", address => {
+      xmpp.on("online", async address => {
         console.log("✅ Terhubung sebagai:", address.toString());
-        document.getElementById('formLogin').classList.add('hidden');
-        document.getElementById('homePage').classList.remove('hidden');
-        document.getElementById('userStatus').textContent = `🟢 Terhubung sebagai ${address.toString()}`;
-
+        formLogin.classList.add('hidden');
+        homePage.classList.remove('hidden');
+        userStatus.textContent = `🟢 Terhubung sebagai ${address.toString()}`;
         xmpp.send(xml("presence"));
 
         clearInterval(heartbeatTimer);
         heartbeatTimer = setInterval(() => {
           xmpp.send(xml("presence"));
-          console.log("💓 Kirim heartbeat");
+          console.log("💓 Heartbeat dikirim");
         }, 20000);
       });
 
       xmpp.on("offline", () => {
         console.warn("🔴 Terputus dari server!");
-        document.getElementById('userStatus').textContent = `🔴 Terputus dari server...`;
+        userStatus.textContent = "🔴 Terputus dari server...";
         clearInterval(heartbeatTimer);
       });
 
       xmpp.on("error", err => console.error("⚠️ XMPP Error:", err));
 
-      xmpp.start().catch(err => console.error("❌ Gagal koneksi:", err));
+      try {
+        await xmpp.start();
+      } catch (err) {
+        console.error("❌ Gagal koneksi:", err);
+      }
     }
 
-    // Logout
+
     document.getElementById('logoutBtn').addEventListener('click', () => {
       if (xmpp) xmpp.stop();
       clearInterval(heartbeatTimer);
-      document.getElementById('homePage').classList.add('hidden');
-      document.getElementById('formLogin').classList.remove('hidden');
+      homePage.classList.add('hidden');
+      formLogin.classList.remove('hidden');
     });
 
-    // Deteksi ketika tab PWA di-background atau kembali foreground
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", async () => {
       if (!xmpp) return;
 
       if (document.visibilityState === "hidden") {
         xmpp.send(xml("presence", {}, xml("show", {}, "away"), xml("status", {}, "Sedang tidak aktif")));
-        console.log("🔹 Status: away dikirim karena tab di background");
+        console.log("🔹 Status away dikirim");
       } else if (document.visibilityState === "visible") {
-        // Cek apakah koneksi masih alive
-        if (!xmpp.status || xmpp.status === "offline") {
-          console.log("🔄 Koneksi terputus, reconnect...");
-          connectToServer(); // reconnect ulang
-        } else {
-          xmpp.send(xml("presence"));
-          console.log("🟢 Status: available dikirim karena tab aktif");
-        }
+        xmpp.send(xml("presence"));
+        console.log("🟢 Status aktif kembali");
       }
     });
-
   </script>
 
 </body>
