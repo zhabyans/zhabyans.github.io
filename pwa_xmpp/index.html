@@ -16,7 +16,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v21</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v22</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -74,19 +74,12 @@
     // safe send wrapper
     function safeSend(node) {
       try {
-        if (!xmpp) return console.warn("safeSend: xmpp belum diinisialisasi.");
-        const socket = xmpp?.socket;
-        // pastikan koneksi belum closing/closed
-        if (!socket || socket.readyState !== 1) {
-          console.warn("safeSend: WebSocket belum siap (state:", socket?.readyState, ")");
-          return;
-        }
-        xmpp.send(node);
+        if (xmpp && typeof xmpp.send === 'function') xmpp.send(node);
+        else console.warn("safeSend: xmpp belum siap, stanza dibatalkan.");
       } catch (e) {
         console.error("safeSend error:", e);
       }
     }
-
 
     async function reconnectFast() {
       if (isReconnecting) return;
@@ -174,7 +167,7 @@
         console.log("✅ Terhubung sebagai:", address.toString());
 
         try {
-          streamManagement(xmpp);
+          streamManagement(xmpp); // cukup panggil langsung tanpa .enable()
           console.log("🧩 Stream Management diaktifkan otomatis");
         } catch (e) {
           console.warn("Gagal enable Stream Management:", e);
@@ -183,19 +176,20 @@
         formLogin.classList.add('hidden');
         homePage.classList.remove('hidden');
         userStatus.textContent = `🟢 Terhubung sebagai ${address.toString()}`;
+
         safeSend(xml("presence"));
 
         clearInterval(heartbeatTimer);
         for (const [id, to] of pendingPing.entries()) clearTimeout(to);
         pendingPing.clear();
 
-        // tambahkan delay agar WebSocket benar-benar siap
-        setTimeout(() => sendPingWithTimeout(15000), 2000);
-
         heartbeatTimer = setInterval(() => {
           sendPingWithTimeout(15000);
         }, 30000);
+
+        sendPingWithTimeout(15000);
       });
+
 
       // stanza handler: watch for ping result replies
       xmpp.on("stanza", stanza => {
