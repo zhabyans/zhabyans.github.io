@@ -16,7 +16,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v18</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v19</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -119,6 +119,11 @@
 
       // attach reconnect plugin (one instance)
       const r = reconnect({ entity: xmpp });
+
+      // atur delay reconnect agar tidak terlalu lama
+      r.reconnect.delay = 3000; // 3 detik fix delay, bukan exponential
+      r.reconnect.maxRetries = Infinity; // selalu mencoba ulang
+      r.reconnect.immediate = true; // langsung reconnect setelah disconnect
 
       r.on("reconnecting", (attempt, delay) => {
         console.log(`🔁 Mencoba koneksi ulang ke-${attempt}, jeda ${delay}ms`);
