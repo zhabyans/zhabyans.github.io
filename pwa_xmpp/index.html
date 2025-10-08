@@ -16,7 +16,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v17</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v18</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -61,6 +61,7 @@
     let password = "";
     let heartbeatTimer = null;
     let pingCounter = 0;
+    let isConnecting = false;
     const pendingPing = new Map(); // id -> timeoutId
 
     const loginForm = document.getElementById('loginForm');
@@ -127,6 +128,16 @@
       r.on("reconnected", () => {
         console.log("✅ Koneksi berhasil dipulihkan (reconnected)");
         userStatus.textContent = "🟢 Koneksi berhasil dipulihkan";
+      });
+
+      r.on("disconnect", () => console.log("🚫 Plugin reconnect mendeteksi disconnect"));
+      r.on("attempt", n => console.log("🔄 Percobaan reconnect ke-", n));
+
+      r.on("reconnecting", () => {
+        userStatus.style.color = "orange";
+      });
+      r.on("reconnected", () => {
+        userStatus.style.color = "green";
       });
 
       // handle status logging
@@ -200,20 +211,25 @@
         userStatus.textContent = "🟢 Koneksi dipulihkan (stream resumed)";
       });
 
-      xmpp.on("stream:management:failed", () => {
-        console.warn("⚠️ Stream management gagal, mencoba login ulang...");
-        userStatus.textContent = "⚠️ Stream management gagal, reconnecting...";
-        // Delay sedikit sebelum reconnect agar tidak cepat loop
-        setTimeout(connectToServer, 2000);
+      xmpp.on("stream:management:failed", async () => {
+        console.warn("⚠️ Stream management gagal, meminta reconnect otomatis...");
+        userStatus.textContent = "⚠️ Stream management gagal, menunggu auto-reconnect...";
+        try { await xmpp.stop(); } catch (e) { }
       });
 
-      // start connection
+      xmpp.on("reconnecting", () => console.log("🌀 Plugin reconnect mencoba menyambung..."));
+      xmpp.on("reconnected", () => console.log("✅ Plugin reconnect berhasil!"));
+      xmpp.on("close", () => console.log("🚪 Stream ditutup."));
+
+      if (isConnecting) return;
+      isConnecting = true;
+
       try {
         await xmpp.start();
       } catch (err) {
-        console.error("❌ Gagal koneksi:", err);
-        userStatus.textContent = "❌ Gagal koneksi, mencoba ulang dalam 5 detik...";
-        setTimeout(connectToServer, 5000);
+        console.error("Gagal start:", err);
+      } finally {
+        isConnecting = false;
       }
     }
 
@@ -236,7 +252,6 @@
             if (xmpp) {
               (async () => {
                 try { await xmpp.stop(); } catch (e) { console.warn("Stop saat ping timeout gagal:", e); }
-                connectToServer();
               })();
             } else {
               connectToServer();
@@ -258,9 +273,9 @@
 
     window.addEventListener('online', () => {
       console.log("🌐 Koneksi internet kembali");
-      userStatus.textContent = "🌐 Koneksi kembali, mencoba login ulang...";
-      if (xmpp && xmpp.status !== 'online') connectToServer();
+      userStatus.textContent = "🌐 Koneksi kembali, menunggu auto-reconnect...";
     });
+
 
     // logout
     logoutBtn.addEventListener('click', async () => {
@@ -291,8 +306,8 @@
           console.log("🟢 Status aktif kembali");
           // if not online, attempt reconnect
           if (xmpp.status !== 'online') {
-            console.log("Tab aktif tapi xmpp.offline -> mencoba reconnect");
-            connectToServer();
+            console.log("Tab aktif tapi xmpp.offline -> biarkan auto-reconnect aktif");
+            try { await xmpp.stop(); } catch (e) { }
           }
         } catch (e) { console.warn("Gagal kirim presence active:", e); }
       }
@@ -302,7 +317,6 @@
     setInterval(() => {
       if (xmpp && xmpp.status !== 'online') {
         console.log("⏱️ Cek koneksi rutin: offline, mencoba ulang...");
-        connectToServer();
       }
     }, 60000);
 
