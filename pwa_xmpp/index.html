@@ -16,7 +16,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v16</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v17</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -53,7 +53,6 @@
     import reconnect from "https://cdn.jsdelivr.net/npm/@xmpp/reconnect@0.13.0/+esm";
     import streamManagement from "https://cdn.jsdelivr.net/npm/@xmpp/stream-management@0.13.0/+esm";
 
-
     const ws_url = "wss://pulsa.dpdns.org:7443/ws";
     const defaultDomain = "pulsa.dpdns.org";
 
@@ -61,11 +60,29 @@
     let username = "";
     let password = "";
     let heartbeatTimer = null;
+    let pingCounter = 0;
+    const pendingPing = new Map(); // id -> timeoutId
 
     const loginForm = document.getElementById('loginForm');
     const homePage = document.getElementById('homePage');
     const formLogin = document.getElementById('formLogin');
     const userStatus = document.getElementById('userStatus');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    // safe send wrapper
+    function safeSend(node) {
+      try {
+        if (xmpp && typeof xmpp.send === 'function') xmpp.send(node);
+        else console.warn("safeSend: xmpp belum siap, stanza dibatalkan.");
+      } catch (e) {
+        console.error("safeSend error:", e);
+      }
+    }
+
+    // optional: enable auto-login by uncommenting and using localStorage
+    // const savedUser = localStorage.getItem("xmpp_user");
+    // const savedPass = localStorage.getItem("xmpp_pass");
+    // if (savedUser && savedPass) { username = savedUser; password = savedPass; connectToServer(); }
 
     loginForm.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -73,10 +90,25 @@
       password = document.getElementById('password').value.trim();
       if (!username || !password) return alert("Silakan isi username dan kata sandi!");
 
+      // optional: save credentials (be careful with security!)
+      // localStorage.setItem("xmpp_user", username);
+      // localStorage.setItem("xmpp_pass", password);
+
       connectToServer();
     });
 
     async function connectToServer() {
+      // stop old instance cleanly
+      if (xmpp) {
+        try {
+          await xmpp.stop();
+        } catch (e) {
+          console.warn("Stop gagal:", e);
+        }
+        xmpp = null;
+      }
+
+      // create new xmpp client
       xmpp = client({
         service: ws_url,
         domain: defaultDomain,
@@ -84,59 +116,196 @@
         password
       });
 
-      // ✅ Gunakan reconnect saja
-      reconnect({ entity: xmpp });
+      // attach reconnect plugin (one instance)
+      const r = reconnect({ entity: xmpp });
 
-      xmpp.on("status", status => console.log("Status XMPP:", status));
+      r.on("reconnecting", (attempt, delay) => {
+        console.log(`🔁 Mencoba koneksi ulang ke-${attempt}, jeda ${delay}ms`);
+        userStatus.textContent = `🔁 Mencoba koneksi ulang (${attempt})...`;
+      });
 
+      r.on("reconnected", () => {
+        console.log("✅ Koneksi berhasil dipulihkan (reconnected)");
+        userStatus.textContent = "🟢 Koneksi berhasil dipulihkan";
+      });
+
+      // handle status logging
+      xmpp.on("status", status => {
+        console.log("Status XMPP:", status);
+      });
+
+      // when online: enable SM here and UI changes
       xmpp.on("online", async address => {
         console.log("✅ Terhubung sebagai:", address.toString());
+
+        try {
+          streamManagement(xmpp); // cukup panggil langsung tanpa .enable()
+          console.log("🧩 Stream Management diaktifkan otomatis");
+        } catch (e) {
+          console.warn("Gagal enable Stream Management:", e);
+        }
+
         formLogin.classList.add('hidden');
         homePage.classList.remove('hidden');
         userStatus.textContent = `🟢 Terhubung sebagai ${address.toString()}`;
-        xmpp.send(xml("presence"));
+
+        safeSend(xml("presence"));
 
         clearInterval(heartbeatTimer);
+        for (const [id, to] of pendingPing.entries()) clearTimeout(to);
+        pendingPing.clear();
+
         heartbeatTimer = setInterval(() => {
-          xmpp.send(xml("presence"));
-          console.log("💓 Heartbeat dikirim");
-        }, 20000);
+          sendPingWithTimeout(15000);
+        }, 30000);
+
+        sendPingWithTimeout(15000);
+      });
+
+
+      // stanza handler: watch for ping result replies
+      xmpp.on("stanza", stanza => {
+        try {
+          // stanza.is() works with @xmpp/xml Element (common with @xmpp/client)
+          if (stanza.is && stanza.is('iq')) {
+            const id = stanza.attrs && stanza.attrs.id;
+            const type = stanza.attrs && stanza.attrs.type;
+            if (id && type === 'result' && pendingPing.has(id)) {
+              console.log("🏓 Ping balasan diterima:", id);
+              clearTimeout(pendingPing.get(id));
+              pendingPing.delete(id);
+            }
+          }
+        } catch (e) {
+          console.warn("Error di stanza handler:", e);
+        }
       });
 
       xmpp.on("offline", () => {
         console.warn("🔴 Terputus dari server!");
         userStatus.textContent = "🔴 Terputus dari server...";
         clearInterval(heartbeatTimer);
+        // clear pending ping timers
+        for (const [id, to] of pendingPing.entries()) clearTimeout(to);
+        pendingPing.clear();
       });
 
-      xmpp.on("error", err => console.error("⚠️ XMPP Error:", err));
+      xmpp.on("error", err => {
+        console.error("⚠️ XMPP Error:", err);
+      });
 
+      // stream management events (global)
+      xmpp.on("stream:management:resumed", () => {
+        console.log("✅ Stream berhasil dilanjutkan tanpa login ulang");
+        userStatus.textContent = "🟢 Koneksi dipulihkan (stream resumed)";
+      });
+
+      xmpp.on("stream:management:failed", () => {
+        console.warn("⚠️ Stream management gagal, mencoba login ulang...");
+        userStatus.textContent = "⚠️ Stream management gagal, reconnecting...";
+        // Delay sedikit sebelum reconnect agar tidak cepat loop
+        setTimeout(connectToServer, 2000);
+      });
+
+      // start connection
       try {
         await xmpp.start();
       } catch (err) {
         console.error("❌ Gagal koneksi:", err);
+        userStatus.textContent = "❌ Gagal koneksi, mencoba ulang dalam 5 detik...";
+        setTimeout(connectToServer, 5000);
       }
     }
 
+    // send ping and create timeout to detect missing reply
+    function sendPingWithTimeout(timeoutMs = 15000) {
+      if (!xmpp) return;
+      pingCounter += 1;
+      const id = `ping-${Date.now()}-${pingCounter}`;
+      const ping = xml("iq", { type: "get", id },
+        xml("ping", { xmlns: "urn:xmpp:ping" })
+      );
+      try {
+        safeSend(ping);
+        // set timeout to detect lack of reply
+        const to = setTimeout(() => {
+          if (pendingPing.has(id)) {
+            console.warn(`❌ Ping ${id} tidak mendapat balasan dalam ${timeoutMs}ms -> trigger reconnect`);
+            pendingPing.delete(id);
+            // attempt reconnect: stop then connect
+            if (xmpp) {
+              (async () => {
+                try { await xmpp.stop(); } catch (e) { console.warn("Stop saat ping timeout gagal:", e); }
+                connectToServer();
+              })();
+            } else {
+              connectToServer();
+            }
+          }
+        }, timeoutMs);
+        pendingPing.set(id, to);
+        console.log("💓 Ping dikirim (id):", id);
+      } catch (e) {
+        console.error("Gagal kirim ping:", e);
+      }
+    }
 
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      if (xmpp) xmpp.stop();
-      clearInterval(heartbeatTimer);
-      homePage.classList.add('hidden');
-      formLogin.classList.remove('hidden');
+    // network online/offline events
+    window.addEventListener('offline', () => {
+      console.warn("📴 Koneksi internet hilang");
+      userStatus.textContent = "📴 Koneksi internet hilang";
     });
 
+    window.addEventListener('online', () => {
+      console.log("🌐 Koneksi internet kembali");
+      userStatus.textContent = "🌐 Koneksi kembali, mencoba login ulang...";
+      if (xmpp && xmpp.status !== 'online') connectToServer();
+    });
+
+    // logout
+    logoutBtn.addEventListener('click', async () => {
+      if (xmpp) {
+        try { await xmpp.stop(); } catch (e) { console.warn("Stop gagal saat logout:", e); }
+        xmpp = null;
+      }
+      clearInterval(heartbeatTimer);
+      for (const [, to] of pendingPing.entries()) clearTimeout(to);
+      pendingPing.clear();
+      homePage.classList.add('hidden');
+      formLogin.classList.remove('hidden');
+      userStatus.textContent = "Anda telah keluar.";
+    });
+
+    // visibility changes
     document.addEventListener("visibilitychange", async () => {
       if (!xmpp) return;
 
       if (document.visibilityState === "hidden") {
-        xmpp.send(xml("presence", {}, xml("show", {}, "away"), xml("status", {}, "Sedang tidak aktif")));
-        console.log("🔹 Status away dikirim");
+        try {
+          safeSend(xml("presence", {}, xml("show", {}, "away"), xml("status", {}, "Sedang tidak aktif")));
+          console.log("🔹 Status away dikirim");
+        } catch (e) { console.warn("Gagal kirim presence away:", e); }
       } else if (document.visibilityState === "visible") {
-        xmpp.send(xml("presence"));
-        console.log("🟢 Status aktif kembali");
+        try {
+          safeSend(xml("presence"));
+          console.log("🟢 Status aktif kembali");
+          // if not online, attempt reconnect
+          if (xmpp.status !== 'online') {
+            console.log("Tab aktif tapi xmpp.offline -> mencoba reconnect");
+            connectToServer();
+          }
+        } catch (e) { console.warn("Gagal kirim presence active:", e); }
       }
     });
+
+    // periodic sanity check (backup) every 60s
+    setInterval(() => {
+      if (xmpp && xmpp.status !== 'online') {
+        console.log("⏱️ Cek koneksi rutin: offline, mencoba ulang...");
+        connectToServer();
+      }
+    }, 60000);
+
   </script>
 
 </body>
