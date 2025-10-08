@@ -16,7 +16,7 @@
   <!-- FORM LOGIN -->
   <div id="formLogin" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 mx-2">
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v19</h1>
+      <h1 class="text-3xl font-bold text-gray-800">Masuk ke Akun XMPP v20</h1>
       <p class="text-gray-500 text-sm mt-2">Silakan login untuk melanjutkan</p>
     </div>
     <form id="loginForm" class="space-y-5">
@@ -62,6 +62,7 @@
     let heartbeatTimer = null;
     let pingCounter = 0;
     let isConnecting = false;
+    let isReconnecting = false;
     const pendingPing = new Map(); // id -> timeoutId
 
     const loginForm = document.getElementById('loginForm');
@@ -77,6 +78,21 @@
         else console.warn("safeSend: xmpp belum siap, stanza dibatalkan.");
       } catch (e) {
         console.error("safeSend error:", e);
+      }
+    }
+
+    async function reconnectFast() {
+      if (isReconnecting) return;
+      isReconnecting = true;
+      try {
+        await xmpp.stop();
+        setTimeout(() => {
+          connectToServer();
+          isReconnecting = false;
+        }, 2000);
+      } catch (e) {
+        console.warn("reconnectFast error:", e);
+        isReconnecting = false;
       }
     }
 
@@ -102,6 +118,7 @@
       // stop old instance cleanly
       if (xmpp) {
         try {
+          await new Promise(r => setTimeout(r, 200));
           await xmpp.stop();
         } catch (e) {
           console.warn("Stop gagal:", e);
@@ -119,11 +136,6 @@
 
       // attach reconnect plugin (one instance)
       const r = reconnect({ entity: xmpp });
-
-      // atur delay reconnect agar tidak terlalu lama
-      r.reconnect.delay = 3000; // 3 detik fix delay, bukan exponential
-      r.reconnect.maxRetries = Infinity; // selalu mencoba ulang
-      r.reconnect.immediate = true; // langsung reconnect setelah disconnect
 
       r.on("reconnecting", (attempt, delay) => {
         console.log(`🔁 Mencoba koneksi ulang ke-${attempt}, jeda ${delay}ms`);
@@ -255,10 +267,17 @@
             pendingPing.delete(id);
             // attempt reconnect: stop then connect
             if (xmpp) {
+              console.warn("Ping timeout - reconnect manual langsung");
               (async () => {
-                try { await xmpp.stop(); } catch (e) { console.warn("Stop saat ping timeout gagal:", e); }
+                try {
+                  await xmpp.stop();
+                  reconnectFast();
+                } catch (e) {
+                  console.warn("Stop saat ping timeout gagal:", e);
+                }
               })();
-            } else {
+            }
+            else {
               connectToServer();
             }
           }
@@ -306,6 +325,7 @@
           console.log("🔹 Status away dikirim");
         } catch (e) { console.warn("Gagal kirim presence away:", e); }
       } else if (document.visibilityState === "visible") {
+        sendPingWithTimeout(5000);
         try {
           safeSend(xml("presence"));
           console.log("🟢 Status aktif kembali");

@@ -1,5 +1,5 @@
 // file: sw.js
-const CACHE_NAME = "myapp-cache-v19";
+const CACHE_NAME = "myapp-cache-v20";
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
